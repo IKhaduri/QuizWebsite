@@ -1,5 +1,7 @@
 package sourcePackage;
 
+import java.util.List;
+
 public class Database {
 	/**
 	 * Adds a user in database
@@ -23,6 +25,42 @@ public class Database {
 	public Quiz getQuiz(String name){ 
 		return null;
 	}
+	
+	/**
+	 * @param name - username for user we're searching for
+	 * @return matching user or null if not found
+	 * */
+	public User getUser(String name){
+		
+		
+		return null;
+	}
+	
+	public List<User> getTopUsers(){
+		
+		
+		return null;
+	}
+	/**
+	 * @param num - number of top popular quizzes you want
+	 * @return list of popular quizzes, size is num or all quizzes available, whichever bigger
+	 * 
+	 * */
+	public List<Quiz> getPopularQuizzes(int num){
+		
+		
+		return null;
+	}
+	/**
+	 * @param num - number of recently added quizzes you want
+	 * @return list of recently added quizzes, size is num or all quizzes available, whichever bigger
+	 * 
+	 * */
+	public List<Quiz> recentlyAddedQuizzes(int num){
+		
+		return null;
+	}
+	
 	
 	private Question getQuestions( String id){
 		

@@ -1,13 +1,14 @@
 package sourcePackage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface Question {
 	
 	/**
 	 * @return ArrayList of answers, since it might have multiple answers
 	 */
-	public ArrayList<String> getAnswers();
+	public List<String> getAnswers();
 	/**
 	 * @return Question text to be displayed
 	 */
