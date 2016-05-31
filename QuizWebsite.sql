@@ -14,7 +14,7 @@ create table categories(
 drop table if exists quizes;
 create table quizes(
 	id int(11) not null,
-    quiz_name varchar(256),
+    quiz_name varchar(256) unique,
     creation_date timestamp,
     total_score int(32) default 0,
     total_submittions int(11) default 0,
