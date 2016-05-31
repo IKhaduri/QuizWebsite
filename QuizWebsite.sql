@@ -20,6 +20,7 @@ create table quizes(
     total_submittions int(11) default 0,
     random_shaffle bool,
     question_cap int(11) default 1024000,
+    time_limit int(11) default 1800,
     
     primary key(id)
 );
