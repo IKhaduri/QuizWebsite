@@ -30,7 +30,7 @@ public class Database {
 	 * @param name - username for user we're searching for
 	 * @return matching user or null if not found
 	 * */
-	public User getUser(String name){
+	public User getUser(String name, String password_hash){
 		
 		
 		return null;

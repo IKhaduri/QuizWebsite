@@ -7,7 +7,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Pen Title */
 .title {
   padding: 50px 0;
   text-align: center;
@@ -52,7 +51,6 @@ body {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
-/* CodePen */
 #portfolio {
   bottom: 96px;
   right: 36px;
