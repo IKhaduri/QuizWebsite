@@ -5,14 +5,14 @@ import java.util.List;
 public class Database {
 	/**
 	 * Adds a user in database
-	 * 
+	 * @param  user - user that must be added in database
 	 * */
 	public void addUser(User user){
 		
 	}
 	/**
 	 * Adds a quiz in database
-	 * 
+	 * @param quiz - quiz that must be added in database
 	 * */
 	public void addQuiz(Quiz quiz){
 		
