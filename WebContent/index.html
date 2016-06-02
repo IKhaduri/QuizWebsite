@@ -22,6 +22,29 @@
   <div class="card"></div>
   <div class="card">
     <h1 class="title">Login</h1>
+    <form action="LoginServlet" method="post">
+      <div class="input-container">
+       		<input type="text" id="Username" required="required" autocomplete="off"/>
+        	<label for="Username">Username</label>
+        <div class="bar"></div>
+      </div>
+      <div class="input-container">
+        <input type="password" id="Password" required="required" autocomplete="off"/>
+        <label for="Password">Password</label>
+        <div class="bar"></div>
+      </div>
+      <div class="button-container">
+        <button><span>Go</span></button>
+        <button><span>Guest</span></button>
+      </div>
+     <!-- <div class="footer"><a href="#">Forgot your password?</a></div> -->
+    </form>
+  </div>
+  <div class="card alt">
+    <div class="toggle"></div>
+    <h1 class="title">Register
+      <div class="close"></div>
+    </h1>
     <form>
       <div class="input-container">
         <input type="text" id="Username" required="required" autocomplete="off"/>
@@ -33,30 +56,8 @@
         <label for="Password">Password</label>
         <div class="bar"></div>
       </div>
-      <div class="button-container">
-        <button><span>Go</span></button>
-      </div>
-      <div class="footer"><a href="#">Forgot your password?</a></div>
-    </form>
-  </div>
-  <div class="card alt">
-    <div class="toggle"></div>
-    <h1 class="title">Register
-      <div class="close"></div>
-    </h1>
-    <form>
       <div class="input-container">
-        <input type="text" id="Username" required="required"/>
-        <label for="Username">Username</label>
-        <div class="bar"></div>
-      </div>
-      <div class="input-container">
-        <input type="password" id="Password" required="required"/>
-        <label for="Password">Password</label>
-        <div class="bar"></div>
-      </div>
-      <div class="input-container">
-        <input type="password" id="Repeat Password" required="required"/>
+        <input type="password" id="Repeat Password" required="required" autocomplete="off"/>
         <label for="Repeat Password">Repeat Password</label>
         <div class="bar"></div>
       </div>
