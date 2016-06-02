@@ -6,4 +6,8 @@ public class Factory {
 		return new Database();
 	}
 	
+	public static User getUser(String username, String passwordHash) {
+		return new User(username, username);
+	}
+	
 }

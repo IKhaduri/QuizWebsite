@@ -23,7 +23,15 @@ public class CreateAccountServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (!request.getParameter("new_password").equals(request.getParameter("repeat_password")))	// passwords don't match
+			return;
+		User user = Factory.getUser(request.getParameter("new_username"), request.getParameter("new_password"));
+		Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		
+		if (db.addUser(user))
+			request.getRequestDispatcher("homepage.html").forward(request, response);
+		// else password or username already used
+			
 	}
 
 }

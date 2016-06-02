@@ -6,9 +6,11 @@ public class Database {
 	/**
 	 * Adds a user in database
 	 * @param  user - user that must be added in database
+	 * @return whether new user added to database or not.
 	 * */
-	public void addUser(User user){
+	public boolean addUser(User user){
 		
+		return true;
 	}
 	/**
 	 * Adds a quiz in database
