@@ -2,8 +2,9 @@ package sourcePackage;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@SuppressWarnings("unused")
 public class Question {
+	
 	
 	private QuestionType type;
 	private String question_text;
