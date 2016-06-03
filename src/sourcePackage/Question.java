@@ -1,11 +1,17 @@
 package sourcePackage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 @SuppressWarnings("unused")
-public class Question {
+public class Question implements Serializable {
 	
 	
+	/**
+	 * In case some changes are needed in the project,
+	 * a good style dictates to have a generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 7284061932398022613L;
 	private QuestionType type;
 	private String question_text;
 	private String picture_link;	// for picture-response type questions
