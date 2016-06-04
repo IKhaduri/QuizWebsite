@@ -8,4 +8,12 @@ public class User {
 		this.userName = userName;
 		this.passwordHash = passwordHash;
 	}
+	
+	public String getName(){
+		return(userName);
+	}
+	
+	public String getPasswordHash(){
+		return(passwordHash);
+	}
 }

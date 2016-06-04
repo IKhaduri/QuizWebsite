@@ -1,23 +1,45 @@
 package sourcePackage;
 
+import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class Database {
+
 	/**
 	 * Adds a user in database
 	 * @param  user - user that must be added in database
 	 * @return whether new user added to database or not.
 	 * */
-	public boolean addUser(User user){
-		
+	public boolean addUser(User user, Connection connection){
+		if(connection == null || user == null) return false;
+		try {
+			String sql = "INSERT INTO users (username, password_hash) VALUES (?, ?);";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1,  user.getName());
+			statement.setString(2,  user.getPasswordHash());
+			statement.execute();
+		} catch (SQLException e){
+			return false;
+		}
 		return true;
 	}
 	/**
 	 * Adds a quiz in database
 	 * @param quiz - quiz that must be added in database
+	 * @return whether new quiz added to database or not.
 	 * */
-	public void addQuiz(Quiz quiz){
-		
+	public boolean addQuiz(Quiz quiz, Connection connection){
+		if(connection == null || quiz == null) return false;
+		try{
+			String sql = "";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			
+		} catch (SQLException e){
+			return false;
+		}
+		return true;
 	}
 	/**
 	 * @param name - name of quiz, unique

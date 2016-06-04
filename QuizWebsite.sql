@@ -5,8 +5,7 @@ CREATE SCHEMA IF NOT EXISTS quiz_website;
 USE quiz_website;
 
 # categories table contains all the possible categories(group names) for the quizes.
-drop table if exists categories;
-create table categories(
+create table if not exists categories(
 	id int(11) not null,			# unique identifier for the category
     category_name varchar(256),		# name of the category
     
@@ -14,10 +13,9 @@ create table categories(
 );
 
 # quizes table contains headers and statistical informaition for the individual quizes.
-drop table if exists quizes;
-create table quizes(
+create table if not exists quizes(
 	id int(11) not null,					# unique identifier for the quiz
-    quiz_name varchar(256) unique,			# unique name for the quiz
+    quiz_name varchar(128) unique,			# unique name for the quiz
     creation_date timestamp,				# date of creation
     total_score int(32) default 0,			# sum of all participants' scores
     total_submittions int(11) default 0,	# number of submittions
@@ -30,15 +28,13 @@ create table quizes(
 );
 
 # quizes_to_categories table links the categories and quizes tables, letting us filter the data.
-drop table if exists quizes_to_categories;
-create table quizes_to_categories(
+create table if not exists quizes_to_categories(
 	quiz_id int(11) not null,		# identifier of the quiz
     category_id int(11) not null	#identifier of the category
 );
 
 # questions table stores the individual questions
-drop table if exists questions;
-create table questions(
+create table if not exists questions(
 	id int(11) not null,				# unique identifier for the question
     quiz_id int(11) not null,			# identifier of the quiz, the question "belongs" to
     serialized_object varchar(16384),	# the serialized object, containig the question to be asked
@@ -48,21 +44,24 @@ create table questions(
 );
 
 # users table contains user information
-drop table if exists users;
-create table users(
-	id int(11) not null,			# unique identifier for the user
-    username varchar(256) unique,	# unique user name
+create table if not exists users(
+	id int(11) not null auto_increment,			# unique identifier for the user
+    username varchar(128) unique,	# unique user name
     password_hash varchar(4096),	# hashed password(+salt)
     
     primary key(id)
 );
 
 # event_log table contains information about completed quizes
-drop table if exists event_log;
-create table event_log(
+create table if not exists event_log(
 	quiz_id int(11) not null,	# quiz identifier
     user_id int(11) not null,	# user identifier
     score int(11) default 0,	# user's final score
     start_time timestamp,		# date, when the user started the quiz
     end_time timestamp			# date, when the user finished the quiz
 );
+
+
+
+select * from users;
+
