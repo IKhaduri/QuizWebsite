@@ -29,8 +29,8 @@ create table if not exists quizes(
 
 # quizes_to_categories table links the categories and quizes tables, letting us filter the data.
 create table if not exists quizes_to_categories(
-	quiz_id int(11) not null,		# identifier of the quiz
-    category_id int(11) not null	#identifier of the category
+	quiz_id int(11) not null,				# identifier of the quiz
+    category_id int(11) not null			# identifier of the category
 );
 
 # questions table stores the individual questions
