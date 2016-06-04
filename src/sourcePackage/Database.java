@@ -1,8 +1,10 @@
 package sourcePackage;
 
-import java.sql.*;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
@@ -78,14 +80,48 @@ public class Database {
 	}
 	/**
 	 * @param num - number of recently added quizzes you want
-	 * @return list of recently added quizzes, size is num or all quizzes available, whichever bigger
+	 * @return list of recently added quizzes, size is num or all quizzes available, whichever smaller
 	 * 
 	 * */
-	public List<Quiz> recentlyAddedQuizzes(int num){
+	public List<Quiz> recentlyAddedQuizzes(int num,Connection connection){
+		List<Quiz> res = null;
+		ResultSet set = null;
+		if (connection==null||num==0)
+			return res;
+		try{
+			String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+
+					". quizes order by creation_date DESC limit "+num;
+			set = connection.prepareStatement(stmt).executeQuery();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			
+		}
+		if (set!=null){
+			res = new ArrayList<Quiz>();
+			try {
+				do{
+					Quiz curQuiz;
+					res.add(Factory.getQuiz(set.getString(2),set.getTimestamp(3),getAuthorName(set.getInt(4))));
+				}
+				while(set.next());
+								
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return res;
+	}
+	
+	
+	private String getAuthorName(int authorId){
+		
 		
 		return null;
 	}
-	
 	
 	@SuppressWarnings("unused")
 	private Question getQuestions( String id){

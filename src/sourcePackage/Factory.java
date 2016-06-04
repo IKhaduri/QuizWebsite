@@ -3,6 +3,7 @@ package sourcePackage;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 
 public class Factory {
@@ -46,4 +47,9 @@ public class Factory {
 		}
 		return connection;
 	}
+
+	public static Quiz getQuiz(String name, Timestamp date, String author){
+		return new Quiz(new Quiz.Header(name, date, author),null, null);
+	}
+
 }
