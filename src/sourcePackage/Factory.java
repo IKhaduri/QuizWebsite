@@ -24,7 +24,12 @@ public class Factory {
 		}
 		return true;
 	}
-
+	/**
+	 * returns a mySQL connection connecting to 
+	 * database with credentials in MyDBInfo.java
+	 * @return mySql connection
+	 * 
+	 * */
 	public static Connection getConnection(){
 		Connection connection = null;
 		try {
