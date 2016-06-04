@@ -6,7 +6,6 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class Question implements Serializable {
 	
-	
 	/**
 	 * In case some changes are needed in the project,
 	 * a good style dictates to have a generated serialVersionUID
