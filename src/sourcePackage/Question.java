@@ -5,13 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 @SuppressWarnings("unused")
 public class Question implements Serializable {
-	/**
-	 * Enumeration for the question type
-	 */
-	public enum QuestionType{
-		
-	}
-	
 	
 	/**
 	 * In case some changes are needed in the project,
