@@ -19,10 +19,10 @@ create table if not exists quizes(
     creation_date timestamp,				# date of creation
     total_score int(32) default 0,			# sum of all participants' scores
     total_submittions int(11) default 0,	# number of submittions
-    random_shaffle bool,					# true, if the questions can be randomly shaffled before displaying
+    random_shuffle bool,					# true, if the questions can be randomly shaffled before displaying
     question_cap int(11) default 1024000,	# maximal number of questions that can be asked in this quiz(useful, if and only if there are more questions, than the site needs to ask the user)
     time_limit int(11) default 1800,		# time limit for the test
-    autor_id int(11) default null,			# identifier of the autor
+    author_id int(11) default null,			# identifier of the author
     
     primary key(id)
 );
