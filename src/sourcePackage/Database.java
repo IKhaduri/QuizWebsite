@@ -6,10 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Database {
-	private void useQuizSchema(Connection connection) throws SQLException{
-		PreparedStatement statement = connection.prepareStatement("USE " + MyDBInfo.MYSQL_DATABASE_NAME + ";");
-		statement.execute();
-	}
 	
 	/**
 	 * Adds a user in database
@@ -19,14 +15,12 @@ public class Database {
 	public boolean addUser(User user, Connection connection){
 		if(connection == null || user == null) return false;
 		try {
-			useQuizSchema(connection);
 			String sql = "INSERT INTO users (username, password_hash) VALUES (?, ?);";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1,  user.getName());
 			statement.setString(2,  user.getPasswordHash());
 			statement.execute();
 		} catch (SQLException e){
-			e.printStackTrace();
 			return false;
 		}
 		return true;

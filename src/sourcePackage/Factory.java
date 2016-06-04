@@ -2,7 +2,6 @@ package sourcePackage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 
@@ -39,7 +38,6 @@ public class Factory {
 		} catch (ClassNotFoundException e) {
 			System.out.println("JDBC driver not found");
 			e.printStackTrace();
-
 		}
 		return connection;
 	}
