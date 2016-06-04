@@ -1,11 +1,11 @@
 package sourcePackage;
 
+import java.io.IOException;
 import java.sql.*;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 public class Database {
+	private static final int NO_ID = -1;
 	
 	/**
 	 * Adds a user in database
@@ -34,14 +34,78 @@ public class Database {
 	public boolean addQuiz(Quiz quiz, Connection connection){
 		if(connection == null || quiz == null) return false;
 		try{
-			String sql = "";
-			PreparedStatement statement = connection.prepareStatement(sql);
-			
+			addQuizBase(quiz, connection);
+			try{
+				addQuestions(quiz, connection);
+			}catch (Exception e){
+				removeQuizFromDB(quiz.getName(), connection);
+				return(true);
+			}
 		} catch (SQLException e){
 			return false;
 		}
 		return true;
 	}
+	
+	private int getIdForName(String name, String tableName, String nameField, Connection connection) throws SQLException{
+		if(name == null) return(NO_ID);
+		PreparedStatement statement = connection.prepareStatement("SELECT (id) FROM " + tableName + " WHERE " + nameField + " = ?");
+		statement.setString(1, name);
+		ResultSet res = statement.executeQuery();
+		if(res.next()){
+			return(res.getInt("id"));
+		}else return NO_ID;
+	}
+	
+	private int getUserId(String username, Connection connection) throws SQLException{
+		return(getIdForName(username, "users", "username", connection));
+	}
+	
+	private int getQuizId(String nuizName, Connection connection) throws SQLException{
+		return(getIdForName(nuizName, "quizes", "quiz_name", connection));
+	}
+	
+	private void addQuizBase(Quiz quiz, Connection connection) throws SQLException{
+		int autorId = getUserId(quiz.getAuthor(), connection);
+		String sql = "INSERT INTO quizes (quiz_name, creation_date, random_shuffle, question_cap, time_limit, author_id) VALUES (?, ?, ?, ?, ?, ?);";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, quiz.getName());
+		statement.setTimestamp(2, quiz.getCreationDate());
+		statement.setBoolean(3, quiz.shouldShuffle());
+		statement.setInt(4, quiz.getQuestionCap());
+		statement.setInt(5, quiz.getQuizTime());
+		statement.setInt(6,  autorId);
+		statement.execute();
+	}
+	
+	private void removeQuizFromDB(String quizName, Connection connection) throws SQLException{
+		PreparedStatement statement = connection.prepareStatement("DELETE FROM quizes WHERE quiz_name = ?;");
+		statement.setString(1, quizName);
+		statement.execute();
+	}
+	
+	private void addQuestions(Quiz quiz, Connection connection) throws SQLException, IOException{
+		if(quiz.getQuestionCount() <= 0) return;
+		int quizId = getQuizId(quiz.getName(), connection);
+		String sql = "INSERT INTO questions (quiz_id, index_in_quiz, serialized_object, score) VALUES";
+		for(int i = 0; i < quiz.getQuestionCount(); i++){
+			sql += "(?, ?, ?, ?)";
+			if(i < (quiz.getQuestionCount() - 1)){
+				sql += ", ";
+			}else sql += ";";
+		}
+		PreparedStatement statement = connection.prepareStatement(sql);
+		for(int i = 0; i < quiz.getQuestionCount(); i++){
+			int startParam = i*4;
+			Question question = quiz.getQuestion(i);
+			statement.setInt(startParam + 1, quizId);
+			statement.setInt(startParam + 2, i);
+			statement.setString(startParam + 3, Serialization.toString(question));
+			statement.setInt(startParam + 4, 1); // This may be changed in the future.
+		}
+		statement.execute();
+	}
+	
 	/**
 	 * @param name - name of quiz, unique
 	 * @return Quiz type object which you're searching for or null if doesn't exist

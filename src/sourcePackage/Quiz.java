@@ -201,7 +201,7 @@ public class Quiz implements Iterable<Question>{
 	/**
 	 * @return average score from all submissions or 0, if there are none
 	 */
-	public double getaverageScore(){
+	public double getAverageScore(){
 		if(statistics.totalSubmissions <= 0) return(0);
 		return (((double)statistics.totalScore)/((double)statistics.totalSubmissions));
 	}
