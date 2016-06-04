@@ -40,7 +40,7 @@ public class Database {
 				addQuestions(quiz, connection);
 			}catch (Exception e){
 				removeQuizFromDB(quiz.getName(), connection);
-				return(true);
+				return false;
 			}
 		} catch (SQLException e){
 			return false;
