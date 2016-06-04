@@ -3,7 +3,7 @@ package sourcePackage;
 import java.sql.Timestamp;
 import java.util.*;
 
-public class Quiz {
+public class Quiz implements Iterable<Question>{
 	
 	/**
 	 * Header subclass is used to help initialize a quiz
@@ -227,5 +227,13 @@ public class Quiz {
 	 */
 	public void addQuestion(Question question){
 		questions.add(question);
+	}
+	
+	/**
+	 * @return iterator for the questions
+	 */
+	@Override
+	public Iterator<Question> iterator() {
+		return questions.iterator();
 	}
 }
