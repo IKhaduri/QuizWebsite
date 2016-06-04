@@ -15,7 +15,7 @@ public class Database {
 	public boolean addUser(User user, Connection connection){
 		if(connection == null || user == null) return false;
 		try {
-			String sql = "INSERT INTO users (username, password_hash) VALUES (?, ?);";
+			String sql = "USE " + MyDBInfo.MYSQL_DATABASE_NAME + "; INSERT INTO users (username, password_hash) VALUES (?, ?);";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1,  user.getName());
 			statement.setString(2,  user.getPasswordHash());
