@@ -49,7 +49,20 @@ public class Factory {
 		}
 		return connection;
 	}
-
+	
+	/**
+	 * Builds and returns a Quiz object
+	 * @param name - name of the quiz
+	 * @param date - date of creation
+	 * @param author - user name of the author
+	 * @param totalScore - combined score the users got from their submissions
+	 * @param numSubmissions - number of submissions
+	 * @param shouldShuffle - true, if the questions should be shuffled
+	 * @param questionCap -  maximal number of questions that will be asked during a single session (restriction; user of the class can feel free to ignore this parameter)
+	 * @param timeLimit - time limit of the given quiz (restriction; user of the class can feel free to ignore this parameter)
+	 * @param questions - the questions
+	 * @return Quiz object
+	 */
 	public static Quiz getQuiz(
 			String name, Timestamp date, String author,
 			int totalScore, int numSubmissions,
@@ -61,6 +74,16 @@ public class Factory {
 		return new Quiz(header, statistics, parameters, questions);
 	}
 	
+	/**
+	 * Builds and returns a QuizBase object for lists
+	 * @param name - name of the quiz
+	 * @param date - date of creation
+	 * @param author - user name of the author
+	 * @param totalScore - combined score the users got from their submissions
+	 * @param numSubmissions - number of submissions
+	 * @param quizScore - maximal score the user can get thought this quiz
+	 * @return QuizBase object
+	 */
 	public static QuizBase getQuizBase(String name,Timestamp date,String author,int totalScore, 
 			int numSubmissions, int quizScore){
 		return new QuizBase(new QuizBase.Header(name, date, author), new QuizBase.Statistics(numSubmissions, totalScore), quizScore);
