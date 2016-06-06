@@ -62,8 +62,8 @@ public class Database {
 		return(getIdForName(username, "users", "username", connection));
 	}
 	
-	private int getQuizId(String nuizName, Connection connection) throws SQLException{
-		return(getIdForName(nuizName, "quizes", "quiz_name", connection));
+	private int getQuizId(String quizName, Connection connection) throws SQLException{
+		return(getIdForName(quizName, "quizes", "quiz_name", connection));
 	}
 	
 	private void addQuizBase(Quiz quiz, Connection connection) throws SQLException{
@@ -112,8 +112,25 @@ public class Database {
 	 * @return Quiz type object which you're searching for or null if doesn't exist
 	 * 
 	 * */
-	public Quiz getQuiz(String name){ 
+	public Quiz getQuiz(String name, Connection connection){ 
+		
 		return null;
+		//return Factory.getQuiz(name, date, author)
+	}
+	
+	private Timestamp getQuizDate(Connection connection, int id) throws SQLException {
+		if (connection == null) return null;
+		
+		String query = "select (creation_date) from quizes where id = ?";
+		
+		PreparedStatement ps = connection.prepareStatement(query);
+		ps.setInt(1, id);
+		ResultSet rs = ps.executeQuery();
+		if (rs == null) return null;
+		
+		Timestamp ts = rs.getTimestamp(1);
+		
+		return ts;
 	}
 	
 	/**
