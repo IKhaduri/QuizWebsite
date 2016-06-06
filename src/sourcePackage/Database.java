@@ -89,9 +89,9 @@ public class Database {
 	private void addQuestions(Quiz quiz, Connection connection) throws SQLException, IOException{
 		if(quiz.getQuestionCount() <= 0) return;
 		int quizId = getQuizId(quiz.getName(), connection);
-		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".questions (quiz_id, index_in_quiz, serialized_object, score) VALUES";
+		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".questions (quiz_id, index_in_quiz, serialized_object) VALUES";
 		for(int i = 0; i < quiz.getQuestionCount(); i++){
-			sql += "(?, ?, ?, ?)";
+			sql += "(?, ?, ?)";
 			if(i < (quiz.getQuestionCount() - 1)){
 				sql += ", ";
 			}else sql += ";";
@@ -103,7 +103,6 @@ public class Database {
 			statement.setInt(startParam + 1, quizId);
 			statement.setInt(startParam + 2, i);
 			statement.setString(startParam + 3, Serialization.toString(question));
-			statement.setInt(startParam + 4, 1); // This may be changed in the future.
 		}
 		statement.execute();
 	}
@@ -130,26 +129,25 @@ public class Database {
 				List<Question> questions = getQuizQuestions(res.getInt("id"), connection);
 				return Factory.getQuiz(name, date, author, totalScore, numSubmissions, shouldShaffle, questionCap, timeLimit, questions);
 			} else return null;
-		} catch (Exception ex) {
+		} catch (SQLException ex) {
+			return null;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
 			return null;
 		}
 			
 	}
 	
-	private List<Question> getQuizQuestions(int int1, Connection connection) throws SQLException {
-		String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".questions WHERE quiz_id = ?";
+	private List<Question> getQuizQuestions(int int1, Connection connection) throws SQLException, ClassNotFoundException, IOException {
+		String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".questions WHERE quiz_id = ? ORDER BY index_in_quiz ASC;";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		ResultSet res = statement.executeQuery();
 		List<Question> questions = new ArrayList<Question>();
 		while(res.next()){
-			// ####################################### //
-			// ####################################### //
-			// ####################################### //
-			// INSTERT QUESTION READING CODE HERE!!!!! //
-			// ####################################### //
-			// ####################################### //
-			// ####################################### //
-			// ####################################### //
+			questions.add((Question)Serialization.fromString(res.getString("serialized_object")));
 		}
 		return questions;
 	}
@@ -267,16 +265,6 @@ public class Database {
 							
 		} 
 		return res;
-	}
-	
-	@SuppressWarnings("unused")
-	private int getQuizQuestionScores(int id,Connection connection) throws SQLException{
-		
-		String stmt = "select sum(score) from "  + MyDBInfo.MYSQL_DATABASE_NAME+".questions where quiz_id = "+id;
-		ResultSet set  = null; 
-		set = connection.prepareStatement(stmt).executeQuery();
-		set.next();
-		return set.getInt(1);
 	}
 	
 	/*

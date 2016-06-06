@@ -40,7 +40,6 @@ create table if not exists questions(
     quiz_id int(11) not null,				# identifier of the quiz, the question "belongs" to
     index_in_quiz int(11),					# index of a question in the quiz
     serialized_object varchar(16384),		# the serialized object, containig the question to be asked
-    score int(11) default 1,				# score for the question
     
     primary key(id)
 );
