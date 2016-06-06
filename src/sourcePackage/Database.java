@@ -165,12 +165,7 @@ public class Database {
 		}
 		
 	}
-	
-	public List<User> getTopUsers(){
-		
-		
-		return null;
-	}
+
 	/**
 	 * @param num - number of top popular quizzes you want
 	 * @return list of popular quizzes, size is num or all quizzes available, whichever bigger
