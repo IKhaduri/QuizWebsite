@@ -125,6 +125,12 @@ public class Database {
 			
 	}
 	
+	/**
+	 * @param connection - connection object
+	 * @param id - quizz id
+	 * @return creation date of the specified quiz
+	 * @throws SQLException
+	 */
 	private Timestamp getQuizDate(Connection connection, int id) throws SQLException {
 		if (connection == null) return null;
 		
@@ -192,17 +198,19 @@ public class Database {
 		
 		try {
 			do{
-				res.add(Factory.getQuiz(set.getString(2), set.getTimestamp(3), getAuthorName(set.getInt(4), connection)));
+				res.add(Factory.getQuiz(set.getString(2), set.getTimestamp(3),
+						getAuthorName(set.getInt(4), connection)));
 			}
 			while(set.next());
 							
 		} catch (Exception e) {
 			
-			e.printStackTrace();
+			return null;
 		}
 		
 		return res;
 	}
+	
 	/**
 	 * @param num - number of recently added quizzes you want
 	 * @return list of recently added quizzes, size is num or all quizzes available, whichever smaller
@@ -212,33 +220,22 @@ public class Database {
 	public List<QuizBase> recentlyAddedQuizzes(int num,Connection connection) throws Exception {
 		List<QuizBase> res = null;
 		ResultSet set = null;
-		if (connection==null||num==0)
+		if (connection==null||num<=0)
 			return res;
-		try{
-			String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+
-					".quizes order by creation_date DESC limit "+num;
-			set = connection.prepareStatement(stmt).executeQuery();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			
-		}
+		String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+
+					".quizes order by creation_date DESC limit ?";
+		PreparedStatement ps = connection.prepareStatement(stmt);
+		ps.setInt(1, num);
+		set = ps.executeQuery();	
+		
 		if (set!=null){
 			res = new ArrayList<QuizBase>();
-			try {
-				do{
-					Quiz curQuiz;
-					res.add(Factory.getQuiz(set.getString(2),set.getTimestamp(3),getAuthorName(set.getInt(4),connection)));
-				}
-				while(set.next());
-								
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
+			while(set.next()){
+				res.add(Factory.getQuizBase(set.getString(2),set.getTimestamp(3),getAuthorName(set.getInt(4),connection),
+						set.getInt("total_score"),set.getInt("total_submissions"),0));
 			}
-			
-		}
-		
+							
+		} 
 		return res;
 	}
 	
@@ -247,6 +244,7 @@ public class Database {
 		String stmt = "select sum(score) from "  + MyDBInfo.MYSQL_DATABASE_NAME+".questions where quiz_id = "+id;
 		ResultSet set  = null; 
 		set = connection.prepareStatement(stmt).executeQuery();
+		set.next();
 		return set.getInt(1);
 	}
 	
@@ -260,6 +258,7 @@ public class Database {
 		String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".users where id = "+authorId;
 		set = connection.prepareStatement(stmt).executeQuery();
 		if (set!=null){
+			set.next();
 			authorName = set.getString(1);
 		}
 		return authorName;
@@ -277,6 +276,7 @@ public class Database {
 		int authorId = -1;
 		String stmt = "select author_id from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".quizes where quiz_id = "+quizId;
 		ResultSet set = connection.prepareStatement(stmt).executeQuery();
+		set.next();
 		authorId =  set.getInt(0);
 		return authorId;
 	}
