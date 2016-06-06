@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Factory {
@@ -49,8 +50,15 @@ public class Factory {
 		return connection;
 	}
 
-	public static Quiz getQuiz(String name, Timestamp date, String author){
-		return new Quiz(new Quiz.Header(name, date, author), new Quiz.Statistics(), new Quiz.Parameters(false), new ArrayList<Question>());
+	public static Quiz getQuiz(
+			String name, Timestamp date, String author,
+			int totalScore, int numSubmissions,
+			boolean shouldShuffle, int questionCap, int timeLimit,
+			List<Question> questions){
+		Quiz.Header header = new Quiz.Header(name, date, author);
+		Quiz.Statistics statistics = new Quiz.Statistics(totalScore, numSubmissions);
+		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questionCap, timeLimit);
+		return new Quiz(header, statistics, parameters, questions);
 	}
 	
 	public static QuizBase getQuizBase(String name,Timestamp date,String author,int totalScore, 

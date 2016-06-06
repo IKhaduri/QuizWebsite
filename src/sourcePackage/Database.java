@@ -16,7 +16,7 @@ public class Database {
 	public boolean addUser(User user, Connection connection){
 		if(connection == null || user == null) return false;
 		try {
-			String sql = "INSERT INTO users (username, password_hash) VALUES (?, ?);";
+			String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".users (username, password_hash) VALUES (?, ?);";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1,  user.getName());
 			statement.setString(2,  user.getPasswordHash());
@@ -50,7 +50,7 @@ public class Database {
 	
 	private int getIdForName(String name, String tableName, String nameField, Connection connection) throws SQLException{
 		if(name == null) return(NO_ID);
-		PreparedStatement statement = connection.prepareStatement("SELECT (id) FROM " + tableName + " WHERE " + nameField + " = ?");
+		PreparedStatement statement = connection.prepareStatement("SELECT (id) FROM " + MyDBInfo.MYSQL_DATABASE_NAME + "." + tableName + " WHERE " + nameField + " = ?");
 		statement.setString(1, name);
 		ResultSet res = statement.executeQuery();
 		if(res.next()){
@@ -68,7 +68,7 @@ public class Database {
 	
 	private void addQuizBase(Quiz quiz, Connection connection) throws SQLException{
 		int autorId = getUserId(quiz.getAuthor(), connection);
-		String sql = "INSERT INTO quizes (quiz_name, creation_date, random_shuffle, question_cap, time_limit, author_id, quiz_score) VALUES (?, ?, ?, ?, ?, ?, ?);";
+		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes (quiz_name, creation_date, random_shuffle, question_cap, time_limit, author_id, quiz_score) VALUES (?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, quiz.getName());
 		statement.setTimestamp(2, quiz.getCreationDate());
@@ -81,7 +81,7 @@ public class Database {
 	}
 	
 	private void removeQuizFromDB(String quizName, Connection connection) throws SQLException{
-		PreparedStatement statement = connection.prepareStatement("DELETE FROM quizes WHERE quiz_name = ?;");
+		PreparedStatement statement = connection.prepareStatement("DELETE FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes WHERE quiz_name = ?;");
 		statement.setString(1, quizName);
 		statement.execute();
 	}
@@ -89,7 +89,7 @@ public class Database {
 	private void addQuestions(Quiz quiz, Connection connection) throws SQLException, IOException{
 		if(quiz.getQuestionCount() <= 0) return;
 		int quizId = getQuizId(quiz.getName(), connection);
-		String sql = "INSERT INTO questions (quiz_id, index_in_quiz, serialized_object, score) VALUES";
+		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".questions (quiz_id, index_in_quiz, serialized_object, score) VALUES";
 		for(int i = 0; i < quiz.getQuestionCount(); i++){
 			sql += "(?, ?, ?, ?)";
 			if(i < (quiz.getQuestionCount() - 1)){
@@ -114,18 +114,39 @@ public class Database {
 	 * 
 	 * */
 	public Quiz getQuiz(String name, Connection connection){ 
-		
 		try {
-			Timestamp date = getQuizDate(connection, getQuizId(name, connection));
-			String author = getAuthorname(getQuizId(name, connection), connection);
-			
-			return Factory.getQuiz(name, date, author);
+			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes WHERE quiz_name = ?;";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, name);
+			ResultSet res = statement.executeQuery();
+			if(res.next()){
+				Timestamp date = res.getTimestamp("creation_date");
+				String author = getAuthorName(res.getInt("author_id"), connection);
+				int totalScore = res.getInt("total_score");
+				int numSubmissions = res.getInt("total_submittions");
+				boolean shouldShaffle = res.getBoolean("random_shuffle");
+				int questionCap = res.getInt("question_cap");
+				int timeLimit = res.getInt("time_limit");
+				List<Question> questions = getQuizQuestions(res.getInt("id"), connection);
+				return Factory.getQuiz(name, date, author, totalScore, numSubmissions, shouldShaffle, questionCap, timeLimit, questions);
+			} else return null;
 		} catch (Exception ex) {
 			return null;
 		}
 			
 	}
 	
+	private List<Question> getQuizQuestions(int int1, Connection connection) throws SQLException {
+		String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".questions WHERE quiz_id = ?";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		ResultSet res = statement.executeQuery();
+		List<Question> questions = new ArrayList<Question>();
+		while(res.next()){
+			// INSTERT QUESTION READING CODE HERE....
+		}
+		return questions;
+	}
+
 	/**
 	 * @param connection - connection object
 	 * @param id - quizz id
@@ -178,11 +199,11 @@ public class Database {
 	 * @return list of popular quizzes, size is num or all quizzes available, whichever bigger
 	 * 
 	 * */
-	public List<Quiz> getPopularQuizzes(int num, Connection connection) {
+	public List<QuizBase> getPopularQuizzes(int num, Connection connection) {
 		
 		if (connection == null||num == 0) return null;
 		
-		List<Quiz> res = new ArrayList<Quiz>();
+		List<QuizBase> res = new ArrayList<QuizBase>();
 		ResultSet set = null;
 
 		try{
@@ -192,20 +213,21 @@ public class Database {
 			ps.setInt(1, num);
 			set = ps.executeQuery();
 			if (set == null) return null;
-
 		} catch(Exception e){
 			return null;
 		}
 		
 		try {
-			do{
-				res.add(Factory.getQuiz(set.getString(2), set.getTimestamp(3),
-						getAuthorName(set.getInt(4), connection)));
-			}
-			while(set.next());
-							
+			while(set.next()){
+				String name = set.getString("quiz_name");
+				Timestamp date = set.getTimestamp("creation_date");
+				String author = getAuthorName(set.getInt("author_id"), connection);
+				int totalScore = set.getInt("total_score");
+				int numSubmissions = set.getInt("total_submittions");
+				int quizScore = set.getInt("quiz_score");
+				res.add(Factory.getQuizBase(name, date, author, totalScore, numSubmissions, quizScore));
+			}				
 		} catch (Exception e) {
-			
 			return null;
 		}
 		
@@ -254,7 +276,7 @@ public class Database {
 	 * returns author name, a unique identifier of
 	 * quiz author
 	 * */
-	private String getAuthorName(int authorId, Connection connection) throws Exception {
+	private String getAuthorName(int authorId, Connection connection) throws SQLException{
 		String authorName = null;
 		ResultSet set = null;
 		String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".users where id = "+authorId;
