@@ -239,6 +239,7 @@ public class Database {
 		return res;
 	}
 	
+	@SuppressWarnings("unused")
 	private int getQuizQuestionScores(int id,Connection connection) throws SQLException{
 		
 		String stmt = "select sum(score) from "  + MyDBInfo.MYSQL_DATABASE_NAME+".questions where quiz_id = "+id;
@@ -266,7 +267,7 @@ public class Database {
 	
 	private String getAuthorname(int quizId, Connection connection) throws Exception {
 		String authorName = null;
-		ResultSet set = null;
+		// ResultSet set = null;
 		int authorId = getAuthorId(quizId, connection);
 		authorName = getAuthorName(authorId, connection);
 		return authorName;
@@ -279,14 +280,6 @@ public class Database {
 		set.next();
 		authorId =  set.getInt(0);
 		return authorId;
-	}
-	
-	
-	@SuppressWarnings("unused")
-	private Question getQuestions( String id){
-		
-		
-		return null;
 	}
 	
 }
