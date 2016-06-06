@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class SerializeTest implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	
 	// a simple useless nonsense class
