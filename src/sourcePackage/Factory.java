@@ -52,5 +52,13 @@ public class Factory {
 	public static Quiz getQuiz(String name, Timestamp date, String author){
 		return new Quiz(new Quiz.Header(name, date, author), new Quiz.Parameters(false), new ArrayList<Question>());
 	}
+	
+	public static QuizBase getQuizBase(String name,Timestamp date,String author,int totalScore, 
+			int numSubmissions, int quizScore){
+		
+		
+		return null;
+	}
+	
 
 }
