@@ -95,14 +95,6 @@ public class Quiz extends QuizBase implements Iterable<Question>{
 	}
 	
 	/**
-	 * Adds a question to the quiz
-	 * @param question - question to be added to the question list
-	 */
-	public void addQuestion(Question question){
-		questions.add(question);
-	}
-	
-	/**
 	 * @return iterator for the questions
 	 */
 	@Override
