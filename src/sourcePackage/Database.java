@@ -144,16 +144,17 @@ public class Database {
 	/**
 	 * @param num - number of recently added quizzes you want
 	 * @return list of recently added quizzes, size is num or all quizzes available, whichever smaller
+	 * @throws Throwable 
 	 * 
 	 * */
-	public List<Quiz> recentlyAddedQuizzes(int num,Connection connection){
-		List<Quiz> res = null;
+	public List<QuizBase> recentlyAddedQuizzes(int num,Connection connection) throws Throwable{
+		List<QuizBase> res = null;
 		ResultSet set = null;
 		if (connection==null||num==0)
 			return res;
 		try{
 			String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+
-					". quizes order by creation_date DESC limit "+num;
+					".quizes order by creation_date DESC limit "+num;
 			set = connection.prepareStatement(stmt).executeQuery();
 		}
 		catch(Exception e){
@@ -161,11 +162,11 @@ public class Database {
 			
 		}
 		if (set!=null){
-			res = new ArrayList<Quiz>();
+			res = new ArrayList<QuizBase>();
 			try {
 				do{
 					Quiz curQuiz;
-					res.add(Factory.getQuiz(set.getString(2),set.getTimestamp(3),getAuthorName(set.getInt(4))));
+					res.add(Factory.getQuiz(set.getString(2),set.getTimestamp(3),getAuthorName(set.getInt(4),connection)));
 				}
 				while(set.next());
 								
@@ -179,12 +180,43 @@ public class Database {
 		return res;
 	}
 	
-	
-	private String getAuthorName(int authorId){
+	private int getQuizQuestionScores(int id,Connection connection) throws SQLException{
 		
-		
-		return null;
+		String stmt = "select sum(score) from "  + MyDBInfo.MYSQL_DATABASE_NAME+".questions where quiz_id = "+id;
+		ResultSet set  = null; 
+		set = connection.prepareStatement(stmt).executeQuery();
+		return set.getInt(1);
 	}
+	
+	/*
+	 * returns author name, a unique identifier of
+	 * quiz author
+	 * */
+	private String getAuthorName(int authorId, Connection connection) throws Throwable{
+		String authorName = null;
+		ResultSet set = null;
+		String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".users where id = "+authorId;
+		set = connection.prepareStatement(stmt).executeQuery();
+		if (set!=null){
+			authorName = set.getString(1);
+		}
+		return authorName;
+	}
+	private String getAuthorname(int quizId, Connection connection) throws Throwable{
+		String authorName = null;
+		ResultSet set = null;
+		int authorId = getAuthorId(quizId, connection);
+		authorName = getAuthorName(authorId, connection);
+		return authorName;
+	}
+	private int getAuthorId(int quizId, Connection connection) throws Throwable{
+		int authorId = -1;
+		String stmt = "select author_id from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".quizes where quiz_id = "+quizId;
+		ResultSet set = connection.prepareStatement(stmt).executeQuery();
+		authorId =  set.getInt(0);
+		return authorId;
+	}
+	
 	
 	@SuppressWarnings("unused")
 	private Question getQuestions( String id){
