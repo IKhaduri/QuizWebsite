@@ -114,8 +114,15 @@ public class Database {
 	 * */
 	public Quiz getQuiz(String name, Connection connection){ 
 		
-		return null;
-		//return Factory.getQuiz(name, date, author)
+		try {
+			Timestamp date = getQuizDate(connection, getQuizId(name, connection));
+			String author = getAuthorname(getQuizId(name, connection), connection);
+			
+			return Factory.getQuiz(name, date, author);
+		} catch (Exception ex) {
+			return null;
+		}
+			
 	}
 	
 	private Timestamp getQuizDate(Connection connection, int id) throws SQLException {
@@ -128,6 +135,7 @@ public class Database {
 		ResultSet rs = ps.executeQuery();
 		if (rs == null) return null;
 		
+		rs.next();
 		Timestamp ts = rs.getTimestamp(1);
 		
 		return ts;
@@ -147,6 +155,7 @@ public class Database {
 			
 			if (rs == null) return null;
 			
+			rs.next();
 			String password_from_db = rs.getString(1);
 			if (!password_hash.equals(password_from_db)) return null;
 			
@@ -223,7 +232,7 @@ public class Database {
 	 * returns author name, a unique identifier of
 	 * quiz author
 	 * */
-	private String getAuthorName(int authorId, Connection connection) throws Throwable{
+	private String getAuthorName(int authorId, Connection connection) throws Exception {
 		String authorName = null;
 		ResultSet set = null;
 		String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".users where id = "+authorId;
@@ -233,14 +242,16 @@ public class Database {
 		}
 		return authorName;
 	}
-	private String getAuthorname(int quizId, Connection connection) throws Throwable{
+	
+	private String getAuthorname(int quizId, Connection connection) throws Exception {
 		String authorName = null;
 		ResultSet set = null;
 		int authorId = getAuthorId(quizId, connection);
 		authorName = getAuthorName(authorId, connection);
 		return authorName;
 	}
-	private int getAuthorId(int quizId, Connection connection) throws Throwable{
+	
+	private int getAuthorId(int quizId, Connection connection) throws Exception {
 		int authorId = -1;
 		String stmt = "select author_id from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".quizes where quiz_id = "+quizId;
 		ResultSet set = connection.prepareStatement(stmt).executeQuery();
