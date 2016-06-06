@@ -62,8 +62,8 @@ public class Database {
 		return(getIdForName(username, "users", "username", connection));
 	}
 	
-	private int getQuizId(String nuizName, Connection connection) throws SQLException{
-		return(getIdForName(nuizName, "quizes", "quiz_name", connection));
+	private int getQuizId(String quizName, Connection connection) throws SQLException{
+		return(getIdForName(quizName, "quizes", "quiz_name", connection));
 	}
 	
 	private void addQuizBase(Quiz quiz, Connection connection) throws SQLException{
@@ -112,18 +112,58 @@ public class Database {
 	 * @return Quiz type object which you're searching for or null if doesn't exist
 	 * 
 	 * */
-	public Quiz getQuiz(String name){ 
-		return null;
+	public Quiz getQuiz(String name, Connection connection){ 
+		
+		try {
+			Timestamp date = getQuizDate(connection, getQuizId(name, connection));
+			String author = getAuthorname(getQuizId(name, connection), connection);
+			
+			return Factory.getQuiz(name, date, author);
+		} catch (Exception ex) {
+			return null;
+		}
+			
+	}
+	
+	private Timestamp getQuizDate(Connection connection, int id) throws SQLException {
+		if (connection == null) return null;
+		
+		String query = "select (creation_date) from quizes where id = ?";
+		
+		PreparedStatement ps = connection.prepareStatement(query);
+		ps.setInt(1, id);
+		ResultSet rs = ps.executeQuery();
+		if (rs == null) return null;
+		
+		rs.next();
+		Timestamp ts = rs.getTimestamp(1);
+		
+		return ts;
 	}
 	
 	/**
 	 * @param name - username for user we're searching for
 	 * @return matching user or null if not found
 	 * */
-	public User getUser(String name, String password_hash){
+	public User getUser(String name, String password_hash, Connection connection){
+		try {
+			int id = getUserId(name, connection);
+			String sql = "select password_hash from users where id = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs == null) return null;
+			
+			rs.next();
+			String password_from_db = rs.getString(1);
+			if (!password_hash.equals(password_from_db)) return null;
+			
+			return Factory.getUser(name, password_from_db);
+		} catch (Exception ex) {
+			return null;
+		}
 		
-		
-		return null;
 	}
 	
 	public List<User> getTopUsers(){
@@ -179,7 +219,7 @@ public class Database {
 	 * returns author name, a unique identifier of
 	 * quiz author
 	 * */
-	private String getAuthorName(int authorId, Connection connection) throws Throwable{
+	private String getAuthorName(int authorId, Connection connection) throws Exception {
 		String authorName = null;
 		ResultSet set = null;
 		String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".users where id = "+authorId;
@@ -190,14 +230,16 @@ public class Database {
 		}
 		return authorName;
 	}
-	private String getAuthorname(int quizId, Connection connection) throws Throwable{
+	
+	private String getAuthorname(int quizId, Connection connection) throws Exception {
 		String authorName = null;
 		ResultSet set = null;
 		int authorId = getAuthorId(quizId, connection);
 		authorName = getAuthorName(authorId, connection);
 		return authorName;
 	}
-	private int getAuthorId(int quizId, Connection connection) throws Throwable{
+	
+	private int getAuthorId(int quizId, Connection connection) throws Exception {
 		int authorId = -1;
 		String stmt = "select author_id from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".quizes where quiz_id = "+quizId;
 		ResultSet set = connection.prepareStatement(stmt).executeQuery();
