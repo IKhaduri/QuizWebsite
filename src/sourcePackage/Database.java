@@ -171,10 +171,37 @@ public class Database {
 	 * @return list of popular quizzes, size is num or all quizzes available, whichever bigger
 	 * 
 	 * */
-	public List<Quiz> getPopularQuizzes(int num){
+	public List<Quiz> getPopularQuizzes(int num, Connection connection) {
 		
+		if (connection == null||num == 0) return null;
 		
-		return null;
+		List<Quiz> res = new ArrayList<Quiz>();
+		ResultSet set = null;
+
+		try{
+			String sql = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME +
+					".quizes order by creation_date DESC limit ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, num);
+			set = ps.executeQuery();
+			if (set == null) return null;
+
+		} catch(Exception e){
+			return null;
+		}
+		
+		try {
+			do{
+				res.add(Factory.getQuiz(set.getString(2), set.getTimestamp(3), getAuthorName(set.getInt(4), connection)));
+			}
+			while(set.next());
+							
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		return res;
 	}
 	/**
 	 * @param num - number of recently added quizzes you want
@@ -182,7 +209,7 @@ public class Database {
 	 * @throws Throwable 
 	 * 
 	 * */
-	public List<QuizBase> recentlyAddedQuizzes(int num,Connection connection) throws Throwable{
+	public List<QuizBase> recentlyAddedQuizzes(int num,Connection connection) throws Exception {
 		List<QuizBase> res = null;
 		ResultSet set = null;
 		if (connection==null||num==0)
