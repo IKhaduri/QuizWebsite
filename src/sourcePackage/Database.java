@@ -150,33 +150,19 @@ public class Database {
 	public List<QuizBase> recentlyAddedQuizzes(int num,Connection connection) throws Throwable{
 		List<QuizBase> res = null;
 		ResultSet set = null;
-		if (connection==null||num==0)
+		if (connection==null||num<=0)
 			return res;
-		try{
-			String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+
+		String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+
 					".quizes order by creation_date DESC limit "+num;
-			set = connection.prepareStatement(stmt).executeQuery();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			
-		}
+		set = connection.prepareStatement(stmt).executeQuery();		
 		if (set!=null){
 			res = new ArrayList<QuizBase>();
-			try {
-				do{
-					Quiz curQuiz;
-					res.add(Factory.getQuiz(set.getString(2),set.getTimestamp(3),getAuthorName(set.getInt(4),connection)));
-				}
-				while(set.next());
-								
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
+			while(set.next()){
+				res.add(Factory.getQuizBase(set.getString(2),set.getTimestamp(3),getAuthorName(set.getInt(4),connection),
+						set.getInt("total_score"),set.getInt("total_submissions"),0));
 			}
-			
-		}
-		
+							
+		} 
 		return res;
 	}
 	
@@ -185,6 +171,7 @@ public class Database {
 		String stmt = "select sum(score) from "  + MyDBInfo.MYSQL_DATABASE_NAME+".questions where quiz_id = "+id;
 		ResultSet set  = null; 
 		set = connection.prepareStatement(stmt).executeQuery();
+		set.next();
 		return set.getInt(1);
 	}
 	
@@ -198,6 +185,7 @@ public class Database {
 		String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".users where id = "+authorId;
 		set = connection.prepareStatement(stmt).executeQuery();
 		if (set!=null){
+			set.next();
 			authorName = set.getString(1);
 		}
 		return authorName;
@@ -213,6 +201,7 @@ public class Database {
 		int authorId = -1;
 		String stmt = "select author_id from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".quizes where quiz_id = "+quizId;
 		ResultSet set = connection.prepareStatement(stmt).executeQuery();
+		set.next();
 		authorId =  set.getInt(0);
 		return authorId;
 	}
