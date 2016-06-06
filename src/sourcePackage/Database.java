@@ -137,10 +137,24 @@ public class Database {
 	 * @param name - username for user we're searching for
 	 * @return matching user or null if not found
 	 * */
-	public User getUser(String name, String password_hash){
+	public User getUser(String name, String password_hash, Connection connection){
+		try {
+			int id = getUserId(name, connection);
+			String sql = "select password_hash from users where id = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs == null) return null;
+			
+			String password_from_db = rs.getString(1);
+			if (!password_hash.equals(password_from_db)) return null;
+			
+			return Factory.getUser(name, password_from_db);
+		} catch (Exception ex) {
+			return null;
+		}
 		
-		
-		return null;
 	}
 	
 	public List<User> getTopUsers(){
