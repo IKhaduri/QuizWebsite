@@ -68,14 +68,15 @@ public class Database {
 	
 	private void addQuizBase(Quiz quiz, Connection connection) throws SQLException{
 		int autorId = getUserId(quiz.getAuthor(), connection);
-		String sql = "INSERT INTO quizes (quiz_name, creation_date, random_shuffle, question_cap, time_limit, author_id) VALUES (?, ?, ?, ?, ?, ?);";
+		String sql = "INSERT INTO quizes (quiz_name, creation_date, random_shuffle, question_cap, time_limit, author_id, quiz_score) VALUES (?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, quiz.getName());
 		statement.setTimestamp(2, quiz.getCreationDate());
 		statement.setBoolean(3, quiz.shouldShuffle());
 		statement.setInt(4, quiz.getQuestionCap());
 		statement.setInt(5, quiz.getQuizTime());
-		statement.setInt(6,  autorId);
+		statement.setInt(6, autorId);
+		statement.setInt(7, quiz.getQuizScore());
 		statement.execute();
 	}
 	

@@ -23,6 +23,7 @@ create table if not exists quizes(
     question_cap int(11) default 1024000,	# maximal number of questions that can be asked in this quiz(useful, if and only if there are more questions, than the site needs to ask the user)
     time_limit int(11) default 1800,		# time limit for the test
     author_id int(11) default null,			# identifier of the author
+    quiz_score int(11),						# total score, one can earn in this quiz
     
     primary key(id)
 );
