@@ -44,45 +44,6 @@ public class QuizBase {
 	private Header header;
 	
 	/**
-	 * Parameters subclass is used to help initialize a quiz
-	 * and can store the parameters for the quiz, such as:
-	 * whether it should shuffle the questions randomly or not,
-	 * maximum amount of questions that can be asked during a single session
-	 * and the time limit for the quiz.
-	 */
-	public static class Parameters{
-		/** Default question cap */
-		public static final int DEFAULT_QUESTION_CAP = 1024000;
-		/** Default quiz time */
-		public static final int DEFAULT_TIME_LIMIT = 1800;
-		
-		private boolean randomShuffle;
-		private int questionCap;
-		private int timeLimit;
-		
-		/**
-		 * Constructor
-		 * @param shuffle - tells, whether it should shuffle the questions randomly or not
-		 * @param maxQuestions - maximum amount of questions that can be asked during a single session
-		 * @param quizTime - the time limit for the quiz
-		 */
-		public Parameters(boolean shuffle, int maxQuestions, int quizTime){
-			randomShuffle = shuffle;
-			questionCap = maxQuestions;
-			timeLimit = quizTime;
-		}
-		/**
-		 * Constructor
-		 * Note: Other parameters will be set to default values
-		 * @param shuffle - tells, whether it should shuffle the questions randomly or not
-		 */
-		public Parameters(boolean shuffle){
-			this(shuffle, DEFAULT_QUESTION_CAP, DEFAULT_TIME_LIMIT);
-		}
-	}
-	private Parameters parameters;
-	
-	/**
 	 * Statistics is a subclass, storing the total number of submissions
 	 * and their combined score, helping to determine the difficulty level for the quiz.
 	 */
@@ -109,27 +70,20 @@ public class QuizBase {
 	}
 	private Statistics statistics;
 	
+	private int quizScore;
+	
 	/**
 	 * Constructor
 	 * @param header - name, date and author
 	 * @param parameters - quiz parameters
 	 * @param questions - question list
 	 * @param statistics - submission statistics
+	 * @param quizScore - total score of the quiz
 	 */
-	public QuizBase(Header header, Parameters parameters, Statistics statistics){
+	public QuizBase(Header header, Statistics statistics, int quizScore){
 		this.header = header;
-		this.parameters = parameters;
 		this.statistics = statistics;
-	}
-	
-	/**
-	 * Constructor
-	 * (statistics will be empty)
-	 * @param header - name, date and author
-	 * @param parameters - quiz parameters
-	 */
-	public QuizBase(Header header, Parameters parameters){
-		this(header, parameters, new Statistics());
+		this.quizScore = quizScore;
 	}
 	
 	/**
@@ -154,43 +108,38 @@ public class QuizBase {
 	}
 	
 	/**
-	 * @return true, if the questions are supposed to be asked out of order
-	 */
-	public boolean shouldShuffle(){
-		return parameters.randomShuffle;
-	}
-	
-	/**
-	 * @return maximal number of questions that can be asked during as ingle session
-	 */
-	public int getQuestionCap(){
-		return parameters.questionCap;
-	}
-	
-	/**
-	 * @return duration of the quiz(time limit)
-	 */
-	public int getQuizTime(){
-		return parameters.timeLimit;
-	}
-	
-	/**
 	 * @return total score of all the submissions
 	 */
 	public int getTotalScore(){
 		return statistics.totalScore;
 	}
+	
 	/**
 	 * @return number of submissions
 	 */
 	public int getSubmissionCount(){
 		return statistics.totalSubmissions;
 	}
+	
 	/**
 	 * @return average score from all submissions or 0, if there are none
 	 */
 	public double getAverageScore(){
 		if(statistics.totalSubmissions <= 0) return(0);
 		return (((double)statistics.totalScore)/((double)statistics.totalSubmissions));
+	}
+	
+	/**
+	 * @return total score, one can gain thought this quiz
+	 */
+	public int getQuizScore(){
+		return(quizScore);
+	}
+	
+	/**
+	 * @return average percentage of the users' scores (some number between 0 1nd 1)
+	 */
+	public double getAverageScoreScaled(){
+		return(getAverageScore() / ((double)quizScore));
 	}
 }

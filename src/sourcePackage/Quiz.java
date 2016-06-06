@@ -3,7 +3,46 @@ package sourcePackage;
 import java.util.*;
 
 public class Quiz extends QuizBase implements Iterable<Question>{
-
+	
+	/**
+	 * Parameters subclass is used to help initialize a quiz
+	 * and can store the parameters for the quiz, such as:
+	 * whether it should shuffle the questions randomly or not,
+	 * maximum amount of questions that can be asked during a single session
+	 * and the time limit for the quiz.
+	 */
+	public static class Parameters{
+		/** Default question cap */
+		public static final int DEFAULT_QUESTION_CAP = 1024000;
+		/** Default quiz time */
+		public static final int DEFAULT_TIME_LIMIT = 1800;
+		
+		private boolean randomShuffle;
+		private int questionCap;
+		private int timeLimit;
+		
+		/**
+		 * Constructor
+		 * @param shuffle - tells, whether it should shuffle the questions randomly or not
+		 * @param maxQuestions - maximum amount of questions that can be asked during a single session
+		 * @param quizTime - the time limit for the quiz
+		 */
+		public Parameters(boolean shuffle, int maxQuestions, int quizTime){
+			randomShuffle = shuffle;
+			questionCap = maxQuestions;
+			timeLimit = quizTime;
+		}
+		/**
+		 * Constructor
+		 * Note: Other parameters will be set to default values
+		 * @param shuffle - tells, whether it should shuffle the questions randomly or not
+		 */
+		public Parameters(boolean shuffle){
+			this(shuffle, DEFAULT_QUESTION_CAP, DEFAULT_TIME_LIMIT);
+		}
+	}
+	private Parameters parameters;
+	
 	private List<Question> questions;
 	
 	/**
@@ -13,41 +52,31 @@ public class Quiz extends QuizBase implements Iterable<Question>{
 	 * @param questions - question list
 	 * @param statistics - submission statistics
 	 */
-	public Quiz(Header header, Parameters parameters, Statistics statistics, List<Question> questions){
-		super(header, parameters, statistics);
+	public Quiz(Header header, Statistics statistics, Parameters parameters, List<Question> questions){
+		super(header, statistics, questions.size()); // Note: questions.size() for a parameter is temporary. should be replaced with the sum of the individual question scores.
+		this.parameters = parameters;
 		this.questions = questions;
 	}
 	
 	/**
-	 * Constructor
-	 * (statistics will be empty)
-	 * @param header - name, date and author
-	 * @param parameters - quiz parameters
-	 * @param questions - question list
+	 * @return true, if the questions are supposed to be asked out of order
 	 */
-	public Quiz(Header header, Parameters parameters, List<Question> questions){
-		this(header, parameters, new Statistics(), questions);
+	public boolean shouldShuffle(){
+		return parameters.randomShuffle;
 	}
 	
 	/**
-	 * Constructor
-	 * (the question list will be empty)
-	 * @param header - name, date and author
-	 * @param parameters - quiz parameters
-	 * @param statistics - submission statistics
+	 * @return maximal number of questions that can be asked during as single session
 	 */
-	public Quiz(Header header, Parameters parameters, Statistics statistics){
-		this(header, parameters, statistics, new ArrayList<Question>());
+	public int getQuestionCap(){
+		return parameters.questionCap;
 	}
 	
 	/**
-	 * Constructor
-	 * (statistics and the question list will be empty)
-	 * @param header - name, date and author
-	 * @param parameters - quiz parameters
+	 * @return duration of the quiz(time limit)
 	 */
-	public Quiz(Header header, Parameters parameters){
-		this(header, parameters, new Statistics());
+	public int getQuizTime(){
+		return parameters.timeLimit;
 	}
 	
 	/**
