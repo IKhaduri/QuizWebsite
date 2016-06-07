@@ -65,13 +65,13 @@ public class Factory {
 	 */
 	public static Quiz getQuiz(
 			String name, Timestamp date, String author,
-			int totalScore, int numSubmissions,
+			int totalScore, int numSubmissions, int quizScore,
 			boolean shouldShuffle, int questionCap, int timeLimit,
 			List<Question> questions){
 		Quiz.Header header = new Quiz.Header(name, date, author);
 		Quiz.Statistics statistics = new Quiz.Statistics(totalScore, numSubmissions);
 		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questionCap, timeLimit);
-		return new Quiz(header, statistics, parameters, questions);
+		return new Quiz(header, statistics, quizScore, parameters, questions);
 	}
 	
 	/**
