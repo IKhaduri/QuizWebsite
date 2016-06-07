@@ -89,7 +89,7 @@ public class Factory {
 		return new QuizBase(new QuizBase.Header(name, date, author), new QuizBase.Statistics(numSubmissions, totalScore), quizScore);
 	}
 	
-	public static Submission getSubmission(QuizBase quiz, Timestamp timeStart, Timestamp timeEnd, int score){
-		return new Submission(quiz, timeStart, timeEnd, score);
+	public static Submission getSubmission(QuizBase quiz, Timestamp timeStart, Timestamp timeEnd, int score, String userName){
+		return new Submission(quiz, timeStart, timeEnd, score,userName);
 	}
 }

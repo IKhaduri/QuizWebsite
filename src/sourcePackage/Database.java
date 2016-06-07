@@ -338,7 +338,7 @@ public class Database {
 				Timestamp start = res.getTimestamp("start_time");
 				Timestamp end = res.getTimestamp("end_time");
 				int score = res.getInt("score");
-				submissions.add(Factory.getSubmission(quiz, start, end, score));
+				submissions.add(Factory.getSubmission(quiz, start, end, score,user.getName()));
 			}
 			return(submissions);
 		} catch (SQLException e) {

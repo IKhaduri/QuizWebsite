@@ -7,7 +7,7 @@ public class Submission {
 	private Timestamp startTime;
 	private Timestamp endTime;
 	private int score;
-	
+	private String userName;
 	/**
 	 * Constructor
 	 * @param quiz - quiz that was taken
@@ -15,11 +15,19 @@ public class Submission {
 	 * @param timeEnd - final submission date
 	 * @param score - score, the user got
 	 */
-	public Submission(QuizBase quiz, Timestamp timeStart, Timestamp timeEnd, int score){
+	public Submission(QuizBase quiz, Timestamp timeStart, Timestamp timeEnd, int score, String userName){
 		this.quiz = quiz;
 		this.startTime = timeStart;
 		this.endTime = timeEnd;
 		this.score = score;
+		this.userName = userName;
+	}
+	/**
+	 * @return username
+	 * 
+	 * */
+	public String getName(){
+		return (userName);
 	}
 	
 	/**
