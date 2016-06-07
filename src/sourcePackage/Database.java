@@ -141,9 +141,10 @@ public class Database {
 			
 	}
 	
-	private List<Question> getQuizQuestions(int int1, Connection connection) throws SQLException, ClassNotFoundException, IOException {
+	private List<Question> getQuizQuestions(int quizId, Connection connection) throws SQLException, ClassNotFoundException, IOException {
 		String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".questions WHERE quiz_id = ? ORDER BY index_in_quiz ASC;";
 		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, quizId);
 		ResultSet res = statement.executeQuery();
 		List<Question> questions = new ArrayList<Question>();
 		while(res.next()){
