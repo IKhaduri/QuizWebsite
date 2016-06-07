@@ -199,28 +199,30 @@ public class Database {
 	}
 
 	/**
+	 * gets popular quizzes of all time, to display 
+	 * or simply get information.
 	 * @param num - number of top popular quizzes you want
 	 * @return list of popular quizzes, size is num or all quizzes available, whichever bigger
 	 * 
 	 * */
 	public List<QuizBase> getPopularQuizzes(int num, Connection connection) {
-		
-		if (connection == null||num == 0) return null;
-		
+		if (connection == null||num == 0) 
+			return null;
 		List<QuizBase> res = new ArrayList<QuizBase>();
 		ResultSet set = null;
-
 		try{
-			String sql = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME +
-					".quizes order by creation_date DESC limit ?";
+			String sql = "select * from "+ MyDBInfo.MYSQL_DATABASE_NAME +" .quizes q"+ 
+					"order by (select count(*) from"+ MyDBInfo.MYSQL_DATABASE_NAME+
+					".event_log e where e.quiz_id = q.id ) DESC "+ 
+					"limit ? ";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, num);
 			set = ps.executeQuery();
-			if (set == null) return null;
+			if (set == null) 
+				return null;
 		} catch(Exception e){
 			return null;
 		}
-		
 		try {
 			while(set.next()){
 				String name = set.getString("quiz_name");
