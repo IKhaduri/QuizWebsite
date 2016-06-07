@@ -325,7 +325,7 @@ public class Database {
 			int userId = getUserId(user.getName(), connection);
 			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log"
 					+ " INNER JOIN " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes ON id = quiz_id"
-					+ " WHERE user_id = ? OREDER BY end_time DESC LIMIT ?";
+					+ " WHERE user_id = ? OREDER BY end_time DESC LIMIT ?;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, userId);
 			statement.setInt(2, limit);
