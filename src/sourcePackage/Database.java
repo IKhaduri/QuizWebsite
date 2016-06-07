@@ -207,7 +207,7 @@ public class Database {
 		
 		if (connection == null||num == 0) return null;
 		
-		List<QuizBase> res = new ArrayList<QuizBase>();
+		List<QuizBase> res = null;
 		ResultSet set = null;
 
 		try{
@@ -222,15 +222,7 @@ public class Database {
 		}
 		
 		try {
-			while(set.next()){
-				String name = set.getString("quiz_name");
-				Timestamp date = set.getTimestamp("creation_date");
-				String author = getAuthorName(set.getInt("author_id"), connection);
-				int totalScore = set.getInt("total_score");
-				int numSubmissions = set.getInt("total_submittions");
-				int quizScore = set.getInt("quiz_score");
-				res.add(Factory.getQuizBase(name, date, author, totalScore, numSubmissions, quizScore));
-			}				
+			res = getQuizBaseList(set, connection);			
 		} catch (Exception e) {
 			return null;
 		}
@@ -239,31 +231,46 @@ public class Database {
 	}
 	
 	/**
-	 * @param num - number of recently added quizzes you want
+	 * @param num - number of recently added quizzes you want (should NOT be negative)
 	 * @return list of recently added quizzes, size is num or all quizzes available, whichever smaller
-	 * @throws Throwable 
 	 * 
 	 * */
-	public List<QuizBase> recentlyAddedQuizzes(int num,Connection connection) throws Exception {
-		List<QuizBase> res = null;
-		ResultSet set = null;
-		if (connection==null||num<=0)
-			return res;
-		String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+
-					".quizes order by creation_date DESC limit ?";
-		PreparedStatement ps = connection.prepareStatement(stmt);
-		ps.setInt(1, num);
-		set = ps.executeQuery();	
-		
-		if (set!=null){
-			res = new ArrayList<QuizBase>();
-			while(set.next()){
-				res.add(Factory.getQuizBase(set.getString(2),set.getTimestamp(3),getAuthorName(set.getInt(4),connection),
-						set.getInt("total_score"),set.getInt("total_submissions"),0));
-			}
-							
-		} 
-		return res;
+	public List<QuizBase> recentlyAddedQuizzes(int num,Connection connection){
+		try{
+			ResultSet set = null;
+			if (connection==null||num<=0)
+				return null;
+			String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+
+						".quizes order by creation_date DESC limit ?";
+			PreparedStatement ps = connection.prepareStatement(stmt);
+			ps.setInt(1, num);
+			set = ps.executeQuery();	
+			
+			if (set!=null)
+				return getQuizBaseList(set, connection);
+			
+			return null;
+		}catch (SQLException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private QuizBase getQuizBase(ResultSet res, Connection connection) throws SQLException{
+		String name = res.getString("quiz_name");
+		Timestamp date = res.getTimestamp("creation_date");
+		String author = getAuthorName(res.getInt("author_id"), connection);
+		int totalScore = res.getInt("total_score");
+		int numSubmissions = res.getInt("total_submittions");
+		int quizScore = res.getInt("quiz_score");
+		return (Factory.getQuizBase(name, date, author, totalScore, numSubmissions, quizScore));
+	}
+	
+	private List<QuizBase> getQuizBaseList(ResultSet res, Connection connection) throws SQLException{
+		List<QuizBase> list = new ArrayList<QuizBase>();
+		while(res.next())
+			list.add(getQuizBase(res, connection));
+		return list;
 	}
 	
 	/*
