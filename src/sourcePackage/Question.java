@@ -34,6 +34,23 @@ public class Question implements Serializable {
 	public Question(String text, ArrayList<String> answers) {
 		this(QuestionType.TEXT_RESPONSE, text, null, answers);
 	}
+	/**
+	 * returns maximum score in this question.
+	 * this is necessary because multiple choice-multiple 
+	 * answer questions can earn you more points than 1 
+	 * @return the maximum score which can be gained in this question
+	 * */
+	public int getScore(){
+		switch(type){
+			case MULTIPLE_CHOICE:
+				return correct_answers.size();
+			case FILL_BLANKS: case TEXT_RESPONSE: case PICTURE_RESPONSE:
+				return 1;
+			default:
+				return -1;
+		
+		}	
+	}
 	
 	
 	/**
