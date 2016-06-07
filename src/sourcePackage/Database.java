@@ -312,4 +312,38 @@ public class Database {
 		return authorId;
 	}
 	
+	
+	/**
+	 * Gets the user's submissions
+	 * @param user - user
+	 * @param limit - maximal amount of the submissions to be returned
+	 * @param connection - connection
+	 * @return list of user's submissions
+	 */
+	public List<Submission> getUserSubmissions(User user, int limit, Connection connection){
+		try {
+			int userId = getUserId(user.getName(), connection);
+			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log"
+					+ " INNER JOIN " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes ON id = quiz_id"
+					+ " WHERE user_id = ? OREDER BY end_time DESC LIMIT ?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, userId);
+			statement.setInt(2, limit);
+			ResultSet res = statement.executeQuery();
+			if(res == null) return null;
+			
+			List<Submission> submissions = new ArrayList<Submission>();
+			while(res.next()){
+				QuizBase quiz = getQuizBase(res, connection);
+				Timestamp start = res.getTimestamp("start_time");
+				Timestamp end = res.getTimestamp("end_time");
+				int score = res.getInt("score");
+				submissions.add(Factory.getSubmission(quiz, start, end, score));
+			}
+			return(submissions);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
