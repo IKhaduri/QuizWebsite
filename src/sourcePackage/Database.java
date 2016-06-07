@@ -181,18 +181,16 @@ public class Database {
 	 * */
 	public User getUser(String name, String password_hash, Connection connection){
 		try {
-			int id = getUserId(name, connection);
-			String sql = "select password_hash from users where id = ?";
+			String sql = "select password_hash from users where username = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, id);
+			ps.setString(1, name);
 			ResultSet rs = ps.executeQuery();
-			
-			if (rs == null) return null;
-			
+			if (rs == null) 
+				return null;
 			rs.next();
 			String password_from_db = rs.getString(1);
-			if (!password_hash.equals(password_from_db)) return null;
-			
+			if (!password_hash.equals(password_from_db)) 
+				return null;
 			return Factory.getUser(name, password_from_db);
 		} catch (Exception ex) {
 			return null;
