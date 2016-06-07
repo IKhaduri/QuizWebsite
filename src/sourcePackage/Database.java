@@ -123,11 +123,12 @@ public class Database {
 				String author = getAuthorName(res.getInt("author_id"), connection);
 				int totalScore = res.getInt("total_score");
 				int numSubmissions = res.getInt("total_submittions");
+				int quizScore = res.getInt("quiz_score");
 				boolean shouldShaffle = res.getBoolean("random_shuffle");
 				int questionCap = res.getInt("question_cap");
 				int timeLimit = res.getInt("time_limit");
 				List<Question> questions = getQuizQuestions(res.getInt("id"), connection);
-				return Factory.getQuiz(name, date, author, totalScore, numSubmissions, shouldShaffle, questionCap, timeLimit, questions);
+				return Factory.getQuiz(name, date, author, totalScore, numSubmissions, quizScore, shouldShaffle, questionCap, timeLimit, questions);
 			} else return null;
 		} catch (SQLException ex) {
 			return null;

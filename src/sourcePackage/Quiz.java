@@ -52,8 +52,8 @@ public class Quiz extends QuizBase implements Iterable<Question>{
 	 * @param questions - question list
 	 * @param statistics - submission statistics
 	 */
-	public Quiz(Header header, Statistics statistics, Parameters parameters, List<Question> questions){
-		super(header, statistics, questions.size()); // Note: questions.size() for a parameter is temporary. should be replaced with the sum of the individual question scores.
+	public Quiz(Header header, Statistics statistics, int quizScore, Parameters parameters, List<Question> questions){
+		super(header, statistics, quizScore);
 		this.parameters = parameters;
 		this.questions = questions;
 	}
