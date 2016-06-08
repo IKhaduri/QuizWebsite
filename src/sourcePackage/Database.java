@@ -220,7 +220,7 @@ public class Database {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, num);
 			set = ps.executeQuery();
-			if (set == null) 
+			if (set == null)
 				return null;
 		} catch(Exception e){
 			return null;

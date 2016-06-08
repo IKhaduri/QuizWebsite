@@ -25,4 +25,15 @@ public class DatabaseTest {
 		assertFalse(base.addUser(user, connection));
 		Factory.closeConnection(connection);
 	}
+	
+	@Test
+	public void popularQuizzesTest() {
+		assertEquals(base.getPopularQuizzes(0, Factory.getConnection()), null);
+		assertEquals(base.getPopularQuizzes(5, null), null);
+		assertTrue(base.getPopularQuizzes(3, Factory.getConnection()) != null);
+	}
+	
+	
 }
+
+
