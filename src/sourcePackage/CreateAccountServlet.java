@@ -31,6 +31,7 @@ public class CreateAccountServlet extends HttpServlet {
 		if (db.addUser(user, Factory.getConnection()))
 			request.getRequestDispatcher("homepage.html").forward(request, response);
 		// else password or username already used
+		
 			
 	}
 

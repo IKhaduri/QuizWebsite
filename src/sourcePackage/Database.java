@@ -211,9 +211,6 @@ public class Database {
 		
 		List<QuizBase> res = null;
 		
-		if (connection == null||num == 0) 
-			return null;
-		
 		ResultSet set = null;
 		try{
 			String sql = "select * from "+ MyDBInfo.MYSQL_DATABASE_NAME +" .quizes q"+ 
