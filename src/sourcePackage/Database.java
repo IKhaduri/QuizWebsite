@@ -181,6 +181,9 @@ public class Database {
 	 * @return matching user or null if not found
 	 * */
 	public User getUser(String name, String password_hash, Connection connection){
+		
+		if (connection == null) return null;
+		
 		try {
 			String sql = "select password_hash from users where username = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
