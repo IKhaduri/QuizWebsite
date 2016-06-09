@@ -28,9 +28,11 @@ public class DatabaseTest {
 	
 	@Test
 	public void popularQuizzesTest() {
-		assertEquals(base.getPopularQuizzes(0, Factory.getConnection()), null);
+		Connection connection = Factory.getConnection();
+		assertEquals(base.getPopularQuizzes(0, connection), null);
 		assertEquals(base.getPopularQuizzes(5, null), null);
-		assertTrue(base.getPopularQuizzes(3, Factory.getConnection()) != null);
+		assertTrue(base.getPopularQuizzes(3, connection) != null);
+		Factory.closeConnection(connection);
 	}
 	
 	

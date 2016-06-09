@@ -49,6 +49,8 @@ create table if not exists users(
 	id int(11) not null auto_increment,		# unique identifier for the user
     username varchar(128) unique,			# unique user name
     password_hash varchar(4096),			# something generated from the password(we're not exactly willing to reveal the underlying process here)
+    total_score int(11) default 0,			# sum of all quizzes' scores
+	max_score decimal(5, 2) default 0		# maximum score reached in some quiz
     
     primary key(id)
 );
