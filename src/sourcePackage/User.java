@@ -31,4 +31,11 @@ public class User {
 	public List<Submission> getSubmissions(Database base, Connection connection, int limit) {
 		return base.getUserSubmissions(this.userName, limit, connection);
 	}
+	
+	public List<QuizBase> getCreatedQuizzes(Database base, Connection connection, int limit) {
+		return base.getUserCreatedQuizzes(this.userName, limit, connection);
+	}
+	
 }
+
+
