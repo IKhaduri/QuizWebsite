@@ -1,5 +1,6 @@
 package sourcePackage;
 
+import java.sql.Connection;
 
 public class User {
 	private String userName;
@@ -16,5 +17,9 @@ public class User {
 	
 	public String getPasswordHash(){
 		return(passwordHash);
+	}
+	
+	public double getMaxScorePercentage(Database base, Connection connection) {
+		return base.getUserMaxScore(this.userName, connection);
 	}
 }
