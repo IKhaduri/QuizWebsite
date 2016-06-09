@@ -294,9 +294,9 @@ public class Database {
 	 * @param connection - connection
 	 * @return list of user's submissions
 	 */
-	public List<Submission> getUserSubmissions(User user, int limit, Connection connection){
+	public List<Submission> getUserSubmissions(String username, int limit, Connection connection){
 		try {
-			int userId = getUserId(user.getName(), connection);
+			int userId = getUserId(username, connection);
 			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log"
 					+ " INNER JOIN " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes ON id = quiz_id"
 					+ " WHERE user_id = ? ORDER BY end_time DESC LIMIT ?;";
@@ -312,7 +312,7 @@ public class Database {
 				Timestamp start = res.getTimestamp("start_time");
 				Timestamp end = res.getTimestamp("end_time");
 				int score = res.getInt("score");
-				submissions.add(Factory.getSubmission(quiz, start, end, score,user.getName()));
+				submissions.add(Factory.getSubmission(quiz, start, end, score, username));
 			}
 			return(submissions);
 		} catch (SQLException e) {

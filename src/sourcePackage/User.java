@@ -1,6 +1,7 @@
 package sourcePackage;
 
 import java.sql.Connection;
+import java.util.List;
 
 public class User {
 	private String userName;
@@ -25,5 +26,9 @@ public class User {
 	
 	public int getTotalScore(Database base, Connection connection) {
 		return base.getUserTotalScore(this.userName, connection);
+	}
+	
+	public List<Submission> getSubmissions(Database base, Connection connection, int limit) {
+		return base.getUserSubmissions(this.userName, limit, connection);
 	}
 }
