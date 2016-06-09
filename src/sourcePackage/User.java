@@ -22,4 +22,8 @@ public class User {
 	public double getMaxScorePercentage(Database base, Connection connection) {
 		return base.getUserMaxScore(this.userName, connection);
 	}
+	
+	public int getTotalScore(Database base, Connection connection) {
+		return base.getUserTotalScore(this.userName, connection);
+	}
 }
