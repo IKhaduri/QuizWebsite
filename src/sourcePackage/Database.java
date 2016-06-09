@@ -316,7 +316,30 @@ public class Database {
 			}
 			return(submissions);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * @param username - username
+	 * @param limit - maximal amount of the submissions to be returned
+	 * @param connection - Connection oject
+	 * @return list of quizzes that the user has created
+	 */
+	public List<QuizBase> getUserCreatedQuizzes(String username, int limit, Connection connection){
+		try {
+			int userId = getUserId(username, connection);
+			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes"
+					+ "where author_id = ? limit ?;";
+					
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, userId);
+			statement.setInt(2, limit);
+			ResultSet res = statement.executeQuery();
+			if(res == null) return null;
+			
+			return getQuizBaseList(res, connection);
+		} catch (SQLException e) {
 			return null;
 		}
 	}
@@ -331,8 +354,8 @@ public class Database {
 		if (connection == null) return NO_CONNECTION;
 		
 		try {
-			PreparedStatement ps = connection.prepareStatement("select 'max_score' from users "
-					+ "where id = ?;");
+			PreparedStatement ps = connection.prepareStatement("select 'max_score' from "
+					+ MyDBInfo.MYSQL_DATABASE_NAME + ".users where id = ?;");
 			ps.setInt(1, getUserId(username, connection));
 			ResultSet rs = ps.executeQuery();
 			
@@ -355,8 +378,8 @@ public class Database {
 		if (connection == null) return NO_CONNECTION;
 		
 		try {
-			PreparedStatement ps = connection.prepareStatement("select 'total_score' from users "
-					+ "where id = ?;");
+			PreparedStatement ps = connection.prepareStatement("select 'total_score' from "
+					+ MyDBInfo.MYSQL_DATABASE_NAME + ".users where id = ?;");
 			ps.setInt(1, getUserId(username, connection));
 			ResultSet rs = ps.executeQuery();
 			
