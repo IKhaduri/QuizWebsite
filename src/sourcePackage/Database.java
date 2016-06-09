@@ -321,6 +321,11 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * @param username - username of the user
+	 * @param connection - Connection object
+	 * @return max score reached in some quiz specified in percentage terms
+	 */
 	public double getUserMaxScore(String username, Connection connection) {
 		
 		if (connection == null) return NO_CONNECTION;
@@ -340,6 +345,11 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * @param username - username of the user
+	 * @param connection - Connection object
+	 * @return sum of all quizzes' scores
+	 */
 	public int getUserTotalScore(String username, Connection connection) {
 		
 		if (connection == null) return NO_CONNECTION;
