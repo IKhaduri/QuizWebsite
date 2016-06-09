@@ -153,31 +153,11 @@ public class Database {
 		}
 		return questions;
 	}
-
-	/**
-	 * @param connection - connection object
-	 * @param id - quizz id
-	 * @return creation date of the specified quiz
-	 * @throws SQLException
-	 */
-	private Timestamp getQuizDate(Connection connection, int id) throws SQLException {
-		if (connection == null) return null;
-		
-		String query = "select (creation_date) from quizes where id = ?";
-		
-		PreparedStatement ps = connection.prepareStatement(query);
-		ps.setInt(1, id);
-		ResultSet rs = ps.executeQuery();
-		if (rs == null) return null;
-		
-		rs.next();
-		Timestamp ts = rs.getTimestamp(1);
-		
-		return ts;
-	}
 	
 	/**
 	 * @param name - username for user we're searching for
+	 * @param password_hash - hashed password
+	 * @param connection - Connection object
 	 * @return matching user or null if not found
 	 * */
 	public User getUser(String name, String password_hash, Connection connection){
@@ -293,14 +273,6 @@ public class Database {
 			set.next();
 			authorName = set.getString(1);
 		}
-		return authorName;
-	}
-	
-	private String getAuthorname(int quizId, Connection connection) throws Exception {
-		String authorName = null;
-		// ResultSet set = null;
-		int authorId = getAuthorId(quizId, connection);
-		authorName = getAuthorName(authorId, connection);
 		return authorName;
 	}
 	
