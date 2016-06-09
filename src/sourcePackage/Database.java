@@ -339,4 +339,23 @@ public class Database {
 			return NO_CONNECTION;
 		}
 	}
+	
+	public int getUserTotalScore(String username, Connection connection) {
+		
+		if (connection == null) return NO_CONNECTION;
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement("select 'total_score' from users "
+					+ "where id = ?;");
+			ps.setInt(1, getUserId(username, connection));
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs == null) return NO_CONNECTION;
+			rs.next();
+			
+			return rs.getInt(1);
+		} catch (Exception e) {
+			return NO_CONNECTION;
+		}
+	}
 }
