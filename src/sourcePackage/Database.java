@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-	private static final int NO_ID = -1;
+	public static final int NO_ID = -1;
+	public static final int NO_CONNECTION = -2;
 	
 	/**
 	 * Adds a user in database
@@ -317,6 +318,25 @@ public class Database {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public double getUserMaxScore(String username, Connection connection) {
+		
+		if (connection == null) return NO_CONNECTION;
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement("select 'max_score' from users "
+					+ "where id = ?;");
+			ps.setInt(1, getUserId(username, connection));
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs == null) return NO_CONNECTION;
+			rs.next();
+			
+			return rs.getDouble(1);
+		} catch (Exception e) {
+			return NO_CONNECTION;
 		}
 	}
 }
