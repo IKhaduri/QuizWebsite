@@ -76,6 +76,42 @@ public class Factory {
 	}
 	
 	/**
+	 * Builds and returns a new Quiz object ("new" means without statistics, and creation date set to this moment)
+	 * @param name - name of the quiz
+	 * @param author - user name of the author
+	 * @param description - description of the quiz
+	 * @param shouldShuffle - true, if the questions should be shuffled
+	 * @param questionCap -  maximal number of questions that will be asked during a single session (restriction; user of the class can feel free to ignore this parameter)
+	 * @param timeLimit - time limit of the given quiz (restriction; user of the class can feel free to ignore this parameter)
+	 * @param questions - the questions
+	 * @return Quiz object
+	 */
+	public static Quiz getNewQuiz(
+			String name, String author, String description, int quizScore,
+			boolean shouldShuffle, int questionCap, int timeLimit,
+			List<Question> questions){
+		Quiz.Header header = new Quiz.Header(name, author, description);
+		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questionCap, timeLimit);
+		return new Quiz(header, new Quiz.Statistics(), quizScore, parameters, questions);
+	}
+	
+	/**
+	 * Constructs and returns a Quiz object (uses already constructed QuizBase)
+	 * @param base - header of the quiz
+	 * @param shouldShuffle - true, if the questions should be shuffled
+	 * @param questionCap - maximal number of questions that will be asked during a single session (restriction; user of the class can feel free to ignore this parameter)
+	 * @param timeLimit - time limit of the given quiz (restriction; user of the class can feel free to ignore this parameter)
+	 * @param questions - the questions
+	 * @return Quiz object
+	 */
+	public static Quiz getQuiz(QuizBase base, boolean shouldShuffle, int questionCap, int timeLimit, List<Question> questions){
+		Quiz.Header header = new Quiz.Header(base.getName(), base.getCreationDate(), base.getAuthor(), base.getDescription());
+		Quiz.Statistics statistics = new Quiz.Statistics(base.getTotalScore(), base.getSubmissionCount());
+		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questionCap, timeLimit);
+		return new Quiz(header, statistics, base.getQuizScore(), parameters, questions);
+	}
+	
+	/**
 	 * Builds and returns a QuizBase object for lists
 	 * @param name - name of the quiz
 	 * @param date - date of creation
@@ -92,6 +128,20 @@ public class Factory {
 			int quizScore){
 		return new QuizBase(new QuizBase.Header(name, date, author, description), new QuizBase.Statistics(numSubmissions, totalScore), quizScore);
 	}
+	
+	/**
+	 * Builds and returns a new QuizBase object ("new" means without statistics, and creation date set to this moment)
+	 * @param name - name of the quiz
+	 * @param author - user name of the author
+	 * @param description - description of the quiz
+	 * @param quizScore - maximal score the user can get thought this quiz
+	 * @return QuizBase object
+	 */
+	public static QuizBase getNewQuizBase(String name, String author, String description, int quizScore){
+		return new QuizBase(new QuizBase.Header(name, author, description), new QuizBase.Statistics(), quizScore);
+	}
+	
+	
 	
 	public static Submission getSubmission(QuizBase quiz, Timestamp timeStart, Timestamp timeEnd, int score, String userName){
 		return new Submission(quiz, timeStart, timeEnd, score,userName);
