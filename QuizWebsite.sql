@@ -24,6 +24,7 @@ create table if not exists quizes(
     time_limit int(11) default 1800,		# time limit for the test
     author_id int(11) default null,			# identifier of the author
     quiz_score int(11),						# total score, one can earn in this quiz
+    description varchar(4096),				# description of the quiz
     
     primary key(id)
 );
@@ -50,7 +51,7 @@ create table if not exists users(
     username varchar(128) unique,			# unique user name
     password_hash varchar(4096),			# something generated from the password(we're not exactly willing to reveal the underlying process here)
     total_score int(11) default 0,			# sum of all quizzes' scores
-	max_score decimal(5, 2) default 0		# maximum score reached in some quiz, specified in percentage terms
+	max_score decimal(5, 2) default 0,		# maximum score reached in some quiz, specified in percentage terms
     
     primary key(id)
 );

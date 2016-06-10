@@ -69,7 +69,7 @@ public class Database {
 	
 	private void addQuizBase(Quiz quiz, Connection connection) throws SQLException{
 		int autorId = getUserId(quiz.getAuthor(), connection);
-		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes (quiz_name, creation_date, random_shuffle, question_cap, time_limit, author_id, quiz_score) VALUES (?, ?, ?, ?, ?, ?, ?);";
+		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes (quiz_name, creation_date, random_shuffle, question_cap, time_limit, author_id, quiz_score, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, quiz.getName());
 		statement.setTimestamp(2, quiz.getCreationDate());
@@ -78,6 +78,7 @@ public class Database {
 		statement.setInt(5, quiz.getQuizTime());
 		statement.setInt(6, autorId);
 		statement.setInt(7, quiz.getQuizScore());
+		statement.setString(8, quiz.getDescription());
 		statement.execute();
 	}
 	
@@ -122,6 +123,7 @@ public class Database {
 			if(res.next()){
 				Timestamp date = res.getTimestamp("creation_date");
 				String author = getAuthorName(res.getInt("author_id"), connection);
+				String description = res.getString("description");
 				int totalScore = res.getInt("total_score");
 				int numSubmissions = res.getInt("total_submittions");
 				int quizScore = res.getInt("quiz_score");
@@ -129,7 +131,7 @@ public class Database {
 				int questionCap = res.getInt("question_cap");
 				int timeLimit = res.getInt("time_limit");
 				List<Question> questions = getQuizQuestions(res.getInt("id"), connection);
-				return Factory.getQuiz(name, date, author, totalScore, numSubmissions, quizScore, shouldShaffle, questionCap, timeLimit, questions);
+				return Factory.getQuiz(name, date, author, description, totalScore, numSubmissions, quizScore, shouldShaffle, questionCap, timeLimit, questions);
 			} else return null;
 		} catch (SQLException ex) {
 			return null;
@@ -248,10 +250,11 @@ public class Database {
 		String name = res.getString("quiz_name");
 		Timestamp date = res.getTimestamp("creation_date");
 		String author = getAuthorName(res.getInt("author_id"), connection);
+		String description = res.getString("description");
 		int totalScore = res.getInt("total_score");
 		int numSubmissions = res.getInt("total_submittions");
 		int quizScore = res.getInt("quiz_score");
-		return (Factory.getQuizBase(name, date, author, totalScore, numSubmissions, quizScore));
+		return (Factory.getQuizBase(name, date, author, description, totalScore, numSubmissions, quizScore));
 	}
 	
 	private List<QuizBase> getQuizBaseList(ResultSet res, Connection connection) throws SQLException{

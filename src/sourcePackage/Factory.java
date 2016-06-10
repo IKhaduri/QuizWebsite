@@ -55,6 +55,7 @@ public class Factory {
 	 * @param name - name of the quiz
 	 * @param date - date of creation
 	 * @param author - user name of the author
+	 * @param description - description of the quiz
 	 * @param totalScore - combined score the users got from their submissions
 	 * @param numSubmissions - number of submissions
 	 * @param shouldShuffle - true, if the questions should be shuffled
@@ -64,11 +65,11 @@ public class Factory {
 	 * @return Quiz object
 	 */
 	public static Quiz getQuiz(
-			String name, Timestamp date, String author,
+			String name, Timestamp date, String author, String description,
 			int totalScore, int numSubmissions, int quizScore,
 			boolean shouldShuffle, int questionCap, int timeLimit,
 			List<Question> questions){
-		Quiz.Header header = new Quiz.Header(name, date, author);
+		Quiz.Header header = new Quiz.Header(name, date, author, description);
 		Quiz.Statistics statistics = new Quiz.Statistics(totalScore, numSubmissions);
 		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questionCap, timeLimit);
 		return new Quiz(header, statistics, quizScore, parameters, questions);
@@ -79,14 +80,17 @@ public class Factory {
 	 * @param name - name of the quiz
 	 * @param date - date of creation
 	 * @param author - user name of the author
+	 * @param description - description of the quiz
 	 * @param totalScore - combined score the users got from their submissions
 	 * @param numSubmissions - number of submissions
 	 * @param quizScore - maximal score the user can get thought this quiz
 	 * @return QuizBase object
 	 */
-	public static QuizBase getQuizBase(String name,Timestamp date,String author,int totalScore, 
-			int numSubmissions, int quizScore){
-		return new QuizBase(new QuizBase.Header(name, date, author), new QuizBase.Statistics(numSubmissions, totalScore), quizScore);
+	public static QuizBase getQuizBase(
+			String name,Timestamp date,String author, String description,
+			int totalScore, int numSubmissions,
+			int quizScore){
+		return new QuizBase(new QuizBase.Header(name, date, author, description), new QuizBase.Statistics(numSubmissions, totalScore), quizScore);
 	}
 	
 	public static Submission getSubmission(QuizBase quiz, Timestamp timeStart, Timestamp timeEnd, int score, String userName){

@@ -13,32 +13,29 @@ public class QuizBase {
 		private String name;
 		private Timestamp creationData;
 		private String authorName;
+		private String description;
 		
 		/**
 		 * Complete constructor
 		 * @param name - quiz name
 		 * @param date - quiz creation date
 		 * @param author - author of the quiz
+		 * @param description - quiz description
 		 */
-		public Header(String name, Timestamp date, String author){
+		public Header(String name, Timestamp date, String author, String description){
 			this.name = name;
 			this.creationData = date;
 			this.authorName = author;
+			this.description = description;
 		}
 		/**
 		 * Constructs header for a quiz that was created "now"
 		 * @param name - quiz name
 		 * @param author - author of the quiz
+		 * @param description - quiz description
 		 */
-		public Header(String name, String author){
-			this(name, new Timestamp(new Date().getTime()), author);
-		}
-		/**
-		 * Constructs header for a quiz that was created "now" and does not have an author
-		 * @param name - quiz name
-		 */
-		public Header(String name){
-			this(name, null);
+		public Header(String name, String author, String description){
+			this(name, new Timestamp(new Date().getTime()), author, description);
 		}
 	}
 	private Header header;
@@ -105,6 +102,13 @@ public class QuizBase {
 	 */
 	public String getAuthor(){
 		return header.authorName;
+	}
+	
+	/**
+	 * @return description of the quiz
+	 */
+	public String getDescription(){
+		return header.description;
 	}
 	
 	/**
