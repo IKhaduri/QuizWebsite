@@ -66,7 +66,7 @@
                     </div>
                     <h1 class="user-name"><% out.print(user.getName()); %></h1>
                     <div class="profile-description">
-                        <p class="scnd-font-color">Status or Description</p>
+                        <p class="scnd-font-color"><% out.print(user.getStatus(db, connection)); %></p>
                     </div>
                 </div>
             </div>
