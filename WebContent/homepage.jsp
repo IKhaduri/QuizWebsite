@@ -69,7 +69,7 @@
                     </li>
                                                  
                     <div id="submissions"><%
-                    	Submission[] subs = new Submission[user.getNumOfSubmissions(db, connection)];
+                    	Submission[] subs = new Submission[ServletConstants.LISTS_LIMIT];
                        	user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT).toArray(subs);
                        	for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
                        		Submission currSub = subs[i];
@@ -84,14 +84,13 @@
                     </li>
                         
                     <div id="created_quizzes"><%
-                    	QuizBase[] quizzes = new QuizBase[user.getNumOfCreatedQuizzes(db, connection)];
+                    	QuizBase[] quizzes = new QuizBase[ServletConstants.LISTS_LIMIT];
                        	user.getCreatedQuizzes(db, connection, ServletConstants.LISTS_LIMIT).toArray(quizzes);
                        	for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
                        		QuizBase currQuiz = quizzes[i];
                        		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
                        			+ currQuiz.getName() +"\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
                        	}
-                       	Factory.closeConnection(connection);
                     %></div>                       
                     </ul>
                 </div>
@@ -116,21 +115,33 @@
                 <div class="menu-box block">
                     <h2 class="titular">MENU</h2>
                     <ul class="menu-box-menu">
-                        <li>
-                            <a class="menu-box-tab" href="#6"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages<div class="menu-box-number">24</div></a>                            
-                        </li>
-                        <li>
-                            <a class="menu-box-tab" href="#8"><span class="icon entypo-paper-plane scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
-                        </li>
-                        <li>
-                            <a class="menu-box-tab" href="#10"><span class="icon entypo-calendar scnd-font-color"></span>Events<div class="menu-box-number">5</div></a>                            
-                        </li>
-                        <li>
-                            <a class="menu-box-tab" href="#12"><span class="icon entypo-cog scnd-font-color"></span>Account Settings</a>
-                        </li>
-                        <li>
-                            <a class="menu-box-tab" href="#13"><sapn class="icon entypo-chart-line scnd-font-color"></sapn>Statistics</a>
-                        </li>                        
+                    <li>
+                        <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Popular quizzes</a>                     
+                    </li>
+                        <div id="popular_quizzes"><%
+                    	QuizBase[] topQuizzes = new QuizBase[ServletConstants.LISTS_LIMIT];
+                       	db.getPopularQuizzes(ServletConstants.LISTS_LIMIT, connection).toArray(topQuizzes);
+                       	for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
+                       		QuizBase currQuiz = topQuizzes[i];
+                       		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
+                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
+                       	}
+                    %></div>
+                    
+                    <li>
+                        <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Recently created quizzes</a>                     
+                    </li>
+                        <div id="recently_created_quizzes"><%
+                    	QuizBase[] recentlyQuizzes = new QuizBase[ServletConstants.LISTS_LIMIT];
+                       	db.recentlyAddedQuizzes(ServletConstants.LISTS_LIMIT, connection).toArray(recentlyQuizzes);
+                       	for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
+                       		QuizBase currQuiz = recentlyQuizzes[i];
+                       		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
+                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
+                       	}
+                       	Factory.closeConnection(connection);
+                    %></div>                        
+                    
                     </ul>
                 </div>
                </div>
