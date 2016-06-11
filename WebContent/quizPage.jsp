@@ -26,7 +26,7 @@
 	switch(curQuestion.getQuestionType()){
 		case TEXT_RESPONSE:case FILL_BLANK:{ 
 			out.println("<form action = \""+servletToCall+"\" method = \"post\">");
-			out.println("<input type = text>");
+			out.println("<input type = \"text\" name =\"answer\">");
 			out.println("<p><button type = \" submit \" value = \" Submit/Next Question \" >   </p>");
 			out.println("</form>");
 			break;
@@ -44,7 +44,7 @@
 		case PICTURE_RESPONSE:{
 			out.println("<img src=\"" + curQuestion.getImage()+ "\">");
 			out.println("<form action = \""+servletToCall+"\" method = \"post\">");
-			out.println("<input type = text>");
+			out.println("<input type = \"text\" name =\"answer \">");
 			out.println("<p><button type = \" submit \" value = \" Submit/Next Question \" >   </p>");
 			out.println("</form>");
 			break;
