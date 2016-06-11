@@ -44,6 +44,12 @@ public class User {
 		return base.getUserSubmissions(this.userName, limit, connection);
 	}
 	
+	public int getNumOfCreatedQuizzes(Database base, Connection connection) {
+		if (connection == null) return 0;
+		
+		return base.getNumOfCreatedQuizzes(this.userName, connection);
+	}
+	
 	public List<QuizBase> getCreatedQuizzes(Database base, Connection connection, int limit) {
 		if (base == null || limit <= 0) return null;
 		
