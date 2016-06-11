@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 
@@ -171,5 +172,29 @@ public class Factory {
 	
 	public static<First, Second, Third> Touple<First, Second, Third> makeTouple(First first, Second second,Third third){
 		return new Touple<First, Second,Third>(first, second,third);
+	}
+	
+	/**
+	 * Constructs a message
+	 * @param to - receiver
+	 * @param from - sender
+	 * @param message - message text
+	 * @param date - delivery date
+	 * @param seen - true, if the message is seen
+	 * @return Message object
+	 */
+	public static Message getMessage(String to, String from, String message, Timestamp date, boolean seen){
+		return new Message(from, to, message, date, seen);
+	}
+	
+	/**
+	 * Creates new message object, that was sent "now" and is not seen yet
+	 * @param to - receiver
+	 * @param from - sender
+	 * @param message - message text
+	 * @return Message object
+	 */
+	public static Message getNewMassege(String to, String from, String message){
+		return new Message(from, to, message, new Timestamp(new Date().getTime()), false);
 	}
 }

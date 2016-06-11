@@ -15,12 +15,14 @@ public class Message {
 	 * @param receiver - receiver user name
 	 * @param message - message text
 	 * @param date - delivery date
+	 * @param seen - true, if the message is seen
 	 */
-	public Message(String sender, String receiver, String message, Timestamp date){
+	public Message(String sender, String receiver, String message, Timestamp date, boolean seen){
 		this.sender = sender;
 		this.receiver = receiver;
 		this.message = message;
 		this.date = date;
+		this.seen = seen;
 	}
 	
 	/**
