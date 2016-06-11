@@ -1,3 +1,4 @@
+<%@page import="java.util.Collections"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="sourcePackage.Question"%>
 <%@page import="sourcePackage.ServletConstants"%>
@@ -11,45 +12,45 @@
 <% 
 	int curQuestionNum = (int) request.getAttribute(ServletConstants.QUIZ_QUESTION_NUMBER);
 	ArrayList<Question> questions = (ArrayList<Question>) request.getAttribute(ServletConstants.QUIZ_QUESTION_LIST);
-	boolean finished = questions.size()>curQuestionNum?true:false;
+	String servletToCall = questions.size()-1>=curQuestionNum?"nextQuestion":"quizFinished";
 	Question curQuestion = questions.get(curQuestionNum);
 %>
 </head>
 <body>
-<input type="hidden" name="myhiddenvalue1" value="<%= request.getParameter(ServletConstants.QUIZ_QUESTION_NUMBER) %>" />
-<input type="hidden" name="myhiddenvalue2" value="<%= request.getParameter(ServletConstants.QUIZ_QUESTION_LIST) %>" />
+<input type="hidden" name=<%=ServletConstants.QUIZ_QUESTION_NUMBER %> value="<%= request.getParameter(ServletConstants.QUIZ_QUESTION_NUMBER) %>" >
+<input type="hidden" name=<%=ServletConstants.QUIZ_QUESTION_LIST %> value="<%= request.getParameter(ServletConstants.QUIZ_QUESTION_LIST) %>" >
+<input type="hidden" name=<%=ServletConstants.HIDDEN_CORRECT_ANSWER %> value="<%= curQuestion.getAnswers().get(0) %>" >
+
 <% 
 	out.println("<h3>"+curQuestion.getQuestion() +"</h3>");
 	switch(curQuestion.getQuestionType()){
 		case TEXT_RESPONSE:case FILL_BLANK:{ 
-			out.println("<form action = \"nextQuestion\" method = \"post\">");
+			out.println("<form action = \""+servletToCall+"\" method = \"post\">");
 			out.println("<input type = text>");
 			out.println("<p><button type = \" submit \" value = \" Submit/Next Question \" >   </p>");
+			out.println("</form>");
+			break;
 		}
-		
 		case MULTIPLE_CHOICE:{
-			
-			
+			ArrayList<String> toShuffle = new ArrayList<String>(curQuestion.getAnswers());
+			Collections.shuffle(toShuffle);
+			out.println("<form action = \""+servletToCall+"\" method = \"post\">");
+			for (String answer: toShuffle){
+				out.println("<input type=\"radio\" name=answer value=\""+answer+"\" >");
+			}
+			out.println("</form>");
+			break;
 		}
 		case PICTURE_RESPONSE:{
-			
-			
-			
-			
+			out.println("<img src=\"" + curQuestion.getImage()+ "\">");
+			out.println("<form action = \""+servletToCall+"\" method = \"post\">");
+			out.println("<input type = text>");
+			out.println("<p><button type = \" submit \" value = \" Submit/Next Question \" >   </p>");
+			out.println("</form>");
+			break;
 		}
-	
-	
+
 	}
-
-
-
-
-
-
 %>
-
-
-
-
 </body>
 </html>
