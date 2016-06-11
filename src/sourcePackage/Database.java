@@ -413,6 +413,25 @@ public class Database {
 	private double percentage(int totalScore, int score){
 		return (100.0 * (((double)score) / ((double)totalScore)));
 	}
+
+	public int getNumOfSubmissions(String username, Connection connection){
+		try {
+			int userId = getUserId(username, connection);
+			String sql = "SELECT count(*) from " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log"
+					+ " INNER JOIN " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes ON id = quiz_id"
+					+ " WHERE user_id = ?;";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, userId);
+			ResultSet res = statement.executeQuery();
+			if(res == null) return 0;
+
+			res.next();
+			return res.getInt(1);
+		} catch (Exception ex) {
+			return 0;
+		}
+	}
+
 	
 	/**
 	 * Returns last scores for the given user and the given quiz
