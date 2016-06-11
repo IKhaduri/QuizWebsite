@@ -106,6 +106,7 @@
                     <div class="profile-description">
                         <p class="scnd-font-color">Status or Description</p>
                     </div>
+                <!--     <input type="text" name="update_description"> -->
                 </div>
             </div>
 

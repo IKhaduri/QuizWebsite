@@ -64,7 +64,7 @@
                     <div class="profile-picture big-profile-picture clear">
                         <img width="150px" alt="picture" src="http://www.rmi.ge/~meskhi/meskhi.jpg" >
                     </div>
-                    <h1 class="user-name">Name</h1>
+                    <h1 class="user-name"><% out.print(user.getName()); %></h1>
                     <div class="profile-description">
                         <p class="scnd-font-color">Status or Description</p>
                     </div>
