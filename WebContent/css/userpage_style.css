@@ -34,7 +34,6 @@
 	text-transform: none;
 	line-height: 1;
 
-	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -56,6 +55,7 @@
 }
 
 body {
+	width:100%;
 	background: #1f253d;
 }
 
@@ -313,7 +313,6 @@ h1, h2, p, a, span{
 			
 		/********************************************* RIGHT CONTAINER ****************************************/
 		
-		/******************************************** LEFT CONTAINER *****************************************/
 		.right-container {}
 			.menu-box {
 				height: 360px;
