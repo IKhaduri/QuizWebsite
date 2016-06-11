@@ -428,6 +428,8 @@ public class Database {
 			return 0;
 		}
 	}
+	
+	
 
 	/**
 	 * Returns last scores for the given user and the given quiz
