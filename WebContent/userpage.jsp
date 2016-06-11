@@ -52,6 +52,7 @@
                         				+ currSub.getQuiz().getName());
                         		out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
                         	}
+                        	Factory.closeConnection(connection);
                         %></div>
                                               
                     </ul>
