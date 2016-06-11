@@ -29,8 +29,9 @@ public class CreateAccountServlet extends HttpServlet {
 		Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		
 		if (db.addUser(user, Factory.getConnection()))
-			request.getRequestDispatcher("homepage.html").forward(request, response);
-		// else password or username already used
+			request.getRequestDispatcher("homepage.jsp").forward(request, response);
+		else
+			request.getRequestDispatcher("not_registered.html").forward(request, response); 	// just to see it directs
 	}
 
 }
