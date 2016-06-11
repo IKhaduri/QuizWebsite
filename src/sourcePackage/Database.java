@@ -412,6 +412,9 @@ public class Database {
 	
 
 	public int getNumOfSubmissions(String username, Connection connection){
+		
+		if (connection == null) return NO_CONNECTION;
+		
 		try {
 			int userId = getUserId(username, connection);
 			String sql = "SELECT count(*) from " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log"
@@ -429,7 +432,26 @@ public class Database {
 		}
 	}
 	
-	
+	public int getNumOfCreatedQuizzes(String username, Connection connection){
+		
+		if (connection == null) return NO_CONNECTION;
+		
+		try {
+			int userId = getUserId(username, connection);
+			String sql = "SELECT count(*) from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes"
+					+ "where author_id = ?;";
+					
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, userId);
+			ResultSet res = statement.executeQuery();
+			if(res == null) return 0;
+			
+			res.next();
+			return res.getInt(1);
+		} catch (SQLException e) {
+			return 0;
+		}
+	}
 
 	/**
 	 * Returns last scores for the given user and the given quiz
