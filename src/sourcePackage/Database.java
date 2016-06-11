@@ -530,7 +530,6 @@ public class Database {
 			return getSubmissionList(totalScore, ps.executeQuery(), connection);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		} catch (NullPointerException e){
 			e.printStackTrace();
 		}
@@ -554,10 +553,38 @@ public class Database {
 			return getSubmissionList(totalScore, ps.executeQuery(), connection);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		} catch (NullPointerException e){
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
+	
+	/**
+	 * Inserts a message into the Database
+	 * @param message - message
+	 * @return true, if insertion was a success
+	 */
+	public boolean addMessage(Message message, Connection connection){
+		try{
+			String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".messages"
+					+ " (sender_id, receiver_id, message_string, delivery_date, message_seen) "
+					+ " VALUES (  ?, 		  ?, 			  ?, 			 ?, 		   ?);";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, getUserId(message.getSender(), connection));
+			ps.setInt(2, getUserId(message.getReceiver(), connection));
+			ps.setString(3, message.getMessage());
+			ps.setTimestamp(4, message.getDate());
+			ps.setBoolean(5, message.isSeen());
+			ps.execute();
+			return true;
+		} catch (SQLException e) {
+			return false;
+		} catch (NullPointerException e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	
 }
