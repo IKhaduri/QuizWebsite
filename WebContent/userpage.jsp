@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="sourcePackage.QuizBase"%>
 <%@page import="sourcePackage.ServletConstants"%>
 <%@page import="sourcePackage.Submission"%>
 <%@page import="java.util.ArrayList"%>
@@ -38,25 +39,33 @@
                             <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Max score
                             <div class="menu-box-number"><% user.getMaxScorePercentage(db, connection); %></div></a>                     
                         </li>
+                        <li>
+                            <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Submissions</a>                     
+                        </li>
                                                  
                         <div id="submissions"><%
-                        		Submission[] subs = new Submission[user.getNumOfSubmissions(db, connection)];
-                        		user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT).toArray(subs);
-                        		for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
-                        			Submission currSub = subs[i];
-                        			out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currSub.getQuiz().getName());
-                        			out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
-                        		}
+                        	Submission[] subs = new Submission[user.getNumOfSubmissions(db, connection)];
+                        	user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT).toArray(subs);
+                        	for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
+                        		Submission currSub = subs[i];
+                        		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-calendar scnd-font-color\"></span>"
+                        				+ currSub.getQuiz().getName());
+                        		out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
+                        	}
                         %></div>
                         
+                        <li>
+                            <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Recently created quizzes</a>                     
+                        </li>
+                        
                         <div id="created_quizzes"><%
-                        		Submission[] subs = new Submission[user.getNumOfSubmissions(db, connection)];
-                        		user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT).toArray(subs);
-                        		for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
-                        			Submission currSub = subs[i];
-                        			out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currSub.getQuiz().getName());
-                        			out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
-                        		}
+                        	QuizBase[] quizzes = new QuizBase[user.getNumOfCreatedQuizzes(db, connection)];
+                        	user.getCreatedQuizzes(db, connection, ServletConstants.LISTS_LIMIT).toArray(quizzes);
+                        	for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
+                        		QuizBase currQuiz = quizzes[i];
+                        		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
+                        			+ currQuiz.getName() +"\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
+                        	}
                         %></div>
                                               
                     </ul>
