@@ -145,4 +145,8 @@ public class Factory {
 	public static Submission getSubmission(QuizBase quiz, Timestamp timeStart, Timestamp timeEnd, int score, String userName){
 		return new Submission(quiz, timeStart, timeEnd, score,userName);
 	}
+	
+	public static<First, Second> Pair<First, Second> makePair(First first, Second second){
+		return new Pair<First, Second>(first, second);
+	}
 }

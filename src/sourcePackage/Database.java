@@ -409,4 +409,37 @@ public class Database {
 			return NO_CONNECTION;
 		}
 	}
+	
+	/**
+	 * Returns last scores for the given user and the given quiz
+	 * @param username - user
+	 * @param quizName - quiz
+	 * @param num - number of important submissions
+	 * @return Last num submission results the user got for the given quiz
+	 */
+	public List<Pair<Double, Timestamp> > getScores(String username, String quizName, int num, Connection connection){
+		try {
+			int totalScore = getQuizBase(quizName, connection).getQuizScore();
+			String sql = "SELECT score, start_time FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log "
+					+ "WHERE quiz_id = ? AND user_id = ? ORDER BY start_time DESC LIMIT ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, getQuizId(quizName, connection));
+			ps.setInt(2, getUserId(username, connection));
+			ps.setInt(3, num);
+			ResultSet res = ps.executeQuery();
+			List<Pair<Double, Timestamp> > list = new ArrayList<Pair<Double, Timestamp> >();
+			while(res.next()){
+				double score = 100.0 * (((double)res.getInt("score")) / ((double)totalScore));
+				Timestamp time = res.getTimestamp("start_time");
+				list.add(Factory.makePair(score, time));
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
