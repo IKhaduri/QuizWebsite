@@ -35,13 +35,16 @@
                         </li>
                         <li>
                             <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Max score
-                            <div class="menu-box-number"><% user.getMaxScorePercentage(db, connection); %></div>                           
+                            <div class="menu-box-number"><% user.getMaxScorePercentage(db, connection); %></div>                        
                         </li>
                         <li>
                             <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Submissions</a>                         
                         	<div id="submissions"><%
                         		Submission[] subs = new Submission[user.getNumOfSubmissions(db, connection)];
                         		user.getSubmissions(db, connection, 5).toArray(subs);
+                        		for (int i = 0; i < 5; i++) {
+                        			out.print();
+                        		}
                         	%></div>
                         </li>
                                               
