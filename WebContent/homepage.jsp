@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<%@page import="sourcePackage.Factory"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="sourcePackage.User"%>
+<%@page import="sourcePackage.ContextInitializer"%>
+<%@page import="sourcePackage.Database"%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -8,6 +13,12 @@
 </head>
 
     <body>
+    
+    	<%
+	    	Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
+	    	Connection connection = Factory.getConnection();
+	    	User user = db.getUser(request.getParameter("username"), request.getParameter("password_hash"), connection);
+    	%>
 
         <div class="main-container"> 
 

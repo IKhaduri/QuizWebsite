@@ -20,8 +20,8 @@
     
     <%
     	Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
-    	User user = db.getUser(request.getParameter("username"), request.getParameter("password_hash"), Factory.getConnection());
-   		Connection connection = Factory.getConnection();
+    	Connection connection = Factory.getConnection();
+    	User user = db.getUser(request.getParameter("username"), request.getParameter("password_hash"), connection);
     %>
 
         <div class="main-container">  
@@ -52,7 +52,6 @@
                         				+ currSub.getQuiz().getName());
                         		out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
                         	}
-                        	Factory.closeConnection(connection);
                         %></div>
                                               
                     </ul>
@@ -90,6 +89,7 @@
                         		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
                         			+ currQuiz.getName() +"\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
                         	}
+                        	Factory.closeConnection(connection);
                         %></div>                      
                     </ul>
                 </div>
