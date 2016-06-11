@@ -586,5 +586,40 @@ public class Database {
 		}
 	}
 	
+	private List<Message> getMessages(String sender, String receiver, ResultSet res, Connection connection) throws SQLException{
+		List<Message> list = new ArrayList<Message>();
+		while(res.next()){
+			String senderName = sender;
+			if(senderName == null) senderName = getUserName(res.getInt("sender_id"), connection);
+			String receiverName = receiver;
+			if(receiverName == null) receiverName = getUserName(res.getInt("receiver_id"), connection);
+			String messageString = res.getString("message_string");
+			Timestamp date = res.getTimestamp("delivery_date");
+			boolean seen = res.getBoolean("message_seen");
+			list.add(Factory.getMessage(receiverName, senderName, messageString, date, seen));
+		}
+		return list;
+	}
 	
+	/**
+	 * Fetches unread messages for the given user
+	 * @param username - receiver name
+	 * @param num - limit for the returned list size
+	 * @return List of unread messages
+	 */
+	public List<Message> getUnreadMessages(String username, int num, Connection connection){
+		try{
+			String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".messages"
+					+ " WHERE receiver_id = ? AND message_seen = false ORDER BY delivery_date DESC LIMIT ?;";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, getUserId(username, connection));
+			ps.setInt(2, num);
+			return(getMessages(null, username, ps.executeQuery(), connection));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
