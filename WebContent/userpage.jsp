@@ -40,7 +40,7 @@
                         <li>
                             <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Submissions</a>                         
                         	<div id="submissions"><%
-                        		Submission[] subs = new Submission[4];
+                        		Submission[] subs = new Submission[user.getNumOfSubmissions(db, connection)];
                         		user.getSubmissions(db, connection, 5).toArray(subs);
                         	%></div>
                         </li>

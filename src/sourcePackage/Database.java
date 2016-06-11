@@ -410,6 +410,7 @@ public class Database {
 		}
 	}
 	
+
 	public int getNumOfSubmissions(String username, Connection connection){
 		try {
 			int userId = getUserId(username, connection);
@@ -427,4 +428,39 @@ public class Database {
 			return 0;
 		}
 	}
+
+	/**
+	 * Returns last scores for the given user and the given quiz
+	 * @param username - user
+	 * @param quizName - quiz
+	 * @param num - number of important submissions
+	 * @return Last num submission results the user got for the given quiz
+	 */
+	public List<Touple<Double, Timestamp,Timestamp> > getScores(String username, String quizName, int num, Connection connection){
+		try {
+			int totalScore = getQuizBase(quizName, connection).getQuizScore();
+			String sql = "SELECT score, start_time, end_time FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log "
+					+ "WHERE quiz_id = ? AND user_id = ? ORDER BY start_time DESC LIMIT ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, getQuizId(quizName, connection));
+			ps.setInt(2, getUserId(username, connection));
+			ps.setInt(3, num);
+			ResultSet res = ps.executeQuery();
+			List<Touple<Double, Timestamp,Timestamp> > list = new ArrayList<Touple<Double, Timestamp,Timestamp> >();
+			while(res.next()){
+				double score = 100.0 * (((double)res.getInt("score")) / ((double)totalScore));
+				Timestamp startTime = res.getTimestamp("start_time");
+				Timestamp endTime = res.getTimestamp("end_time");
+				list.add(Factory.makeTouple(score, startTime, endTime));
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }

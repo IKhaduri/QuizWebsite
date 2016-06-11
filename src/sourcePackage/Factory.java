@@ -145,4 +145,8 @@ public class Factory {
 	public static Submission getSubmission(QuizBase quiz, Timestamp timeStart, Timestamp timeEnd, int score, String userName){
 		return new Submission(quiz, timeStart, timeEnd, score,userName);
 	}
+	
+	public static<First, Second, Third> Touple<First, Second, Third> makeTouple(First first, Second second,Third third){
+		return new Touple<First, Second,Third>(first, second,third);
+	}
 }
