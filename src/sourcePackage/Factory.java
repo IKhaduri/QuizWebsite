@@ -146,7 +146,7 @@ public class Factory {
 		return new Submission(quiz, timeStart, timeEnd, score,userName);
 	}
 	
-	public static<First, Second> Pair<First, Second> makePair(First first, Second second){
-		return new Pair<First, Second>(first, second);
+	public static<First, Second, Third> Touple<First, Second, Third> makeTouple(First first, Second second,Third third){
+		return new Touple<First, Second,Third>(first, second,third);
 	}
 }

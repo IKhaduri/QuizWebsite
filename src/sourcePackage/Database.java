@@ -417,7 +417,7 @@ public class Database {
 	 * @param num - number of important submissions
 	 * @return Last num submission results the user got for the given quiz
 	 */
-	public List<Pair<Double, Timestamp> > getScores(String username, String quizName, int num, Connection connection){
+	public List<Touple<Double, Timestamp,Timestamp> > getScores(String username, String quizName, int num, Connection connection){
 		try {
 			int totalScore = getQuizBase(quizName, connection).getQuizScore();
 			String sql = "SELECT score, start_time FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log "
@@ -427,11 +427,11 @@ public class Database {
 			ps.setInt(2, getUserId(username, connection));
 			ps.setInt(3, num);
 			ResultSet res = ps.executeQuery();
-			List<Pair<Double, Timestamp> > list = new ArrayList<Pair<Double, Timestamp> >();
+			List<Touple<Double, Timestamp,Timestamp> > list = new ArrayList<Touple<Double, Timestamp,Timestamp> >();
 			while(res.next()){
 				double score = 100.0 * (((double)res.getInt("score")) / ((double)totalScore));
 				Timestamp time = res.getTimestamp("start_time");
-				list.add(Factory.makePair(score, time));
+				list.add(Factory.makeTouple(score, time));
 			}
 			return list;
 		} catch (SQLException e) {
