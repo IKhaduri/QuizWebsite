@@ -4,7 +4,7 @@ public enum QuestionType {
 
 	TEXT_RESPONSE,
 	
-	FILL_BLANKS,
+	FILL_BLANK,
 	
 	MULTIPLE_CHOICE,
 	

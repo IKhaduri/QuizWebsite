@@ -27,7 +27,7 @@ public class Question implements Serializable {
 	
 	/**
 	 * optional constructor where type isn't specific, and is taken 
-	 * 'EXT_RESPONSE' type as default.
+	 * 'TEXT_RESPONSE' type as default.
 	 * @param text - Question text.
 	 * @param answers - correct answer(s).
 	 */
@@ -44,14 +44,20 @@ public class Question implements Serializable {
 		switch(type){
 			case MULTIPLE_CHOICE:
 				return correct_answers.size();
-			case FILL_BLANKS: case TEXT_RESPONSE: case PICTURE_RESPONSE:
+			case FILL_BLANK: case TEXT_RESPONSE: case PICTURE_RESPONSE:
 				return 1;
 			default:
 				return -1;
 		
 		}	
 	}
-	
+	/**
+	 * @return type of question, enum
+	 * */
+	public QuestionType getQuestionType(){
+		return type;
+		
+	}
 	
 	/**
 	 * @return ArrayList of answers, since it might have multiple answers
