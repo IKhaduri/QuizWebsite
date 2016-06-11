@@ -48,7 +48,7 @@
 	<h2>Your Past Results</h2>
 	<ul>
 		<%
-			for (Touple<Double, Timestamp, Timestamp> result : base.getScores(quizName, userName, 5, con)) {
+			for (Touple<Double, Timestamp, Timestamp> result : base.getScores(quizName, userName, ServletConstants.LISTS_LIMIT, con)) {
 				out.println(
 						"<li>" + result.getSecond() + " " + result.getThird() + " " + result.getFirst() + "% </li>");
 			}
@@ -60,7 +60,7 @@
 	<ul>
 		<%
 			for (Touple<String, Double, Timestamp> result : base.getHighestPerformers(quizName, 
-					new Timestamp(ServletConstants.BEGINNING_DATE),5, con)) {
+					new Timestamp(ServletConstants.BEGINNING_DATE),ServletConstants.LISTS_LIMIT, con)) {
 				out.println(
 						"<li>" + result.getFirst() + " " + result.getSecond() + " " + result.getThird() + "% </li>");
 			}
@@ -72,7 +72,7 @@
 		<%
 			for (Touple<String, Double,Timestamp> result : base.getHighestPerformers(quizName,
 					new Timestamp(System.currentTimeMillis()-
-					ServletConstants.TWENTY_FOUR_HOURS_IN_MILLIS), 5, con)) {
+					ServletConstants.TWENTY_FOUR_HOURS_IN_MILLIS), ServletConstants.LISTS_LIMIT, con)) {
 				out.println("<li>" + result.getFirst() + " " + result.getSecond() + " " + result.getThird() + "% </li>");
 			}
 		%>
@@ -81,7 +81,7 @@
 
 	<ul>
 		<%
-			for (Touple<String,  Double,Timestamp> result : base.getLastSubmissions(quizName, 5, con)) {
+			for (Touple<String,  Double,Timestamp> result : base.getLastSubmissions(quizName, ServletConstants.LISTS_LIMIT, con)) {
 				out.println(
 						"<li>" + result.getFirst() + " " + result.getSecond() + " " + result.getThird() + "% </li>");
 			}
