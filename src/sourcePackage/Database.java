@@ -29,6 +29,50 @@ public class Database {
 	}
 	
 	/**
+	 * Sets user status
+	 * @param username - user
+	 * @param status - new status
+	 * @return true, if successful
+	 */
+	public boolean setUserStatus(String username, String status, Connection connection){
+		try{
+			String sql = "UPDATE " + MyDBInfo.MYSQL_DATABASE_NAME + ".users SET user_status = ? WHERE username = ?;";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, status);
+			statement.setString(2, username);
+			statement.execute();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * Fetches the user's status
+	 * @param username - user name
+	 * @return status (null in case of a failure)
+	 */
+	public String getUserStatus(String username, Connection connection){
+		try{
+			String sql = "SELECT user_status FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".users WHERE username = ?;";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, username);
+			ResultSet res = statement.executeQuery();
+			if(res.next()){
+				return res.getString("user_status");
+			}else return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * Adds a quiz in database
 	 * @param quiz - quiz that must be added in database
 	 * @return whether new quiz added to database or not.

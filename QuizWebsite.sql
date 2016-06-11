@@ -53,6 +53,7 @@ create table if not exists users(
     password_hash varchar(4096),			# something generated from the password(we're not exactly willing to reveal the underlying process here)
     total_score int(11) default 0,			# sum of all quizzes' scores
 	max_score decimal(5, 2) default 0,		# maximum score reached in some quiz, specified in percentage terms
+    user_status varchar(144) default "",	# user's status
     
     primary key(id)
 );
