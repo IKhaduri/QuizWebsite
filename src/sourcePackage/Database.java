@@ -410,6 +410,9 @@ public class Database {
 		}
 	}
 	
+	private double percentage(int totalScore, int score){
+		return (100.0 * (((double)score) / ((double)totalScore)));
+	}
 
 	public int getNumOfSubmissions(String username, Connection connection){
 		
@@ -453,6 +456,7 @@ public class Database {
 		}
 	}
 
+	
 	/**
 	 * Returns last scores for the given user and the given quiz
 	 * @param username - user
@@ -464,7 +468,7 @@ public class Database {
 		try {
 			int totalScore = getQuizBase(quizName, connection).getQuizScore();
 			String sql = "SELECT score, start_time, end_time FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log "
-					+ "WHERE quiz_id = ? AND user_id = ? ORDER BY start_time DESC LIMIT ?";
+					+ "WHERE quiz_id = ? AND user_id = ? ORDER BY start_time DESC LIMIT ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, getQuizId(quizName, connection));
 			ps.setInt(2, getUserId(username, connection));
@@ -472,7 +476,7 @@ public class Database {
 			ResultSet res = ps.executeQuery();
 			List<Touple<Double, Timestamp,Timestamp> > list = new ArrayList<Touple<Double, Timestamp,Timestamp> >();
 			while(res.next()){
-				double score = 100.0 * (((double)res.getInt("score")) / ((double)totalScore));
+				double score = percentage(totalScore, res.getInt("score"));
 				Timestamp startTime = res.getTimestamp("start_time");
 				Timestamp endTime = res.getTimestamp("end_time");
 				list.add(Factory.makeTouple(score, startTime, endTime));
@@ -487,4 +491,73 @@ public class Database {
 		return null;
 	}
 	
+	private static String getUserName(int id, Connection connection) throws SQLException{
+		String sql = "SELECT username FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".users WHERE id = ?;";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ResultSet res = ps.executeQuery();
+		if(res.next()){
+			return res.getString("username");
+		}else return null;
+	}
+	
+	private List<Touple<String, Double, Timestamp>> getSubmissionList(int totalScore, ResultSet res, Connection connection) throws SQLException{
+		List<Touple<String, Double, Timestamp>> list = new ArrayList<Touple<String, Double, Timestamp>>();
+		while(res.next()){
+			String name = getUserName(res.getInt("user_id"), connection);
+			double score = percentage(totalScore, res.getInt("score"));
+			Timestamp time = res.getTimestamp("start_time");
+			list.add(Factory.makeTouple(name, score, time));
+		}
+		return list;
+	}
+	
+	/**
+	 * Highest scoring submissions for the given quiz
+	 * @param quizName - quiz
+	 * @param startDate - date, before which the submissions become irrelevant
+	 * @param num - max number of returned submissions
+	 * @return Highest scoring submissions for the given quiz
+	 */
+	public List<Touple<String, Double, Timestamp>> getHighestPerformers(String quizName, Timestamp startDate, int num, Connection connection){
+		try{
+			int totalScore = getQuizBase(quizName, connection).getQuizScore();
+			String sql = "SELECT user_id, score, start_time FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log "
+					+ "WHERE quiz_id = ? and start_time > ? ORDER BY score DESC LIMIT ?;";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, getQuizId(quizName, connection));
+			ps.setTimestamp(2, startDate);
+			ps.setInt(3, num);
+			return getSubmissionList(totalScore, ps.executeQuery(), connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns list of the last submissions for the given quiz
+	 * @param quizName - name of the quiz
+	 * @param num - max number of returned submissions
+	 * @return last num submissions for the given quiz
+	 */
+	public List<Touple<String, Double, Timestamp>> getLastSubmissions(String quizName, int num, Connection connection){
+		try{
+			int totalScore = getQuizBase(quizName, connection).getQuizScore();
+			String sql = "SELECT user_id, score, start_time FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log "
+					+ "WHERE quiz_id = ? ORDER BY start_time DESC LIMIT ?;";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, getQuizId(quizName, connection));
+			ps.setInt(2, num);
+			return getSubmissionList(totalScore, ps.executeQuery(), connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
