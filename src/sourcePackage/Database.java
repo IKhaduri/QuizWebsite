@@ -69,7 +69,9 @@ public class Database {
 	
 	private void addQuizBase(Quiz quiz, Connection connection) throws SQLException{
 		int autorId = getUserId(quiz.getAuthor(), connection);
-		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes (quiz_name, creation_date, random_shuffle, question_cap, time_limit, author_id, quiz_score, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes "
+				+ "(quiz_name, creation_date, random_shuffle, question_cap, time_limit, author_id, quiz_score, description, is_single_page) "
+				+ "VALUES ( ?, 			   ?, 			   ?,			  ?,		  ?, 	 	?, 			?, 			 ?, 			 ?);";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, quiz.getName());
 		statement.setTimestamp(2, quiz.getCreationDate());
@@ -79,6 +81,7 @@ public class Database {
 		statement.setInt(6, autorId);
 		statement.setInt(7, quiz.getQuizScore());
 		statement.setString(8, quiz.getDescription());
+		statement.setBoolean(8, quiz.isSinglePage());
 		statement.execute();
 	}
 	
@@ -125,8 +128,9 @@ public class Database {
 				boolean shouldShaffle = res.getBoolean("random_shuffle");
 				int questionCap = res.getInt("question_cap");
 				int timeLimit = res.getInt("time_limit");
+				boolean isSinglePage = res.getBoolean("is_single_page");
 				List<Question> questions = getQuizQuestions(res.getInt("id"), connection);
-				return Factory.getQuiz(base, shouldShaffle, questionCap, timeLimit, questions);
+				return Factory.getQuiz(base, shouldShaffle, questionCap, timeLimit, isSinglePage, questions);
 			} else return null;
 		} catch (SQLException ex) {
 			return null;

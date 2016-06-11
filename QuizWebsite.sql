@@ -25,6 +25,7 @@ create table if not exists quizes(
     author_id int(11) default null,			# identifier of the author
     quiz_score int(11),						# total score, one can earn in this quiz
     description varchar(4096),				# description of the quiz
+    is_single_page boolean,					# true, if the quiz is of a single page type
     
     primary key(id)
 );
