@@ -70,7 +70,8 @@ create table if not exists massages(
 	sender_id int(11) not null,				# sender identifier
     receiver_id int(11) not null,			# receiver identifier
     massage_string varchar(16384),			# massage
-    delivery_date timestamp					# date of delivery
+    delivery_date timestamp,				# date of delivery
+    massage_seen bool						# true, if the massage is seen
 );
 
 
