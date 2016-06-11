@@ -65,6 +65,14 @@ create table if not exists event_log(
     end_time timestamp						# date, when the user finished the quiz
 );
 
+# massages table contains information about massages
+create table if not exists massages(
+	sender_id int(11) not null,				# sender identifier
+    receiver_id int(11) not null,			# receiver identifier
+    massage_string varchar(16384),			# massage
+    delivery_date timestamp,				# date of delivery
+    massage_seen bool						# true, if the massage is seen
+);
 
 
 select * from users;

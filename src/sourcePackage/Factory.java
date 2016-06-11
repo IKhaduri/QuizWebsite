@@ -94,6 +94,29 @@ public class Factory {
 		return new Quiz(header, new Quiz.Statistics(), quizScore, parameters, questions);
 	}
 	
+	private static int getTotalScore(List<Question> questions){
+		int total = 0;
+		for(Question question : questions)
+			total += question.getScore();
+		return total;
+	}
+	
+	/**
+	 * Convenience method for creating quizzes that display all the questions they contain during any session
+	 * @param name - name of the quiz
+	 * @param author - user name of the author
+	 * @param description - description of the quiz
+	 * @param shouldShuffle - true, if the questions should be shuffled
+	 * @param timeLimit - time limit of the given quiz (restriction; user of the class can feel free to ignore this parameter)
+	 * @param questions - the questions
+	 * @return Quiz object
+	 */
+	public static Quiz getNewQuiz(String name, String author, String description, boolean shouldShuffle, int timeLimit, List<Question> questions){
+		Quiz.Header header = new Quiz.Header(name, author, description);
+		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questions.size(), timeLimit);
+		return new Quiz(header, new Quiz.Statistics(), getTotalScore(questions), parameters, questions);
+	}
+	
 	/**
 	 * Constructs and returns a Quiz object (uses already constructed QuizBase)
 	 * @param base - header of the quiz
