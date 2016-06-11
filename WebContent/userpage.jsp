@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<%@page import="sourcePackage.Factory"%>
+<%@page import="sourcePackage.ContextInitializer"%>
+<%@page import="sourcePackage.Database"%>
+<%@page import="sourcePackage.User"%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -8,6 +12,11 @@
 </head>
 
     <body>
+    
+    <%
+    	Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
+    	User user = db.getUser(request.getParameter("username"), request.getParameter("password_hash"), Factory.getConnection());
+    %>
 
         <div class="main-container">  
 
@@ -17,7 +26,7 @@
                     <h2 class="titular">MENU</h2>
                     <ul class="menu-box-menu">
                         <li>
-                            <a class="menu-box-tab" href="#6"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages<div class="menu-box-number">24</div></a>                            
+                            <a class="menu-box-tab" href="#6"><span class="icon fontawesome-envelope scnd-font-color"></span>Total score<div class="menu-box-number"><%  %></div></a>                            
                         </li>
                         <li>
                             <a class="menu-box-tab" href="#8"><span class="icon entypo-paper-plane scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
