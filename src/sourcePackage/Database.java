@@ -420,7 +420,7 @@ public class Database {
 	public List<Touple<Double, Timestamp,Timestamp> > getScores(String username, String quizName, int num, Connection connection){
 		try {
 			int totalScore = getQuizBase(quizName, connection).getQuizScore();
-			String sql = "SELECT score, start_time FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log "
+			String sql = "SELECT score, start_time, end_time FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log "
 					+ "WHERE quiz_id = ? AND user_id = ? ORDER BY start_time DESC LIMIT ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, getQuizId(quizName, connection));
@@ -430,8 +430,9 @@ public class Database {
 			List<Touple<Double, Timestamp,Timestamp> > list = new ArrayList<Touple<Double, Timestamp,Timestamp> >();
 			while(res.next()){
 				double score = 100.0 * (((double)res.getInt("score")) / ((double)totalScore));
-				Timestamp time = res.getTimestamp("start_time");
-				list.add(Factory.makeTouple(score, time));
+				Timestamp startTime = res.getTimestamp("start_time");
+				Timestamp endTime = res.getTimestamp("end_time");
+				list.add(Factory.makeTouple(score, startTime, endTime));
 			}
 			return list;
 		} catch (SQLException e) {
