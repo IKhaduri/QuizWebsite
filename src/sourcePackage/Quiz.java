@@ -12,14 +12,11 @@ public class Quiz extends QuizBase implements Iterable<Question>{
 	 * and the time limit for the quiz.
 	 */
 	public static class Parameters{
-		/** Default question cap */
-		public static final int DEFAULT_QUESTION_CAP = 1024000;
-		/** Default quiz time */
-		public static final int DEFAULT_TIME_LIMIT = 1800;
 		
 		private boolean randomShuffle;
 		private int questionCap;
 		private int timeLimit;
+		private boolean isSinglePage;
 		
 		/**
 		 * Constructor
@@ -27,18 +24,11 @@ public class Quiz extends QuizBase implements Iterable<Question>{
 		 * @param maxQuestions - maximum amount of questions that can be asked during a single session
 		 * @param quizTime - the time limit for the quiz
 		 */
-		public Parameters(boolean shuffle, int maxQuestions, int quizTime){
+		public Parameters(boolean shuffle, int maxQuestions, int quizTime, boolean singlePage){
 			randomShuffle = shuffle;
 			questionCap = maxQuestions;
 			timeLimit = quizTime;
-		}
-		/**
-		 * Constructor
-		 * Note: Other parameters will be set to default values
-		 * @param shuffle - tells, whether it should shuffle the questions randomly or not
-		 */
-		public Parameters(boolean shuffle){
-			this(shuffle, DEFAULT_QUESTION_CAP, DEFAULT_TIME_LIMIT);
+			isSinglePage = singlePage;
 		}
 	}
 	private Parameters parameters;
@@ -77,6 +67,13 @@ public class Quiz extends QuizBase implements Iterable<Question>{
 	 */
 	public int getQuizTime(){
 		return parameters.timeLimit;
+	}
+	
+	/**
+	 * @return true, if the quiz is of a single page type
+	 */
+	public boolean isSinglePage(){
+		return parameters.isSinglePage;
 	}
 	
 	/**

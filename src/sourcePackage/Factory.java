@@ -61,17 +61,18 @@ public class Factory {
 	 * @param shouldShuffle - true, if the questions should be shuffled
 	 * @param questionCap -  maximal number of questions that will be asked during a single session (restriction; user of the class can feel free to ignore this parameter)
 	 * @param timeLimit - time limit of the given quiz (restriction; user of the class can feel free to ignore this parameter)
+	 * @param isSinglePage - true, if the quiz should be displayed on a single page
 	 * @param questions - the questions
 	 * @return Quiz object
 	 */
 	public static Quiz getQuiz(
 			String name, Timestamp date, String author, String description,
 			int totalScore, int numSubmissions, int quizScore,
-			boolean shouldShuffle, int questionCap, int timeLimit,
+			boolean shouldShuffle, int questionCap, int timeLimit, boolean isSinglePage,
 			List<Question> questions){
 		Quiz.Header header = new Quiz.Header(name, date, author, description);
 		Quiz.Statistics statistics = new Quiz.Statistics(totalScore, numSubmissions);
-		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questionCap, timeLimit);
+		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questionCap, timeLimit, isSinglePage);
 		return new Quiz(header, statistics, quizScore, parameters, questions);
 	}
 	
@@ -83,15 +84,16 @@ public class Factory {
 	 * @param shouldShuffle - true, if the questions should be shuffled
 	 * @param questionCap -  maximal number of questions that will be asked during a single session (restriction; user of the class can feel free to ignore this parameter)
 	 * @param timeLimit - time limit of the given quiz (restriction; user of the class can feel free to ignore this parameter)
+	 * @param isSinglePage - true, if the quiz should be displayed on a single page
 	 * @param questions - the questions
 	 * @return Quiz object
 	 */
 	public static Quiz getNewQuiz(
 			String name, String author, String description, int quizScore,
-			boolean shouldShuffle, int questionCap, int timeLimit,
+			boolean shouldShuffle, int questionCap, int timeLimit, boolean isSinglePage,
 			List<Question> questions){
 		Quiz.Header header = new Quiz.Header(name, author, description);
-		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questionCap, timeLimit);
+		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questionCap, timeLimit, isSinglePage);
 		return new Quiz(header, new Quiz.Statistics(), quizScore, parameters, questions);
 	}
 	
@@ -109,12 +111,13 @@ public class Factory {
 	 * @param description - description of the quiz
 	 * @param shouldShuffle - true, if the questions should be shuffled
 	 * @param timeLimit - time limit of the given quiz (restriction; user of the class can feel free to ignore this parameter)
+	 * @param isSinglePage - true, if the quiz should be displayed on a single page
 	 * @param questions - the questions
 	 * @return Quiz object
 	 */
-	public static Quiz getNewQuiz(String name, String author, String description, boolean shouldShuffle, int timeLimit, List<Question> questions){
+	public static Quiz getNewQuiz(String name, String author, String description, boolean shouldShuffle, int timeLimit, boolean isSinglePage, List<Question> questions){
 		Quiz.Header header = new Quiz.Header(name, author, description);
-		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questions.size(), timeLimit);
+		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questions.size(), timeLimit, isSinglePage);
 		return new Quiz(header, new Quiz.Statistics(), getTotalScore(questions), parameters, questions);
 	}
 	
@@ -124,13 +127,14 @@ public class Factory {
 	 * @param shouldShuffle - true, if the questions should be shuffled
 	 * @param questionCap - maximal number of questions that will be asked during a single session (restriction; user of the class can feel free to ignore this parameter)
 	 * @param timeLimit - time limit of the given quiz (restriction; user of the class can feel free to ignore this parameter)
+	 * @param isSinglePage - true, if the quiz should be displayed on a single page
 	 * @param questions - the questions
 	 * @return Quiz object
 	 */
-	public static Quiz getQuiz(QuizBase base, boolean shouldShuffle, int questionCap, int timeLimit, List<Question> questions){
+	public static Quiz getQuiz(QuizBase base, boolean shouldShuffle, int questionCap, int timeLimit, boolean isSinglePage, List<Question> questions){
 		Quiz.Header header = new Quiz.Header(base.getName(), base.getCreationDate(), base.getAuthor(), base.getDescription());
 		Quiz.Statistics statistics = new Quiz.Statistics(base.getTotalScore(), base.getSubmissionCount());
-		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questionCap, timeLimit);
+		Quiz.Parameters parameters = new Quiz.Parameters(shouldShuffle, questionCap, timeLimit, isSinglePage);
 		return new Quiz(header, statistics, base.getQuizScore(), parameters, questions);
 	}
 	

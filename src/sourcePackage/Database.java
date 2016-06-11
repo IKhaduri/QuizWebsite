@@ -29,6 +29,50 @@ public class Database {
 	}
 	
 	/**
+	 * Sets user status
+	 * @param username - user
+	 * @param status - new status
+	 * @return true, if successful
+	 */
+	public boolean setUserStatus(String username, String status, Connection connection){
+		try{
+			String sql = "UPDATE " + MyDBInfo.MYSQL_DATABASE_NAME + ".users SET user_status = ? WHERE username = ?;";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, status);
+			statement.setString(2, username);
+			statement.execute();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * Fetches the user's status
+	 * @param username - user name
+	 * @return status (null in case of a failure)
+	 */
+	public String getUserStatus(String username, Connection connection){
+		try{
+			String sql = "SELECT user_status FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".users WHERE username = ?;";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, username);
+			ResultSet res = statement.executeQuery();
+			if(res.next()){
+				return res.getString("user_status");
+			}else return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * Adds a quiz in database
 	 * @param quiz - quiz that must be added in database
 	 * @return whether new quiz added to database or not.
@@ -69,7 +113,9 @@ public class Database {
 	
 	private void addQuizBase(Quiz quiz, Connection connection) throws SQLException{
 		int autorId = getUserId(quiz.getAuthor(), connection);
-		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes (quiz_name, creation_date, random_shuffle, question_cap, time_limit, author_id, quiz_score, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes "
+				+ "(quiz_name, creation_date, random_shuffle, question_cap, time_limit, author_id, quiz_score, description, is_single_page) "
+				+ "VALUES ( ?, 			   ?, 			   ?,			  ?,		  ?, 	 	?, 			?, 			 ?, 			 ?);";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, quiz.getName());
 		statement.setTimestamp(2, quiz.getCreationDate());
@@ -79,6 +125,7 @@ public class Database {
 		statement.setInt(6, autorId);
 		statement.setInt(7, quiz.getQuizScore());
 		statement.setString(8, quiz.getDescription());
+		statement.setBoolean(8, quiz.isSinglePage());
 		statement.execute();
 	}
 	
@@ -125,8 +172,9 @@ public class Database {
 				boolean shouldShaffle = res.getBoolean("random_shuffle");
 				int questionCap = res.getInt("question_cap");
 				int timeLimit = res.getInt("time_limit");
+				boolean isSinglePage = res.getBoolean("is_single_page");
 				List<Question> questions = getQuizQuestions(res.getInt("id"), connection);
-				return Factory.getQuiz(base, shouldShaffle, questionCap, timeLimit, questions);
+				return Factory.getQuiz(base, shouldShaffle, questionCap, timeLimit, isSinglePage, questions);
 			} else return null;
 		} catch (SQLException ex) {
 			return null;
@@ -586,5 +634,40 @@ public class Database {
 		}
 	}
 	
+	private List<Message> getMessages(String sender, String receiver, ResultSet res, Connection connection) throws SQLException{
+		List<Message> list = new ArrayList<Message>();
+		while(res.next()){
+			String senderName = sender;
+			if(senderName == null) senderName = getUserName(res.getInt("sender_id"), connection);
+			String receiverName = receiver;
+			if(receiverName == null) receiverName = getUserName(res.getInt("receiver_id"), connection);
+			String messageString = res.getString("message_string");
+			Timestamp date = res.getTimestamp("delivery_date");
+			boolean seen = res.getBoolean("message_seen");
+			list.add(Factory.getMessage(receiverName, senderName, messageString, date, seen));
+		}
+		return list;
+	}
 	
+	/**
+	 * Fetches unread messages for the given user
+	 * @param username - receiver name
+	 * @param num - limit for the returned list size
+	 * @return List of unread messages
+	 */
+	public List<Message> getUnreadMessages(String username, int num, Connection connection){
+		try{
+			String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".messages"
+					+ " WHERE receiver_id = ? AND message_seen = false ORDER BY delivery_date DESC LIMIT ?;";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, getUserId(username, connection));
+			ps.setInt(2, num);
+			return(getMessages(null, username, ps.executeQuery(), connection));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
