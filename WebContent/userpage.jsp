@@ -20,8 +20,8 @@
     
     <%
     	Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
-    	User user = db.getUser(request.getParameter("username"), request.getParameter("password_hash"), Factory.getConnection());
-   		Connection connection = Factory.getConnection();
+    	Connection connection = Factory.getConnection();
+    	User user = db.getUser(request.getParameter("username"), request.getParameter("password_hash"), connection);
     %>
 
         <div class="main-container">  
@@ -44,7 +44,7 @@
                         </li>
                                                  
                         <div id="submissions"><%
-                        	Submission[] subs = new Submission[user.getNumOfSubmissions(db, connection)];
+                        	Submission[] subs = new Submission[ServletConstants.LISTS_LIMIT];
                         	user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT).toArray(subs);
                         	for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
                         		Submission currSub = subs[i];
@@ -64,9 +64,9 @@
                     <div class="profile-picture big-profile-picture clear">
                         <img width="150px" alt="picture" src="http://www.rmi.ge/~meskhi/meskhi.jpg" >
                     </div>
-                    <h1 class="user-name">Name</h1>
+                    <h1 class="user-name"><% out.print(user.getName()); %></h1>
                     <div class="profile-description">
-                        <p class="scnd-font-color">Status or Description</p>
+                        <p class="scnd-font-color"><% out.print(user.getStatus(db, connection)); %></p>
                     </div>
                 </div>
             </div>
@@ -82,13 +82,14 @@
                         </li>
                         
                         <div id="created_quizzes"><%
-                        	QuizBase[] quizzes = new QuizBase[user.getNumOfCreatedQuizzes(db, connection)];
+                        	QuizBase[] quizzes = new QuizBase[ServletConstants.LISTS_LIMIT];
                         	user.getCreatedQuizzes(db, connection, ServletConstants.LISTS_LIMIT).toArray(quizzes);
                         	for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
                         		QuizBase currQuiz = quizzes[i];
                         		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
                         			+ currQuiz.getName() +"\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
                         	}
+                        	Factory.closeConnection(connection);
                         %></div>                      
                     </ul>
                 </div>

@@ -45,7 +45,7 @@ public class User {
 	}
 	
 	public int getNumOfCreatedQuizzes(Database base, Connection connection) {
-		if (connection == null) return 0;
+		if (base == null) return 0;
 		
 		return base.getNumOfCreatedQuizzes(this.userName, connection);
 	}
@@ -54,6 +54,16 @@ public class User {
 		if (base == null || limit <= 0) return null;
 		
 		return base.getUserCreatedQuizzes(this.userName, limit, connection);
+	}
+	
+	public String getStatus(Database base, Connection connection) {
+		if (base == null) return null;
+		
+		return base.getUserStatus(this.userName, connection);
+	}
+	
+	public void setStatus(String newStatus, Connection connection, Database base) {
+		if (base != null) base.setUserStatus(this.userName, newStatus, connection);
 	}
 	
 }
