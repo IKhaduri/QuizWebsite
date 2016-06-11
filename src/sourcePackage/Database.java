@@ -121,17 +121,12 @@ public class Database {
 			statement.setString(1, name);
 			ResultSet res = statement.executeQuery();
 			if(res.next()){
-				Timestamp date = res.getTimestamp("creation_date");
-				String author = getAuthorName(res.getInt("author_id"), connection);
-				String description = res.getString("description");
-				int totalScore = res.getInt("total_score");
-				int numSubmissions = res.getInt("total_submittions");
-				int quizScore = res.getInt("quiz_score");
+				QuizBase base = getQuizBase(res, connection);
 				boolean shouldShaffle = res.getBoolean("random_shuffle");
 				int questionCap = res.getInt("question_cap");
 				int timeLimit = res.getInt("time_limit");
 				List<Question> questions = getQuizQuestions(res.getInt("id"), connection);
-				return Factory.getQuiz(name, date, author, description, totalScore, numSubmissions, quizScore, shouldShaffle, questionCap, timeLimit, questions);
+				return Factory.getQuiz(base, shouldShaffle, questionCap, timeLimit, questions);
 			} else return null;
 		} catch (SQLException ex) {
 			return null;
@@ -155,6 +150,26 @@ public class Database {
 			questions.add((Question)Serialization.fromString(res.getString("serialized_object")));
 		}
 		return questions;
+	}
+	
+	
+	/**
+	 * @param name - name of the quiz
+	 * @return Base of the quiz, that has the specified name 
+	 */
+	public QuizBase getQuizBase(String name, Connection connection){
+		try {
+			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes WHERE quiz_name = ?;";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, name);
+			ResultSet res = statement.executeQuery();
+			if(res.next())
+				return(getQuizBase(res, connection));
+			else return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	/**
