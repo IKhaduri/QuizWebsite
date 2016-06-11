@@ -44,7 +44,7 @@
                         </li>
                                                  
                         <div id="submissions"><%
-                        	Submission[] subs = new Submission[user.getNumOfSubmissions(db, connection)];
+                        	Submission[] subs = new Submission[ServletConstants.LISTS_LIMIT];
                         	user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT).toArray(subs);
                         	for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
                         		Submission currSub = subs[i];
@@ -82,7 +82,7 @@
                         </li>
                         
                         <div id="created_quizzes"><%
-                        	QuizBase[] quizzes = new QuizBase[user.getNumOfCreatedQuizzes(db, connection)];
+                        	QuizBase[] quizzes = new QuizBase[ServletConstants.LISTS_LIMIT];
                         	user.getCreatedQuizzes(db, connection, ServletConstants.LISTS_LIMIT).toArray(quizzes);
                         	for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
                         		QuizBase currQuiz = quizzes[i];
