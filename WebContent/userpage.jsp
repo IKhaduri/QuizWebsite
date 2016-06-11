@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="sourcePackage.ServletConstants"%>
 <%@page import="sourcePackage.Submission"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.Connection"%>
@@ -30,20 +31,33 @@
                     <h2 class="titular">MENU</h2>
                     <ul class="menu-box-menu">
                         <li>
-                            <p class="menu-box-tab"><span class="icon fontawesome-envelope scnd-font-color"></span>Total score
-                            <div class="menu-box-number"><% user.getTotalScore(db, connection); %></div></p>	                            
+                            <a class="menu-box-tab"><span class="icon fontawesome-envelope scnd-font-color"></span>Total score
+                            <div class="menu-box-number"><% user.getTotalScore(db, connection); %></div></a>	                            
                         </li>
                         <li>
                             <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Max score
-                            <div class="menu-box-number"><% user.getMaxScorePercentage(db, connection); %></div>                           
+                            <div class="menu-box-number"><% user.getMaxScorePercentage(db, connection); %></div></a>                     
                         </li>
-                        <li>
-                            <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Submissions</a>                         
-                        	<div id="submissions"><%
+                                                 
+                        <div id="submissions"><%
                         		Submission[] subs = new Submission[user.getNumOfSubmissions(db, connection)];
-                        		user.getSubmissions(db, connection, 5).toArray(subs);
-                        	%></div>
-                        </li>
+                        		user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT).toArray(subs);
+                        		for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
+                        			Submission currSub = subs[i];
+                        			out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currSub.getQuiz().getName());
+                        			out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
+                        		}
+                        %></div>
+                        
+                        <div id="created_quizzes"><%
+                        		Submission[] subs = new Submission[user.getNumOfSubmissions(db, connection)];
+                        		user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT).toArray(subs);
+                        		for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
+                        			Submission currSub = subs[i];
+                        			out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currSub.getQuiz().getName());
+                        			out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
+                        		}
+                        %></div>
                                               
                     </ul>
                 </div>
