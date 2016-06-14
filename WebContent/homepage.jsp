@@ -102,9 +102,9 @@
                     <div class="profile-picture big-profile-picture clear">
                         <img width="150px" alt="picture" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Jennifer_Lawrence_SDCC_2015_X-Men.jpg" >
                     </div>
-                    <h1 class="user-name">Jennifer Lawrence</h1>
+                    <h1 class="user-name"><%= user.getName() %></h1>
                     <div class="profile-description">
-                        <p class="scnd-font-color">Status or Description</p>
+                        <p class="scnd-font-color"><%= user.getStatus(db, connection) %></p>
                     </div>
                 <!--     <input type="text" name="update_description"> -->
                 </div>
