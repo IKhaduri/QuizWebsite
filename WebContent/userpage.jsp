@@ -24,7 +24,18 @@
     	User user = db.getUser(request.getParameter("username"), request.getParameter("password_hash"), connection);
     %>
 
-        <div class="main-container">  
+        <div class="main-container"> 
+        
+       		<!-- HEADER -->
+            <header class="block">
+                    
+                <div class="profile-menu">
+                    <p>Me <a href="homepage.jsp"><span class="entypo-to-end scnd-font-color"></span></a></p>
+                    <div class="profile-picture small-profile-picture">
+                        <img width="40px" alt="user picture" src="http://upload.wikimedia.org/wikipedia/commons/e/e1/Anne_Hathaway_Face.jpg">
+                    </div>
+                </div>
+            </header> 
 
             <!-- LEFT-CONTAINER -->
             <div class="left-container container">
