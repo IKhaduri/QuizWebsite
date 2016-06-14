@@ -106,8 +106,10 @@
                     <div class="profile-description">
                         <p class="scnd-font-color"><%= user.getStatus(db, connection) %></p>
                     </div>
-                	<input type="text" name="update_description_field">
-                    <input class="button" type="button" name="update_description_update" value="UPDATE">
+                    <form action="UserStatusServlet" method="get">
+	                	<input type="text" name="update_description_field">
+	                    <input class="button" type="submit" name="update_description_update" value="UPDATE">
+                    </form>
                 </div>
             </div>
 

@@ -25,10 +25,12 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		User user = db.getUser(request.getParameter("username"), request.getParameter("password"), Factory.getConnection());
-		if (user == null)
+		if (user == null) {
 			request.getRequestDispatcher("login.html").forward(request, response);
-		else
+		} else {
+			request.getSession().setAttribute(SessionListener.USER_IN_SESSION, user);
 			request.getRequestDispatcher("homepage.jsp").forward(request, response);
+		}
 			
 	}
 
