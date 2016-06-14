@@ -30,21 +30,15 @@
             <header class="block">
                 <ul class="header-menu horizontal-list">
                     <li>
-                        <a class="header-menu-tab" href="#1"><span class="icon entypo-cog scnd-font-color"></span>Settings</a>
-                    </li>
-                    <li>
-                        <a class="header-menu-tab" href="#2"><span class="icon fontawesome-user scnd-font-color"></span>Account</a>
+                        <a class="header-menu-tab" href="Settings.jsp"><span class="icon entypo-cog scnd-font-color"></span>Settings</a>
                     </li>
                     <li>
                         <a class="header-menu-tab" href="#3"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages</a>
-                        <a class="header-menu-number" href="#4"><%= user.getNumOfUnreadMessages(connection, db) %></a>
-                    </li>
-                    <li>
-                        <a class="header-menu-tab" href="#5"><span class="icon fontawesome-star-empty scnd-font-color"></span>Favorites</a>
+                        <a class="header-menu-number" href="Inbox.jsp"><%= user.getNumOfUnreadMessages(connection, db) %></a>
                     </li>
                 </ul>
                 <div class="profile-menu">
-                    <p>Me <a href="#26"><span class="entypo-down-open scnd-font-color"></span></a></p>
+                    <p>Me <a href="homepage.jsp"><span class="entypo-to-end scnd-font-color"></span></a></p>
                     <div class="profile-picture small-profile-picture">
                         <img width="40px" alt="user picture" src="http://upload.wikimedia.org/wikipedia/commons/e/e1/Anne_Hathaway_Face.jpg">
                     </div>
@@ -59,11 +53,11 @@
                     <ul class="menu-box-menu">
                         <li>
                         <a class="menu-box-tab"><span class="icon fontawesome-envelope scnd-font-color"></span>Total score
-                        <div class="menu-box-number"><% user.getTotalScore(db, connection); %></div></a>	                            
+                        <div class="menu-box-number"><%= user.getTotalScore(db, connection) %></div></a>	                            
                     </li>
                     <li>
                         <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Max score
-                        <div class="menu-box-number"><% user.getMaxScorePercentage(db, connection); %></div></a>                     
+                        <div class="menu-box-number"><%= user.getMaxScorePercentage(db, connection) %></div></a>                     
                     </li>
                     <li>
                         <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Submissions</a>                     

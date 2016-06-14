@@ -44,11 +44,11 @@
                     <ul class="menu-box-menu">
                         <li>
                             <a class="menu-box-tab"><span class="icon fontawesome-envelope scnd-font-color"></span>Total score
-                            <div class="menu-box-number"><% user.getTotalScore(db, connection); %></div></a>	                            
+                            <div class="menu-box-number"><%= user.getTotalScore(db, connection) %></div></a>	                            
                         </li>
                         <li>
                             <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Max score
-                            <div class="menu-box-number"><% user.getMaxScorePercentage(db, connection); %></div></a>                     
+                            <div class="menu-box-number"><%= user.getMaxScorePercentage(db, connection) %></div></a>                     
                         </li>
                         <li>
                             <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Submissions</a>                     
@@ -75,9 +75,9 @@
                     <div class="profile-picture big-profile-picture clear">
                         <img width="150px" alt="picture" src="http://www.rmi.ge/~meskhi/meskhi.jpg" >
                     </div>
-                    <h1 class="user-name"><% out.print(user.getName()); %></h1>
+                    <h1 class="user-name"><%= out.print(user.getName()) %></h1>
                     <div class="profile-description">
-                        <p class="scnd-font-color"><% out.print(user.getStatus(db, connection)); %></p>
+                        <p class="scnd-font-color"><%= out.print(user.getStatus(db, connection)) %></p>
                     </div>
                 </div>
             </div>
