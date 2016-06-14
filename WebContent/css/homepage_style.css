@@ -378,6 +378,13 @@ h1, h2, p, a, span{
 					margin: 0 auto;
 					text-align: center;
 				}
+				.status_button {
+					padding:1px;
+					background-color: #dcdcdc;
+					border: 1px solid #666;
+					color:#000;
+					text-decoration:none;
+				}
 					
 			
 		/********************************************* RIGHT CONTAINER ****************************************/

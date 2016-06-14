@@ -20,6 +20,9 @@ public class Factory {
 	
 	// Potentially temporary method for closing a connection.
 	public static boolean closeConnection(Connection connection){
+		
+		if (connection == null) return false;
+		
 		try {
 			connection.close();
 		} catch (SQLException e) {

@@ -24,7 +24,18 @@
     	User user = db.getUser(request.getParameter("username"), request.getParameter("password_hash"), connection);
     %>
 
-        <div class="main-container">  
+        <div class="main-container"> 
+        
+       		<!-- HEADER -->
+            <header class="block">
+                    
+                <div class="profile-menu">
+                    <p>Me <a href="homepage.jsp"><span class="entypo-to-end scnd-font-color"></span></a></p>
+                    <div class="profile-picture small-profile-picture">
+                        <img width="40px" alt="user picture" src="http://upload.wikimedia.org/wikipedia/commons/e/e1/Anne_Hathaway_Face.jpg">
+                    </div>
+                </div>
+            </header> 
 
             <!-- LEFT-CONTAINER -->
             <div class="left-container container">
@@ -33,11 +44,11 @@
                     <ul class="menu-box-menu">
                         <li>
                             <a class="menu-box-tab"><span class="icon fontawesome-envelope scnd-font-color"></span>Total score
-                            <div class="menu-box-number"><% user.getTotalScore(db, connection); %></div></a>	                            
+                            <div class="menu-box-number"><%= user.getTotalScore(db, connection) %></div></a>	                            
                         </li>
                         <li>
                             <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Max score
-                            <div class="menu-box-number"><% user.getMaxScorePercentage(db, connection); %></div></a>                     
+                            <div class="menu-box-number"><%= user.getMaxScorePercentage(db, connection) %></div></a>                     
                         </li>
                         <li>
                             <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Submissions</a>                     
@@ -64,9 +75,9 @@
                     <div class="profile-picture big-profile-picture clear">
                         <img width="150px" alt="picture" src="http://www.rmi.ge/~meskhi/meskhi.jpg" >
                     </div>
-                    <h1 class="user-name"><% out.print(user.getName()); %></h1>
+                    <h1 class="user-name"><%= out.print(user.getName()) %></h1>
                     <div class="profile-description">
-                        <p class="scnd-font-color"><% out.print(user.getStatus(db, connection)); %></p>
+                        <p class="scnd-font-color"><%= out.print(user.getStatus(db, connection)) %></p>
                     </div>
                 </div>
             </div>

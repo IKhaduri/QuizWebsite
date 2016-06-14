@@ -8,6 +8,7 @@ import java.util.List;
 public class Database {
 	public static final int NO_ID = -1;
 	public static final int NO_CONNECTION = -2;
+	public static final int FAIL_EXPECTED_INT = -3;
 	
 	/**
 	 * Adds a user in database
@@ -35,6 +36,9 @@ public class Database {
 	 * @return true, if successful
 	 */
 	public boolean setUserStatus(String username, String status, Connection connection){
+		
+		if (connection == null || status == null || username == null) return false;
+		
 		try{
 			String sql = "UPDATE " + MyDBInfo.MYSQL_DATABASE_NAME + ".users SET user_status = ? WHERE username = ?;";
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -56,6 +60,9 @@ public class Database {
 	 * @return status (null in case of a failure)
 	 */
 	public String getUserStatus(String username, Connection connection){
+		
+		if (connection == null || username == null) return null;
+		
 		try{
 			String sql = "SELECT user_status FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".users WHERE username = ?;";
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -669,5 +676,26 @@ public class Database {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	/**
+	 * @param username - receiver name
+	 * @param connection - Connection object
+	 * @return number of unread messages for the specified user
+	 */
+	public int getNumOfUnreadMessages(String username, Connection connection) {
+		try {
+			String query = "SELECT count(*) FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".messages"
+					+ " WHERE receiver_id = ? AND message_seen = false;";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, getUserId(username, connection));
+			ResultSet set = ps.executeQuery();
+			
+			if (set == null) return FAIL_EXPECTED_INT;
+			set.next();
+			return set.getInt(1);
+		} catch (SQLException ex) {
+			return FAIL_EXPECTED_INT;
+		}
 	}
 }

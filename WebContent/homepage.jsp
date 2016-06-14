@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="sourcePackage.SessionListener"%>
 <%@page import="sourcePackage.QuizBase"%>
 <%@page import="sourcePackage.ServletConstants"%>
 <%@page import="sourcePackage.Submission"%>
@@ -20,7 +21,7 @@
     	<%
 	    	Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 	    	Connection connection = Factory.getConnection();
-	    	User user = db.getUser(request.getParameter("username"), request.getParameter("password_hash"), connection);
+	    	User user = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
     	%>
 
         <div class="main-container"> 
@@ -29,21 +30,15 @@
             <header class="block">
                 <ul class="header-menu horizontal-list">
                     <li>
-                        <a class="header-menu-tab" href="#1"><span class="icon entypo-cog scnd-font-color"></span>Settings</a>
-                    </li>
-                    <li>
-                        <a class="header-menu-tab" href="#2"><span class="icon fontawesome-user scnd-font-color"></span>Account</a>
+                        <a class="header-menu-tab" href="Settings.jsp"><span class="icon entypo-cog scnd-font-color"></span>Settings</a>
                     </li>
                     <li>
                         <a class="header-menu-tab" href="#3"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages</a>
-                        <a class="header-menu-number" href="#4">5</a>
-                    </li>
-                    <li>
-                        <a class="header-menu-tab" href="#5"><span class="icon fontawesome-star-empty scnd-font-color"></span>Favorites</a>
+                        <a class="header-menu-number" href="Inbox.jsp"><%= user.getNumOfUnreadMessages(connection, db) %></a>
                     </li>
                 </ul>
                 <div class="profile-menu">
-                    <p>Me <a href="#26"><span class="entypo-down-open scnd-font-color"></span></a></p>
+                    <p>Me <a href="homepage.jsp"><span class="entypo-to-end scnd-font-color"></span></a></p>
                     <div class="profile-picture small-profile-picture">
                         <img width="40px" alt="user picture" src="http://upload.wikimedia.org/wikipedia/commons/e/e1/Anne_Hathaway_Face.jpg">
                     </div>
@@ -58,11 +53,11 @@
                     <ul class="menu-box-menu">
                         <li>
                         <a class="menu-box-tab"><span class="icon fontawesome-envelope scnd-font-color"></span>Total score
-                        <div class="menu-box-number"><% user.getTotalScore(db, connection); %></div></a>	                            
+                        <div class="menu-box-number"><%= user.getTotalScore(db, connection) %></div></a>	                            
                     </li>
                     <li>
                         <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Max score
-                        <div class="menu-box-number"><% user.getMaxScorePercentage(db, connection); %></div></a>                     
+                        <div class="menu-box-number"><%= user.getMaxScorePercentage(db, connection) %></div></a>                     
                     </li>
                     <li>
                         <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Submissions</a>                     
@@ -102,11 +97,14 @@
                     <div class="profile-picture big-profile-picture clear">
                         <img width="150px" alt="picture" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Jennifer_Lawrence_SDCC_2015_X-Men.jpg" >
                     </div>
-                    <h1 class="user-name">Jennifer Lawrence</h1>
+                    <h1 class="user-name"><%= user.getName() %></h1>
                     <div class="profile-description">
-                        <p class="scnd-font-color">Status or Description</p>
+                        <p class="scnd-font-color"><%= user.getStatus(db, connection) %></p>
                     </div>
-                <!--     <input type="text" name="update_description"> -->
+                    <form action="UserStatusServlet" method="get">
+	                	<input type="text" name="update_description_field">
+	                    <input class="button" type="submit" name="update_description_update" value="UPDATE">
+                    </form>
                 </div>
             </div>
 
