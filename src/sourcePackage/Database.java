@@ -5,6 +5,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.xml.internal.bind.v2.TODO;
+
 public class Database {
 	public static final int NO_ID = -1;
 	public static final int NO_CONNECTION = -2;
@@ -712,4 +714,12 @@ public class Database {
 			return FAIL_EXPECTED_INT;
 		}
 	}
+	
+	// TODO
+	public boolean updateUserPassword(String username, String newPasswordHash, Connection connection) {
+		
+		return false;
+	}
 }
+
+

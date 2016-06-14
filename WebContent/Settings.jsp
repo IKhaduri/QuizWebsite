@@ -8,7 +8,7 @@
 		<title>Settings</title>
 	</head>
 	<body>
-		<form>
+		<form action="SettingsServlet" method="post">
 		  <h1>Change Password</h1>
 		  <div class="inset">
 		  <p>
@@ -25,7 +25,7 @@
 		  </p>
 		  </div>
 		  <p class="p-container">
-		    <input type="submit" name="go" id="go" value="UPDATE">
+		    <input type="submit" name="go" id="go" value="UPDATE"> <!-- maybe js validation here -->
 		  </p>
 		</form>
 	</body>
