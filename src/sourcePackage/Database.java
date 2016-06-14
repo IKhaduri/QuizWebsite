@@ -35,6 +35,9 @@ public class Database {
 	 * @return true, if successful
 	 */
 	public boolean setUserStatus(String username, String status, Connection connection){
+		
+		if (connection == null || status == null || username == null) return false;
+		
 		try{
 			String sql = "UPDATE " + MyDBInfo.MYSQL_DATABASE_NAME + ".users SET user_status = ? WHERE username = ?;";
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -56,6 +59,9 @@ public class Database {
 	 * @return status (null in case of a failure)
 	 */
 	public String getUserStatus(String username, Connection connection){
+		
+		if (connection == null || username == null) return null;
+		
 		try{
 			String sql = "SELECT user_status FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".users WHERE username = ?;";
 			PreparedStatement statement = connection.prepareStatement(sql);

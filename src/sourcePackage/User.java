@@ -63,7 +63,7 @@ public class User {
 	}
 	
 	public void setStatus(String newStatus, Connection connection, Database base) {
-		if (base != null) base.setUserStatus(this.userName, newStatus, connection);
+		if (base != null && newStatus != null) base.setUserStatus(this.userName, newStatus, connection);
 	}
 	
 }
