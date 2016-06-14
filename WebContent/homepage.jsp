@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="sourcePackage.SessionListener"%>
 <%@page import="sourcePackage.QuizBase"%>
 <%@page import="sourcePackage.ServletConstants"%>
 <%@page import="sourcePackage.Submission"%>
@@ -20,7 +21,7 @@
     	<%
 	    	Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 	    	Connection connection = Factory.getConnection();
-	    	User user = db.getUser(request.getParameter("username"), request.getParameter("password_hash"), connection);
+	    	User user = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
     	%>
 
         <div class="main-container"> 
