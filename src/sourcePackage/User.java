@@ -66,6 +66,12 @@ public class User {
 		if (base != null && newStatus != null) base.setUserStatus(this.userName, newStatus, connection);
 	}
 	
+	public int getNumOfUnreadMessages(Connection connection, Database base) {
+		if (base == null) return Database.FAIL_EXPECTED_INT;
+		
+		return base.getNumOfUnreadMessages(this.userName, connection);
+	}
+	
 }
 
 

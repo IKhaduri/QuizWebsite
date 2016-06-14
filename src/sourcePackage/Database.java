@@ -8,6 +8,7 @@ import java.util.List;
 public class Database {
 	public static final int NO_ID = -1;
 	public static final int NO_CONNECTION = -2;
+	public static final int FAIL_EXPECTED_INT = -3;
 	
 	/**
 	 * Adds a user in database
@@ -675,5 +676,26 @@ public class Database {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	/**
+	 * @param username - receiver name
+	 * @param connection - Connection object
+	 * @return number of unread messages for the specified user
+	 */
+	public int getNumOfUnreadMessages(String username, Connection connection) {
+		try {
+			String query = "SELECT count(*) FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".messages"
+					+ " WHERE receiver_id = ? AND message_seen = false;";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, getUserId(username, connection));
+			ResultSet set = ps.executeQuery();
+			
+			if (set == null) return FAIL_EXPECTED_INT;
+			set.next();
+			return set.getInt(1);
+		} catch (SQLException ex) {
+			return FAIL_EXPECTED_INT;
+		}
 	}
 }
