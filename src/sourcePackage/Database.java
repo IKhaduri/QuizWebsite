@@ -468,11 +468,18 @@ public class Database {
 	private double percentage(int totalScore, int score){
 		return (100.0 * (((double)score) / ((double)totalScore)));
 	}
-
+	/**
+	 * returns number of submission have been 
+	 * made with given username 
+	 * @param username - name of the user
+	 * @param connection - database connection
+	 * @return number of submissions user made
+	 * 
+	 * */
 	public int getNumOfSubmissions(String username, Connection connection){
 		
-		if (connection == null) return NO_CONNECTION;
-		
+		if (connection == null) 
+			return NO_CONNECTION;
 		try {
 			int userId = getUserId(username, connection);
 			String sql = "SELECT count(*) from " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log"
@@ -481,15 +488,24 @@ public class Database {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, userId);
 			ResultSet res = statement.executeQuery();
-			if(res == null) return 0;
-
+			if(res == null) 
+				return 0;
 			res.next();
 			return res.getInt(1);
 		} catch (Exception ex) {
 			return 0;
 		}
 	}
-	
+	/**
+	 * returns number of quizzes created by 
+	 * the user. Database will throw an 
+	 * SQLexception if the user is not found
+	 * but this method will simply return 0,
+	 * despite it being an incorrect query
+	 * @param username - name of the user/Author
+	 * @param connection - database connection
+	 * @return number of quizzes user created
+	 * */
 	public int getNumOfCreatedQuizzes(String username, Connection connection){
 		
 		if (connection == null) return NO_CONNECTION;
@@ -498,12 +514,10 @@ public class Database {
 			int userId = getUserId(username, connection);
 			String sql = "SELECT count(*) from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes"
 					+ "where author_id = ?;";
-					
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, userId);
 			ResultSet res = statement.executeQuery();
 			if(res == null) return 0;
-			
 			res.next();
 			return res.getInt(1);
 		} catch (SQLException e) {
