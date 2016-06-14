@@ -3,6 +3,7 @@ package sourcePackage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,13 +37,11 @@ public class NextQuestion extends HttpServlet {
 		
 		int curQuestionNum = Integer.parseInt(request.getParameter(ServletConstants.QUIZ_QUESTION_NUMBER));
 		//TODO add a score, correct one
-		int curScore = 0;
+		int curScore = (Integer)request.getAttribute(ServletConstants.CURRENT_SCORE);
 		ArrayList<Question> questions = (ArrayList<Question>) request.getAttribute(ServletConstants.QUIZ_QUESTION_LIST);
 		Question curQuestion = questions.get(curQuestionNum);
-		curQuestionNum++;
-		request.setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER, curQuestionNum);
 		switch(curQuestion.getQuestionType()){
-			case FILL_BLANK: case TEXT_RESPONSE:{
+			case FILL_BLANK: case TEXT_RESPONSE: case PICTURE_RESPONSE:{
 				String userResponse = request.getParameter("answer");
 				if (curQuestion.getAnswers().contains(userResponse)){
 					curScore++;
@@ -51,14 +50,18 @@ public class NextQuestion extends HttpServlet {
 				break;	
 			}
 			case MULTIPLE_CHOICE:{
-				
+				String correctAnswer = request.getParameter(ServletConstants.HIDDEN_CORRECT_ANSWER);
+				String userAnswer = request.getParameter("answer");
+				if (correctAnswer.equals(userAnswer))
+					curScore++;
+				break;
 			}
-			case PICTURE_RESPONSE:{
-				
-			}
-		
 		}
-		doGet(request, response);
+		curQuestionNum++;
+		request.setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER, curQuestionNum);
+		request.setAttribute(ServletConstants.CURRENT_SCORE, curScore);
+		RequestDispatcher dispatch = request.getRequestDispatcher("quizPage.jsp");
+		dispatch.forward(request, response);
 	}
 
 }
