@@ -76,6 +76,18 @@ public class User {
 		return base.getNumOfUnreadMessages(this.userName, connection);
 	}
 	
+	public boolean sharesQuizzes(Connection connection, Database base) {
+		if (base == null) return false;
+		
+		return base.userSharesQuizzes(this.userName, connection);
+	}
+	
+	public boolean changeQuizSharing(Connection connection, Database base, boolean newValue) {
+		if (base == null) return false;
+		
+		return base.changeQuizSharing(this.userName, this.passwordHash, newValue, connection);
+	}
+	
 }
 
 
