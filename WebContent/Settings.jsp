@@ -8,6 +8,18 @@
 		<title>Settings</title>
 	</head>
 	<body>
+		<div class="privacy">
+			<form>
+			   	<h1>Privacy</h1>
+			    <div>
+			        <input id="radio1" type="radio" name="radio" value="global" checked="checked"><label for="global"><span><span></span></span>Global</label>
+			    </div>
+			    <div>
+			    	<input id="radio2" type="radio" name="radio" value="locked"><label for="locked"><span><span></span></span>Only Friends</label>
+			    </div>
+		    </form>
+	    </div>
+	    
 		<form action="SettingsServlet" method="post">
 		  <h1>Change Password</h1>
 		  <div class="inset">
