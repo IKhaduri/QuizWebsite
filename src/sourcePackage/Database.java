@@ -762,10 +762,32 @@ public class Database {
 		}
 	}
 	
-	// TODO
+	/**
+	 * @param username - user who we are going to update password for.
+	 * @param newPasswordHash - new password hash
+	 * @param connection - Connection object
+	 * @return true if password changes successfully, false - otherwise
+	 */
 	public boolean updateUserPassword(String username, String newPasswordHash, Connection connection) {
 		
-		return false;
+		if (username == null || newPasswordHash == null || connection == null)
+			return false;
+		
+		try {
+			int userId = getUserId(username, connection);
+			String query = "update " + MyDBInfo.MYSQL_DATABASE_NAME + ".users set password_hash = ?"
+					+ " where id = ?;";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setString(1, newPasswordHash);
+			ps.setInt(2, userId);
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs == null) return false;
+		} catch (SQLException ex) {
+			return false;
+		}
+		
+		return true;
 	}
 }
 

@@ -60,7 +60,7 @@ public class NextQuestion extends HttpServlet {
 		curQuestionNum++;
 		request.setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER, curQuestionNum);
 		request.setAttribute(ServletConstants.CURRENT_SCORE, curScore);
-		RequestDispatcher dispatch = request.getRequestDispatcher("quizPage.jsp");
+		RequestDispatcher dispatch = request.getRequestDispatcher("QuizPage.jsp");
 		dispatch.forward(request, response);
 	}
 
