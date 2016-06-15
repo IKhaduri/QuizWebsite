@@ -54,6 +54,7 @@ create table if not exists users(
     total_score int(11) default 0,			# sum of all quizzes' scores
 	max_score decimal(5, 2) default 0,		# maximum score reached in some quiz, specified in percentage terms
     user_status varchar(144) default "",	# user's status
+    shares_quizzes bool default true,		# true, if the quizzes created by this user are flobally visible; false, if friends and only friends can see them.
     
     primary key(id)
 );
@@ -76,6 +77,13 @@ create table if not exists messages(
     message_seen bool						# true, if the message is seen
 );
 
+# friends table contains information about contacts
+create table if not exists friends(
+	first_id int(11) not null,				# first user
+    second_id int(11) not null,				# second user
+    
+    unique key (first_id, second_id)
+);
 
 select * from users;
 

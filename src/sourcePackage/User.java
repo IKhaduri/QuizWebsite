@@ -20,6 +20,10 @@ public class User {
 		return(passwordHash);
 	}
 	
+	public void setPasswordHash(String newPasswordHash, Database base, Connection connection) {
+		base.updateUserPassword(this.userName, newPasswordHash, connection);
+	}
+	
 	public double getMaxScorePercentage(Database base, Connection connection) {
 		if (base == null) return 0.0;
 		
