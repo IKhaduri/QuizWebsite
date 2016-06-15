@@ -1,6 +1,7 @@
 package sourcePackage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -9,6 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.jasper.tagplugins.jstl.core.Out;
 
 /**
  * Servlet implementation class NextQuestion
@@ -57,7 +60,37 @@ public class NextQuestion extends HttpServlet {
 				break;
 			}
 		}
+
 		curQuestionNum++;
+		
+		if (questions.size() == curQuestionNum){
+			PrintWriter out = null;
+			try{
+				out = response.getWriter();
+				out.println("<!DOCTYPE html>");
+				out.println("<html>");
+				out.println("<head>");
+				out.println("</head>");
+				
+				out.println("<body>");
+				
+				out.println("<h1>Congratulations! You Have Successfully Finished The Quiz!</h1>");
+				
+				out.println("<h2>Your Score Is :"+ curScore+ "</h2>");
+				out.println("<h3>Maximum Score On this Quiz Was:"+questions.size()+"</h3>");
+				if (questions.size()*5/6<=curScore)
+					out.println("<h1>So, YOU DID AN AWESOME JOB! KEEP THAT UP!</h1>");
+				out.println("</body>");
+				String userName =((User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION)).getName();
+				out.println("<a href = userpage.jsp?"+userName+" value = Back To Home>");
+				out.println("</html>");
+			}finally{
+				out.close();
+			}
+			
+			
+			
+		}
 		request.setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER, curQuestionNum);
 		request.setAttribute(ServletConstants.CURRENT_SCORE, curScore);
 		RequestDispatcher dispatch = request.getRequestDispatcher("QuizPage.jsp");
