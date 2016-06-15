@@ -82,6 +82,53 @@ public class Database {
 	}
 	
 	/**
+	 * Tells, if the user's quizzes are shared to everyone
+	 * @param username - user name
+	 * @return - true, if the quizzes are shared (failure yields false as well)
+	 */
+	public boolean userSharesQuizzes(String username, Connection connection){
+		if (connection == null || username == null) return false;
+		try{
+			String sql = "SELECT shares_quizzes FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".users WHERE username = ?;";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, username);
+			ResultSet res = statement.executeQuery();
+			if(res.next())
+				return(res.getBoolean("shares_quizzes"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * Changes shares_quizzes value in DB for the given user
+	 * @param username - user name
+	 * @param passwordHash - hash for the password
+	 * @param newValue - new value for shares_quizzes
+	 * @return true, if successful
+	 */
+	public boolean changeQuizSharing(String username, String passwordHash, boolean newValue, Connection connection){
+		if (connection == null || username == null || passwordHash == null) return false;
+		if (getUser(username, passwordHash, connection) == null) return false;
+		try{
+			String sql = "UPDATE " + MyDBInfo.MYSQL_DATABASE_NAME + ".users SET shares_quizzes = ? WHERE username = ?;";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setBoolean(1, newValue);
+			statement.setString(2, username);
+			statement.execute();
+		} catch (SQLException e) {
+			return false;
+		} catch (NullPointerException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * Adds a quiz in database
 	 * @param quiz - quiz that must be added in database
 	 * @return whether new quiz added to database or not.
