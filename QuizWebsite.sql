@@ -76,6 +76,13 @@ create table if not exists messages(
     message_seen bool						# true, if the message is seen
 );
 
+# friends table contains information about contacts
+create table if not exists friends(
+	first_id int(11) not null,				# first user
+    second_id int(11) not null,				# second user
+    
+    unique key (first_id, second_id)
+);
 
 select * from users;
 
