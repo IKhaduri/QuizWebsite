@@ -39,12 +39,24 @@ public class SettingsServlet extends HttpServlet {
 		Connection connection = Factory.getConnection();
 		String newPasswordHash = request.getParameter("new_password");
 		String repeated = request.getParameter("repeat_password");
+		String privacyOprtion = request.getParameter("radio");
 		
-		if (newPasswordHash.equals(repeated)) {
-			currentUser.setPasswordHash(newPasswordHash, base, connection);
+		if (privacyOprtion.equals("global")) {
+			currentUser.changeQuizSharing(connection, base, true);
+		} else {
+			currentUser.changeQuizSharing(connection, base, false);
+		}
+		
+		if (newPasswordHash.length() <= 0) {
 			request.getRequestDispatcher("homepage.jsp").forward(request, response);
 		} else {
-			request.getRequestDispatcher("Settings.jsp").forward(request, response);
+			
+			if (newPasswordHash.equals(repeated)) {
+				currentUser.setPasswordHash(newPasswordHash, base, connection);
+				request.getRequestDispatcher("homepage.jsp").forward(request, response);
+			} else {
+				request.getRequestDispatcher("Settings.jsp").forward(request, response);
+			}
 		}
 		
 		Factory.closeConnection(connection);
