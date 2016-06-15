@@ -1,6 +1,8 @@
 package sourcePackage;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,8 +38,9 @@ public class StartQuiz extends HttpServlet {
 		Database base =(Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		Quiz quiz = base.getQuiz(quizName, Factory.getConnection());
 		request.setAttribute(ServletConstants.QUIZ_QUESTION_LIST, quiz.getQuestions());
-		
-		
+		request.setAttribute(ServletConstants.QUIZ_QUESTION_INDEX, 0);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("QuizPage.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }
