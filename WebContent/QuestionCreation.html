@@ -1,34 +1,31 @@
 <!Doctype html>
 <html>
-<body>
-<h1>Create question here!</h1>
-<textarea  rows = "20" cols="50">
-Replace this text with your question.
-</textarea>
-<br><input id = "box1" name="box" type="radio">Picture-response<br>
-<input id ="box2"  name ="box "type = "radio">Multiple-choice<br>
-<input id ="box3"  name ="box "type = "radio">Text-response/Fill-a-blank<br>
-
-<div id = "pic" style = "display:none">
-Please enter URL of the picture here
-<input type = "text">
-</div>
-<script>
-document.getElementById("box1").addEventListener("click",toggle);
-document.getElementById("box2").addEventListener("click",toggle);
-document.getElementById("box3").addEventListener("click",toggle);
-function toggle() {
-       var e = document.getElementById("pic");
-       if(e.style.display == 'block')
-          e.style.display = 'none';
-       else
-          e.style.display = 'block';
-    }
-
-</script>
-<button type ="button" >Submit and create another question</button><br>
-<button type ="button" >Submit and finish creating the quiz</button>
-
-
-</body>
+	<body>
+	<h1>Create question here!</h1>
+	<textarea  rows = "20" cols="50">
+	Replace this text with your question.
+	</textarea><br>
+	<input id = "box1"  name = "box" type = "radio">Picture-response<br>
+	<input id = "box2"  name = "box" type = "radio">Multiple-choice<br>
+	<input id = "box3"  name = "box" type = "radio">Text-response/Fill-a-blank<br>
+	<div id = "pic" style = "display:none">
+		Please enter URL of the picture here
+		<input type = "text">
+	</div>
+	<script>
+		document.getElementById("box1").addEventListener("click",toggle);
+		document.getElementById("box2").addEventListener("click",toggle);
+		document.getElementById("box3").addEventListener("click",toggle);
+		function toggle() {
+			   var e = document.getElementById("pic");
+			   var a = document.getElementById("box1");
+			   if (a.checked)
+					e.style.display = "block"
+				else
+					e.style.display = "none"
+			}
+	</script>
+	<button type ="button" >Submit and create another question</button><br>
+	<button type ="button" >Submit and finish creating the quiz</button>
+	</body>
 </html>
