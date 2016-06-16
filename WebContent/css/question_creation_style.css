@@ -60,6 +60,19 @@ input[type=submit] {
   font-size:13px;
 }
 
+.buttons {
+    background-color: #808000; 
+    border: none;
+    color: white;
+    padding: 6px 22px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+	margin-top:15px;
+	margin-left:5px;
+	margin-bottom:3px;
+}
+
 /*********** RADIO BUTTONS ******************/
 
 [type='radio'] {

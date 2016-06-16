@@ -33,7 +33,7 @@
             <input type = "text">
         </div>
         <div id = "answers">
-            <button id ="newField" type ='button'>Add another input field</button><br>
+            <button id ="newField" type ='button' class="buttons">Add another input field</button><br>
             <input type ="text" value="For multiple choice this must be correct" style= "width:500px"><br>
         </div>
 	</form>
@@ -56,7 +56,7 @@
 		//appends new input text field and button
 		//user might want to have lots of answers
 		function appendInput(){
-			var txt = "<input type = 'text/'><button type = 'button' name = 'removeButton'>Remove This Answer</button><br>";
+			var txt = "<input type = 'text/'><button type = 'button' name = 'removeButton' class='buttons'>Remove This Answer</button><br>";
 			$("#answers").append(txt);
 		}
 		//removes the new buttons and text fields
