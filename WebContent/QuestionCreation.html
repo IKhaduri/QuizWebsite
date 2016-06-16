@@ -9,9 +9,6 @@
     <form action="QuestionCreationServlet" method="post" id="main_form">
         <textarea class="area" name="question_area" rows = "10" cols="72">Replace this text with your question.
         </textarea><br>
-        <!--<input id = "box1"  name = "box" type = "radio" class="radio">Picture-response<br>
-        <input id = "box2"  name = "box" type = "radio" class="radio">Multiple-choice<br>
-        <input id = "box3"  name = "box" type = "radio" class="radio">Text-response/Fill-a-blank<br>-->
         <div>
         <input type="radio" name="radio" id="box2" class="radio" checked/>
         <label for="box2">Multiple-choice</label>
@@ -30,11 +27,11 @@
 
         <div id = "pic" style = "display:none">
             Please enter URL of the picture here
-            <input type = "text">
+            <input type = "text" style= "width:450px">
         </div>
         <div id = "answers">
             <button id ="newField" type ='button' class="buttons">Add another input field</button><br>
-            <input type ="text" value="For multiple choice this must be correct" style= "width:500px"><br>
+            <input type ="text" value="For multiple choice this must be correct" style= "width:450px"><br>
         </div>
 	</form>
     
@@ -56,7 +53,7 @@
 		//appends new input text field and button
 		//user might want to have lots of answers
 		function appendInput(){
-			var txt = "<input type = 'text/'><button type = 'button' name = 'removeButton' class='buttons'>Remove This Answer</button><br>";
+			var txt = "<input type = 'text' style= 'width:450px'><button type = 'button' name = 'removeButton' class='buttons'>Remove</button><br>";
 			$("#answers").append(txt);
 		}
 		//removes the new buttons and text fields
