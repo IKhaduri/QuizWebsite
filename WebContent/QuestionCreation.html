@@ -7,7 +7,7 @@
 	<body>
 	<h1>Create question here!</h1>
     <form action="QuestionCreationServlet" method="post" id="main_form">
-        <textarea  rows = "20" cols="50">Replace this text with your question.
+        <textarea class="area" name="question_area" rows = "10" cols="72">Replace this text with your question.
         </textarea><br>
         <input id = "box1"  name = "box" type = "radio">Picture-response<br>
         <input id = "box2"  name = "box" type = "radio">Multiple-choice<br>
@@ -58,7 +58,9 @@
 				});
 			});
 	</script>
-	<input type ="submit"  value="Submit and create another question" form="main_form"><br>
-    <input type ="submit"  value="Submit and finish creating the quiz" form="main_form"><br>
-	</body>
+    <div class="buttonHolder">
+        <input type ="submit"  value="Submit and create another question" form="main_form" style="background:#556B2F;"><br><br>
+        <input type ="submit"  value="Submit and finish creating the quiz" form="main_form" style="background:#FF0000;"><br>
+	</div>
+    </body>
 </html>
