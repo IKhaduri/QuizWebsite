@@ -31,9 +31,9 @@ public class UserStatusServlet extends HttpServlet {
 		User currentUser = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
 		if (currentUser == null || db == null) return;
 		
-		Connection connection = Factory.getConnection();
+		Connection connection = Factory_Database.getConnection();
 		currentUser.setStatus(request.getParameter("update_description_field"), connection, db);
-		Factory.closeConnection(connection);
+		Factory_Database.closeConnection(connection);
 		request.getRequestDispatcher("homepage.jsp").forward(request, response);
 	}
 

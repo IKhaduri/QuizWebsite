@@ -230,7 +230,7 @@ public class Database {
 				int timeLimit = res.getInt("time_limit");
 				boolean isSinglePage = res.getBoolean("is_single_page");
 				List<Question> questions = getQuizQuestions(res.getInt("id"), connection);
-				return Factory.getQuiz(base, shouldShaffle, questionCap, timeLimit, isSinglePage, questions);
+				return Factory_Quiz.getQuiz(base, shouldShaffle, questionCap, timeLimit, isSinglePage, questions);
 			} else return null;
 		} catch (SQLException ex) {
 			return null;
@@ -297,7 +297,7 @@ public class Database {
 			String password_from_db = rs.getString(1);
 			if (!password_hash.equals(password_from_db)) 
 				return null;
-			return Factory.getUser(name, password_from_db);
+			return Factory_User.getUser(name, password_from_db);
 		} catch (Exception ex) {
 			return null;
 		}
@@ -373,7 +373,7 @@ public class Database {
 		int totalScore = res.getInt("total_score");
 		int numSubmissions = res.getInt("total_submittions");
 		int quizScore = res.getInt("quiz_score");
-		return (Factory.getQuizBase(name, date, author, description, totalScore, numSubmissions, quizScore));
+		return (Factory_Quiz.getQuizBase(name, date, author, description, totalScore, numSubmissions, quizScore));
 	}
 	
 	private List<QuizBase> getQuizBaseList(ResultSet res, Connection connection) throws SQLException{
@@ -434,7 +434,7 @@ public class Database {
 				Timestamp start = res.getTimestamp("start_time");
 				Timestamp end = res.getTimestamp("end_time");
 				int score = res.getInt("score");
-				submissions.add(Factory.getSubmission(quiz, start, end, score, username));
+				submissions.add(Factory_User.getSubmission(quiz, start, end, score, username));
 			}
 			return(submissions);
 		} catch (SQLException e) {
@@ -597,7 +597,7 @@ public class Database {
 				double score = percentage(totalScore, res.getInt("score"));
 				Timestamp startTime = res.getTimestamp("start_time");
 				Timestamp endTime = res.getTimestamp("end_time");
-				list.add(Factory.makeTouple(score, startTime, endTime));
+				list.add(Factory_Quiz.makeTouple(score, startTime, endTime));
 			}
 			return list;
 		} catch (SQLException e) {
@@ -624,7 +624,7 @@ public class Database {
 			String name = getUserName(res.getInt("user_id"), connection);
 			double score = percentage(totalScore, res.getInt("score"));
 			Timestamp time = res.getTimestamp("start_time");
-			list.add(Factory.makeTouple(name, score, time));
+			list.add(Factory_Quiz.makeTouple(name, score, time));
 		}
 		return list;
 	}
@@ -714,7 +714,7 @@ public class Database {
 			String messageString = res.getString("message_string");
 			Timestamp date = res.getTimestamp("delivery_date");
 			boolean seen = res.getBoolean("message_seen");
-			list.add(Factory.getMessage(receiverName, senderName, messageString, date, seen));
+			list.add(Factory_User.getMessage(receiverName, senderName, messageString, date, seen));
 		}
 		return list;
 	}
