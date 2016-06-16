@@ -49,6 +49,15 @@ public class Quiz extends QuizBase implements Iterable<Question>{
 	}
 	
 	/**
+	 * @return list of questions of this quiz
+	 * 
+	 * */
+	public List<Question> getQuestions(){
+		return questions;
+	}
+	
+	
+	/**
 	 * @return true, if the questions are supposed to be asked out of order
 	 */
 	public boolean shouldShuffle(){
