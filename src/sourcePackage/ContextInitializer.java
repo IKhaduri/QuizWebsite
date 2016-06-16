@@ -11,7 +11,7 @@ public class ContextInitializer implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		arg0.getServletContext().setAttribute(DATABASE_ATTRIBUTE_NAME, Factory.getDBObject());
+		arg0.getServletContext().setAttribute(DATABASE_ATTRIBUTE_NAME, Factory_Database.getDBObject());
 	}
 	
 	

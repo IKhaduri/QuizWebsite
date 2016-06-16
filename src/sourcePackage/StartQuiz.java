@@ -36,7 +36,7 @@ public class StartQuiz extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String quizName = (String)request.getAttribute(ServletConstants.QUIZ_PARAMETER_NAME);
 		Database base =(Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
-		Quiz quiz = base.getQuiz(quizName, Factory.getConnection());
+		Quiz quiz = base.getQuiz(quizName, Factory_Database.getConnection());
 		request.setAttribute(ServletConstants.QUIZ_QUESTION_LIST, quiz.getQuestions());
 		request.setAttribute(ServletConstants.QUIZ_QUESTION_INDEX, 0);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("QuizPage.jsp");

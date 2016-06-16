@@ -25,10 +25,10 @@ public class CreateAccountServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (!request.getParameter("new_password").equals(request.getParameter("repeat_password")))	// passwords don't match
 			return;
-		User user = Factory.getUser(request.getParameter("new_username"), request.getParameter("new_password"));
+		User user = Factory_User.getUser(request.getParameter("new_username"), request.getParameter("new_password"));
 		Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		
-		if (db.addUser(user, Factory.getConnection()))
+		if (db.addUser(user, Factory_Database.getConnection()))
 			request.getRequestDispatcher("homepage.jsp").forward(request, response);
 		else
 			request.getRequestDispatcher("not_registered.html").forward(request, response); 	// just to see it directs

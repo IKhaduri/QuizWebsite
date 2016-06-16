@@ -36,7 +36,7 @@ public class SettingsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Database base = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		User currentUser = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
-		Connection connection = Factory.getConnection();
+		Connection connection = Factory_Database.getConnection();
 		String newPasswordHash = request.getParameter("new_password");
 		String repeated = request.getParameter("repeat_password");
 		String privacyOprtion = request.getParameter("radio");
@@ -59,7 +59,7 @@ public class SettingsServlet extends HttpServlet {
 			}
 		}
 		
-		Factory.closeConnection(connection);
+		Factory_Database.closeConnection(connection);
 	}
 
 }

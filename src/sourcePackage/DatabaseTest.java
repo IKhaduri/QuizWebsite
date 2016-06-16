@@ -13,26 +13,26 @@ public class DatabaseTest {
 	
 	@Before
 	public void setUp() {
-		base = Factory.getDBObject();
+		base = Factory_Database.getDBObject();
 	}
 	
 	@Test
 	public void testAddUser() {
-		User user = Factory.getUser("Some dude", "PASSWORD_HASH_THING");
-		Connection connection = Factory.getConnection();
+		User user = Factory_User.getUser("Some dude", "PASSWORD_HASH_THING");
+		Connection connection = Factory_Database.getConnection();
 		assertTrue(connection != null);
 		assertTrue(base.addUser(user, connection));
 		assertFalse(base.addUser(user, connection));
-		Factory.closeConnection(connection);
+		Factory_Database.closeConnection(connection);
 	}
 	
 	@Test
 	public void popularQuizzesTest() {
-		Connection connection = Factory.getConnection();
+		Connection connection = Factory_Database.getConnection();
 		assertEquals(base.getPopularQuizzes(0, connection), null);
 		assertEquals(base.getPopularQuizzes(5, null), null);
 		assertTrue(base.getPopularQuizzes(3, connection) != null);
-		Factory.closeConnection(connection);
+		Factory_Database.closeConnection(connection);
 	}
 	
 	
