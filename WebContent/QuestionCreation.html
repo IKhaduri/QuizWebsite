@@ -1,9 +1,11 @@
 <!Doctype html>
 <html>
+	<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	</head>
 	<body>
 	<h1>Create question here!</h1>
-	<textarea  rows = "20" cols="50">
-	Replace this text with your question.
+	<textarea  rows = "20" cols="50">Replace this text with your question.
 	</textarea><br>
 	<input id = "box1"  name = "box" type = "radio">Picture-response<br>
 	<input id = "box2"  name = "box" type = "radio">Multiple-choice<br>
@@ -12,18 +14,45 @@
 		Please enter URL of the picture here
 		<input type = "text">
 	</div>
+	<div id = "answers">
+		<button id ="newField" type ='button'>Add another input field</button><br>
+		<input type ="text" value="For multiple choice this must be correct" style= "width:500px"><br>
+	</div>
 	<script>
 		document.getElementById("box1").addEventListener("click",toggle);
 		document.getElementById("box2").addEventListener("click",toggle);
 		document.getElementById("box3").addEventListener("click",toggle);
+		document.getElementById("newField").addEventListener("click",appendInput);
+		//toggles state of URL writability
+		//only image questions need URL text field
 		function toggle() {
 			   var e = document.getElementById("pic");
 			   var a = document.getElementById("box1");
 			   if (a.checked)
-					e.style.display = "block"
+					e.style.display = "block";
 				else
-					e.style.display = "none"
+					e.style.display = "none";
 			}
+		//appends new input text field and button
+		//user might want to have lots of answers
+		function appendInput(){
+			var txt = "<input type = 'text/'><button type = 'button' name = 'removeButton'>Remove This Answer</button><br>";
+			$("#answers").append(txt);
+		}
+		//removes the new buttons and text fields
+		//for input. doesn't leave newlines
+		$(document).ready(function(){
+			$(document).on("click","button",function(e){
+				var x = e.target.getAttribute("name");
+				var t = $(e.target).prev();
+				var z = $(e.target).next();
+				if (x == "removeButton"){
+					$(t).remove();
+					$(e.target).remove();
+					$(z).remove();
+					}
+				});
+			});
 	</script>
 	<button type ="button" >Submit and create another question</button><br>
 	<button type ="button" >Submit and finish creating the quiz</button>
