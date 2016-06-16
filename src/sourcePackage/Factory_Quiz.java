@@ -8,50 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 
-public class Factory {
-	
-	public static Database getDBObject() {
-		return new Database();
-	}
-	
-	public static User getUser(String username, String passwordHash) {
-		return new User(username, passwordHash);
-	}
-	
-	// Potentially temporary method for closing a connection.
-	public static boolean closeConnection(Connection connection){
+public class Factory_Quiz {
 		
-		if (connection == null) return false;
-		
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			return false;
-		}
-		return true;
-	}
-	/**
-	 * returns a mySQL connection connecting to 
-	 * database with credentials in MyDBInfo.java
-	 * @return mySql connection
-	 * 
-	 * */
-	public static Connection getConnection(){
-		Connection connection = null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(MyDBInfo.MYSQL_DATABASE_SERVER, MyDBInfo.MYSQL_USERNAME,
-					MyDBInfo.MYSQL_PASSWORD);
-			connection.setCatalog(MyDBInfo.MYSQL_DATABASE_NAME);
-		} catch (SQLException e) {
-			System.out.println("Connection Failed! Check output console");
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			System.out.println("JDBC driver not found");
-			e.printStackTrace();
-		}
-		return connection;
-	}
 	
 	/**
 	 * Builds and returns a Quiz object
@@ -170,38 +128,10 @@ public class Factory {
 	public static QuizBase getNewQuizBase(String name, String author, String description, int quizScore){
 		return new QuizBase(new QuizBase.Header(name, author, description), new QuizBase.Statistics(), quizScore);
 	}
-	
-	
-	
-	public static Submission getSubmission(QuizBase quiz, Timestamp timeStart, Timestamp timeEnd, int score, String userName){
-		return new Submission(quiz, timeStart, timeEnd, score,userName);
-	}
+
 	
 	public static<First, Second, Third> Touple<First, Second, Third> makeTouple(First first, Second second,Third third){
 		return new Touple<First, Second,Third>(first, second,third);
 	}
 	
-	/**
-	 * Constructs a message
-	 * @param to - receiver
-	 * @param from - sender
-	 * @param message - message text
-	 * @param date - delivery date
-	 * @param seen - true, if the message is seen
-	 * @return Message object
-	 */
-	public static Message getMessage(String to, String from, String message, Timestamp date, boolean seen){
-		return new Message(from, to, message, date, seen);
-	}
-	
-	/**
-	 * Creates new message object, that was sent "now" and is not seen yet
-	 * @param to - receiver
-	 * @param from - sender
-	 * @param message - message text
-	 * @return Message object
-	 */
-	public static Message getNewMassege(String to, String from, String message){
-		return new Message(from, to, message, new Timestamp(new Date().getTime()), false);
-	}
 }
