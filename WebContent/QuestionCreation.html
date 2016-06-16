@@ -9,9 +9,25 @@
     <form action="QuestionCreationServlet" method="post" id="main_form">
         <textarea class="area" name="question_area" rows = "10" cols="72">Replace this text with your question.
         </textarea><br>
-        <input id = "box1"  name = "box" type = "radio">Picture-response<br>
-        <input id = "box2"  name = "box" type = "radio">Multiple-choice<br>
-        <input id = "box3"  name = "box" type = "radio">Text-response/Fill-a-blank<br>
+        <!--<input id = "box1"  name = "box" type = "radio" class="radio">Picture-response<br>
+        <input id = "box2"  name = "box" type = "radio" class="radio">Multiple-choice<br>
+        <input id = "box3"  name = "box" type = "radio" class="radio">Text-response/Fill-a-blank<br>-->
+        <div>
+        <input type="radio" name="radio" id="box2" class="radio" checked/>
+        <label for="box2">Multiple-choice</label>
+        </div>
+        
+        <div>
+        <input type="radio" name="radio" id="box3" class="radio"/>
+        <label for="box3">Text-response</label>
+        </div>
+        
+        <div>	
+        <input type="radio" name="radio" id="box1" class="radio"/>
+        <label for="box1">Picture-response/Fill-a-blank</label>
+        </div>
+        <br>
+
         <div id = "pic" style = "display:none">
             Please enter URL of the picture here
             <input type = "text">
