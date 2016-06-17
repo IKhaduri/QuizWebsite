@@ -2,23 +2,41 @@
 <html>
 	<head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/question_creation_style.css">
 	</head>
 	<body>
 	<h1>Create question here!</h1>
-	<textarea  rows = "20" cols="50">Replace this text with your question.
-	</textarea><br>
-	<input id = "box1"  name = "box" type = "radio">Picture-response<br>
-	<input id = "box2"  name = "box" type = "radio">Multiple-choice<br>
-	<input id = "box3"  name = "box" type = "radio" checked>Text-response/Fill-a-blank<br>
-	<div id = "pic" style = "display:none">
-		Please enter URL of the picture here
-		<input type = "text">
-	</div>
-	<div id = "answers">
-		<button id ="newField" type ='button'>Add another input field</button><br>
-		<input type ="text" value="For multiple choice this must be correct" style= "width:500px"><br>
-	</div>
-	<script>
+    <form action="QuestionCreationServlet" method="post" id="main_form">
+        <textarea class="area" name="question_area" rows = "10" cols="72" placeholder="Replace this text with your question."></textarea><br>
+        <div class="options">
+            <div>
+            <input type="radio" name="radio" id="box2" class="radio" checked/>
+            <label for="box2">Multiple-choice</label>
+            </div>
+            
+            <div>
+            <input type="radio" name="radio" id="box3" class="radio"/>
+            <label for="box3">Text-response / Fill-a-blank</label>
+            </div>
+            
+            <div>	
+            <input type="radio" name="radio" id="box1" class="radio"/>
+            <label for="box1">Picture-response </label>
+            </div>
+            <br>
+    
+            <div id = "pic" style = "display:none">
+                Please enter URL of the picture here
+                <input type = "text" style= "width:450px">
+            </div>
+            <div id = "answers">
+                <button id ="newField" type ='button' class="buttons" style="margin-top:30px;">Add another input field</button><br>
+                <input type ="text" style= "width:450px" placeholder="For multiple choice this must be correct"><br>
+            </div>
+    	</div>
+	</form>
+    
+	<script>	
 		document.getElementById("box1").addEventListener("click",toggle);
 		document.getElementById("box2").addEventListener("click",toggle);
 		document.getElementById("box3").addEventListener("click",toggle);
@@ -36,7 +54,7 @@
 		//appends new input text field and button
 		//user might want to have lots of answers
 		function appendInput(){
-			var txt = "<input type = 'text/'><button type = 'button' name = 'removeButton'>Remove This Answer</button><br>";
+			var txt = "<input type = 'text' style= 'width:450px'><button type = 'button' name = 'removeButton' class='buttons'>Remove</button><br>";
 			$("#answers").append(txt);
 		}
 		//removes the new buttons and text fields
@@ -54,7 +72,9 @@
 				});
 			});
 	</script>
-	<button type ="button" >Submit and create another question</button><br>
-	<button type ="button" >Submit and finish creating the quiz</button>
-	</body>
+    <div class="buttonHolder">
+        <input type ="submit"  value="Submit and create another question" form="main_form" style="background:#556B2F;"><br><br>
+        <input type ="submit"  value="Submit and finish creating the quiz" form="main_form" style="background:#FF0000;"><br>
+	</div>
+    </body>
 </html>
