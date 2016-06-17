@@ -2,7 +2,7 @@ body {
 	font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
   color:white;
   font-size:12px;
-  background:#FFA500;
+  background-image:url(../images/question_creation_background.png);
 }
 
 h1 {
@@ -32,6 +32,10 @@ div {
 .area {
 	color: black;
 	background-color: transparent;
+	margin:0px;
+	width:100%;
+	font-family: Candara,Calibri,Segoe,Segoe UI,Optima,Arial,sans-serif;
+	font-size:16px;
 }
 
 input[type=text] {
@@ -47,7 +51,7 @@ input[type=text] {
 .buttonHolder{ text-align: center; }
 
 input[type=submit] {
- 	padding:5px 20px;
+ 	padding:10px 20px;
   border:1px solid rgba(0,0,0,0.4);
   text-shadow:0 -1px 0 rgba(0,0,0,0.4);
   box-shadow:
@@ -73,6 +77,11 @@ input[type=submit] {
 	margin-bottom:3px;
 }
 
+.options {
+	background-color:white;
+	margin:0px;
+}
+
 /*********** RADIO BUTTONS ******************/
 
 [type='radio'] {
@@ -80,7 +89,9 @@ input[type=submit] {
 }
 
 label {
-  width: 200px;
+  color:gray;
+  font-style:oblique;
+  width: 250px;
   border-radius: 3px;
   border: 1px solid #D1D3D4;
 }
@@ -136,6 +147,7 @@ input.radio:checked ~ label:before {
 
 input.radio:checked ~ label {
 	color: #777;
+  	font-weight:bold;
 }
 
 /* radio focus */

@@ -9,30 +9,32 @@
     <form action="QuestionCreationServlet" method="post" id="main_form">
         <textarea class="area" name="question_area" rows = "10" cols="72">Replace this text with your question.
         </textarea><br>
-        <div>
-        <input type="radio" name="radio" id="box2" class="radio" checked/>
-        <label for="box2">Multiple-choice</label>
-        </div>
-        
-        <div>
-        <input type="radio" name="radio" id="box3" class="radio"/>
-        <label for="box3">Text-response</label>
-        </div>
-        
-        <div>	
-        <input type="radio" name="radio" id="box1" class="radio"/>
-        <label for="box1">Picture-response/Fill-a-blank</label>
-        </div>
-        <br>
-
-        <div id = "pic" style = "display:none">
-            Please enter URL of the picture here
-            <input type = "text" style= "width:450px">
-        </div>
-        <div id = "answers">
-            <button id ="newField" type ='button' class="buttons">Add another input field</button><br>
-            <input type ="text" value="For multiple choice this must be correct" style= "width:450px"><br>
-        </div>
+        <div class="options">
+            <div>
+            <input type="radio" name="radio" id="box2" class="radio" checked/>
+            <label for="box2">Multiple-choice</label>
+            </div>
+            
+            <div>
+            <input type="radio" name="radio" id="box3" class="radio"/>
+            <label for="box3">Text-response</label>
+            </div>
+            
+            <div>	
+            <input type="radio" name="radio" id="box1" class="radio"/>
+            <label for="box1">Picture-response/Fill-a-blank</label>
+            </div>
+            <br>
+    
+            <div id = "pic" style = "display:none">
+                Please enter URL of the picture here
+                <input type = "text" style= "width:450px">
+            </div>
+            <div id = "answers">
+                <button id ="newField" type ='button' class="buttons" style="margin-top:30px;">Add another input field</button><br>
+                <input type ="text" value="For multiple choice this must be correct" style= "width:450px"><br>
+            </div>
+    	</div>
 	</form>
     
 	<script>
