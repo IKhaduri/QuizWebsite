@@ -1,7 +1,13 @@
 body {
-	font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-  color:black;
+  font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  color:white;
   font-size:12px;
+  background-image:url(../images/books_stack.jpg);
+  
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 h1 {
@@ -36,11 +42,11 @@ input[type=text] {
 }
 
 input[type=submit] {
-	width: 250px;
+	width: 200px;
 	padding: 5px;
 	margin-top:10px;
 	font-weight: bold;
-	font-size: 150%;
+	font-size: 130%;
 	background: #3366CC;
 	color: #FFFFFF;
 	cursor: pointer;
@@ -82,7 +88,7 @@ input[type=checkbox] {
 	visibility: hidden;
 }
 
-.slideThree {
+.slider {
 	width: 80px;
 	height: 26px;
 	background: #333;
@@ -98,7 +104,7 @@ input[type=checkbox] {
 	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
 }
 
-.slideThree:after {
+.slider:after {
 	content: 'OFF';
 	font: 12px/26px Arial, sans-serif;
 	color: #000;
@@ -109,7 +115,7 @@ input[type=checkbox] {
 	text-shadow: 1px 1px 0px rgba(255,255,255,.15);
 }
 
-.slideThree:before {
+.slider:before {
 	content: 'ON';
 	font: 12px/26px Arial, sans-serif;
 	color: #00bf00;
@@ -119,7 +125,7 @@ input[type=checkbox] {
 	font-weight: bold;
 }
 
-.slideThree label {
+.slider label {
 	display: block;
 	width: 34px;
 	height: 20px;
@@ -152,6 +158,6 @@ input[type=checkbox] {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
 }
 
-.slideThree input[type=checkbox]:checked + label {
+.slider input[type=checkbox]:checked + label {
 	left: 43px;
 }

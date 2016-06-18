@@ -3,6 +3,11 @@ body {
   color:white;
   font-size:12px;
   background-image:url(../images/question_creation_background.png);
+  
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 h1 {
