@@ -1,3 +1,4 @@
+<%@page import="sourcePackage.Factory_Database"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -5,7 +6,6 @@
 <%@page import="sourcePackage.QuizBase"%>
 <%@page import="sourcePackage.ServletConstants"%>
 <%@page import="sourcePackage.Submission"%>
-<%@page import="sourcePackage.Factory"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="sourcePackage.User"%>
 <%@page import="sourcePackage.ContextInitializer"%>
@@ -22,7 +22,7 @@
     
     	<%
 	    	Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
-	    	Connection connection = Factory.getConnection();
+	    	Connection connection = Factory_Database.getConnection();
 	    	User user = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
     	%>
 
@@ -140,7 +140,7 @@
                        		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
                        			+ currQuiz.getName() +"\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
                        	}
-                       	Factory.closeConnection(connection);
+                       	Factory_Database.closeConnection(connection);
                     %></div>                        
                     
                     </ul>
