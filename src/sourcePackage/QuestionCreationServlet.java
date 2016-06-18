@@ -1,6 +1,7 @@
 package sourcePackage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -81,9 +82,26 @@ public class QuestionCreationServlet extends HttpServlet {
 			
 			Quiz newQuiz = Factory_Quiz.getNewQuiz(name, author, description, shuffle, timeLimit, isSinglePage, questions);
 			
-			db.addQuiz(newQuiz, Factory_Database.getConnection());
+			boolean success = false;
+			for (int i = 0; i < ServletConstants.NUM_OF_ATTEMPTS_ON_DB; i++) {
+				if (db.addQuiz(newQuiz, Factory_Database.getConnection())) {
+					success = true;
+					break;
+				}
+			}
 			
-			request.getRequestDispatcher("homepage.jsp").forward(request, response);
+			if (success) {
+				request.getRequestDispatcher("homepage.jsp").forward(request, response);
+			} else {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				
+				try {
+					out.println(QuestionDrawer.toHTML("As The Donsky would say - Database is dead..."));
+				} finally {
+					out.close();
+				}
+			}
 		}
 	}
 
