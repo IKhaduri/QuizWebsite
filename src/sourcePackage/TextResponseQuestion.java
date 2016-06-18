@@ -16,8 +16,8 @@ public class TextResponseQuestion extends QuestionAbstract implements Serializab
 	 * and answer list that contains every 
 	 * correct answer which will be accepted
 	 * */
-	public TextResponseQuestion(String text, String picture_link, ArrayList<String> answers) {
-		super(text, picture_link, answers);
+	public TextResponseQuestion(String text, ArrayList<String> answers) {
+		super(text, answers);
 
 	}
 

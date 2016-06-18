@@ -8,7 +8,7 @@ public class PictureResponseQuestion extends QuestionAbstract implements Seriali
 	 * 
 	 */
 	private static final long serialVersionUID = -728405850700635572L;
-
+	private String picture_link;
 	/**
 	 * standard public constructor. Takes
 	 * text as question text, picture link
@@ -17,7 +17,8 @@ public class PictureResponseQuestion extends QuestionAbstract implements Seriali
 	 * correct answer which will be accepted
 	 * */
 	public PictureResponseQuestion(String text, String picture_link, ArrayList<String> answers) {
-		super(text, picture_link, answers);
+		super(text, answers);
+		this.picture_link = picture_link;
 	}
 
 	@Override
@@ -28,5 +29,11 @@ public class PictureResponseQuestion extends QuestionAbstract implements Seriali
 	@Override
 	public int getScore() {
 		return 1;
+	}
+	/**
+	 * @return Image source or null if not exists 
+	 */
+	public String getImage() {
+		return picture_link;
 	}
 }

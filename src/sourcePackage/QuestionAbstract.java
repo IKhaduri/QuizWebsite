@@ -11,13 +11,11 @@ public abstract class QuestionAbstract implements Serializable {
 	 */
 	private static final long serialVersionUID = -7610801638460142197L;
 	protected String question_text;
-	protected String picture_link;	// for picture-response type questions
 	protected ArrayList<String> correct_answers;	
 	
 	
-	public QuestionAbstract(String text, String picture_link, ArrayList<String> answers) {
+	public QuestionAbstract(String text,  ArrayList<String> answers) {
 		question_text = text;
-		this.picture_link = picture_link;
 		correct_answers = answers;
 	}
 	
@@ -36,12 +34,6 @@ public abstract class QuestionAbstract implements Serializable {
 		return question_text;
 	}
 	
-	/**
-	 * @return Image source or null if not exists 
-	 */
-	public String getImage() {
-		return picture_link;
-	}
 	/**
 	 * This method must be implemented in 
 	 * any child class. It must return
