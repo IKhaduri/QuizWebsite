@@ -10,11 +10,19 @@
     <input type="text" name="quiz_name" placeholder="Quiz Name"><br>
     <input type="text" name="description" placeholder="Description"><br>
     <input type="text" name="time_limit" placeholder="Time Limit (minutes)"><br>
-    <div class="shuffle_par"><center>Shuffle</center></div>
+    
+    <div class="checkbox_labels"><center>Shuffle</center></div>
     <div class="slider">
     	<input type="checkbox" value="None" id="slider" name="check" />
         <label for="slider"></label>
+	</div><br><br>
+    
+    <div class="checkbox_labels"><center>Single page</center></div>
+    <div class="rounded_checkbox">
+	<input type="checkbox" value="None" id="rounded_checkbox" name="check" />
+	<label for="rounded_checkbox"></label>
 	</div>
+    
     <input type="submit" value="Start Adding Questions">
   </form>
   <form action="homepage.jsp" method="post" class="cancel_button">
