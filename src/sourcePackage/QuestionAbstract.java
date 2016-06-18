@@ -41,9 +41,10 @@ public abstract class QuestionAbstract {
 	 * any child class. It must return
 	 * HTML code of the given class,
 	 * ready to display, no CSS formatting.
+	 * @param end question call or not
 	 * 
 	 * */
-	public abstract String toHTML();
+	public abstract String toHTML(String servletToCall);
 	
 	
 }

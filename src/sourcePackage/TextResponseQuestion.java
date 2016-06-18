@@ -1,8 +1,14 @@
 package sourcePackage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TextResponseQuestion extends QuestionAbstract {
+public class TextResponseQuestion extends QuestionAbstract implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6788816017483593461L;
+
 	/**
 	 * standard public constructor. Takes
 	 * text as question text, picture link
@@ -16,8 +22,8 @@ public class TextResponseQuestion extends QuestionAbstract {
 	}
 
 	@Override
-	public String toHTML() {
-		return QuestionDrawer.toHTML(this);
+	public String toHTML(String servletToCall) {
+		return QuestionDrawer.toHTML(this, servletToCall);
 	}
 
 }

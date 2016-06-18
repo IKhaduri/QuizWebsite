@@ -1,8 +1,14 @@
 package sourcePackage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PictureResponseQuestion extends QuestionAbstract {
+public class PictureResponseQuestion extends QuestionAbstract implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -728405850700635572L;
+
 	/**
 	 * standard public constructor. Takes
 	 * text as question text, picture link
@@ -12,12 +18,10 @@ public class PictureResponseQuestion extends QuestionAbstract {
 	 * */
 	public PictureResponseQuestion(String text, String picture_link, ArrayList<String> answers) {
 		super(text, picture_link, answers);
-
 	}
 
 	@Override
-	public String toHTML() {
-		return QuestionDrawer.toHTML(this);
+	public String toHTML(String servletToCall) {
+		return QuestionDrawer.toHTML(this, servletToCall);
 	}
-
 }

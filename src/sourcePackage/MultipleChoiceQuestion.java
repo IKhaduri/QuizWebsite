@@ -1,8 +1,14 @@
 package sourcePackage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MultipleChoiceQuestion extends QuestionAbstract{
+public class MultipleChoiceQuestion extends QuestionAbstract implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8722208834807445149L;
+
 	/**
 	 * standard public constructor. Takes
 	 * text as question text, picture link
@@ -16,8 +22,8 @@ public class MultipleChoiceQuestion extends QuestionAbstract{
 	}
 
 	@Override
-	public String toHTML() {
-		return QuestionDrawer.toHTML(this);
+	public String toHTML(String servletToCall) {
+		return QuestionDrawer.toHTML(this, servletToCall);
 	}
 
 
