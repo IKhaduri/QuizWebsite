@@ -39,10 +39,17 @@ public abstract class QuestionAbstract implements Serializable {
 	 * any child class. It must return
 	 * HTML code of the given class,
 	 * ready to display, no CSS formatting.
-	 * @param end question call or not
 	 * 
 	 * */
-	public abstract String toHTML(String servletToCall);
+	public abstract String toHTML();
+	/**
+	 * This method must be implemented in 
+	 * any child class. It must return
+	 * HTML code of the given class,
+	 * ready to display, no CSS formatting.
+	 * @param questionNum - simple ordering
+	 * */
+	public abstract String toHTML(int questionNum);
 	
 	public abstract int getScore();
 }

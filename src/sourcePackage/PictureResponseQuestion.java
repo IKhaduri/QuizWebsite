@@ -20,10 +20,14 @@ public class PictureResponseQuestion extends QuestionAbstract implements Seriali
 		super(text, answers);
 		this.picture_link = picture_link;
 	}
-
 	@Override
-	public String toHTML(String servletToCall) {
-		return QuestionDrawer.toHTML(this, servletToCall);
+	public String toHTML(int questionNum) {
+		return QuestionDrawer.toHTML(this,questionNum);
+	}
+	
+	@Override
+	public String toHTML() {
+		return QuestionDrawer.toHTML(this);
 	}
 
 	@Override
