@@ -18,4 +18,5 @@ public class ServletConstants {
 	public static final String CREATING_QUIZ_DESCRIPTION = "REATING_QUIZ_DESCRIPTION";
 	public static final String CREATING_QUIZ_TIME_LIMIT = "CREATING_QUIZ_TIME_LIMIT";
 	public static final String CREATING_QUIZ_SHUFFLE_OPTION = "CREATING_QUIZ_SHUFFLE_OPTION";
+	public static final String CREATING_QUIZ_SINGLEPAGE_OPTION = "CREATING_QUIZ_SINGLEPAGE_OPTION";
 }
