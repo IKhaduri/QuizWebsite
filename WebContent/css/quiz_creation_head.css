@@ -1,0 +1,60 @@
+body {
+	font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  color:black;
+  font-size:12px;
+}
+
+h1 {
+  font-size:36px;
+  text-shadow:0 1px 0 black;
+  text-align:center;
+  padding:15px 0;
+  border-bottom:1px solid rgba(0,0,0,1);
+  position:relative;
+}
+
+.main_form {
+	width:600px;
+  margin:30px auto;
+  border-radius:0.4em;
+  border:1px solid #191919;
+  overflow:hidden;
+  position:relative;
+  box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
+}
+
+input[type=text] {
+  width:40%;
+  padding:8px 5px;
+  border:1px solid #222;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.1);
+  border-radius:0.3em;
+  margin-bottom:20px;
+}
+
+input[type=submit] {
+width: 250px;
+padding: 5px;
+margin:5px;
+margin-top:10px;
+font-weight: bold;
+font-size: 150%;
+background: #3366CC;
+color: #FFFFFF;
+cursor: pointer;
+border: 1px solid #999999;
+border-radius: 10px;
+-webkit-box-shadow: 6px 6px 5px #999999;
+-moz-box-shadow: 6px 6px 5px #999999;
+box-shaddow: 6px 6px 5px; #999999;
+}
+
+input[type=submit]:hover {
+color: #FFFF00;
+background: #3366CC;
+border: 1px solid #A3A3A3;
+-webkit-box-shadow: 2px 2px 5px #666666;
+-moz-box-shadow: 2px 2px 5px #666666;
+box-shaddow: 2px 2px 5px; #666666;
+}

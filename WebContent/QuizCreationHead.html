@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="css/quiz_creation_head.css">
 <title>Quiz Creation</title>
 </head>
 <body>
-  Quiz Creation
-  <form action="" method="post">
+  <h1>Quiz Creation</h1>
+  <form action="" method="post" class="main_form">
     Quiz Name <input type="text" name="quiz_name"><br>
     Description <input type="text" name="description"><br>
     Time Limit (minutes) <input type="text" name="time_limit"><br>
     Shuffle <input type="checkbox" name="random_shuffle"><br>
     <input type="submit" value="Start adding questions">
   </form>
-  <form action="" method="post">
+  <form action="homepage.jsp" method="post">
     <input type="submit" value="Cancel">
   </form>
 </body>
