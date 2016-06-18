@@ -1,3 +1,4 @@
+<%@page import="sourcePackage.QuestionAbstract"%>
 <%@page import="java.util.Collections"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="sourcePackage.Question"%>
@@ -11,9 +12,9 @@
 <title> Have fun! </title>
 <% 
 	int curQuestionNum = (int) request.getAttribute(ServletConstants.QUIZ_QUESTION_NUMBER);
-	ArrayList<Question> questions = (ArrayList<Question>) request.getAttribute(ServletConstants.QUIZ_QUESTION_LIST);
-	String servletToCall = questions.size()-1>=curQuestionNum?"nextQuestion":"quizFinished";
-	Question curQuestion = questions.get(curQuestionNum);
+	ArrayList<QuestionAbstract> questions = (ArrayList<QuestionAbstract>) request.getAttribute(ServletConstants.QUIZ_QUESTION_LIST);
+	String servletToCall = questions.size()-1>=curQuestionNum?"NextQuestion":"QuizFinished";
+	QuestionAbstract curQuestion = questions.get(curQuestionNum);
 %>
 </head>
 <body>
@@ -23,34 +24,7 @@
 
 <% 
 	out.println("<h3>"+curQuestion.getQuestion() +"</h3>");
-	switch(curQuestion.getQuestionType()){
-		case TEXT_RESPONSE:case FILL_BLANK:{ 
-			out.println("<form action = \""+servletToCall+"\" method = \"post\">");
-			out.println("<input type = \"text\" name =\"answer\">");
-			out.println("<p><button type = \" submit \" value = \" Submit/Next Question \" >   </p>");
-			out.println("</form>");
-			break;
-		}
-		case MULTIPLE_CHOICE:{
-			ArrayList<String> toShuffle = new ArrayList<String>(curQuestion.getAnswers());
-			Collections.shuffle(toShuffle);
-			out.println("<form action = \""+servletToCall+"\" method = \"post\">");
-			for (String answer: toShuffle){
-				out.println("<input type=\"radio\" name=answer value=\""+answer+"\" >");
-			}
-			out.println("</form>");
-			break;
-		}
-		case PICTURE_RESPONSE:{
-			out.println("<img src=\"" + curQuestion.getImage()+ "\">");
-			out.println("<form action = \""+servletToCall+"\" method = \"post\">");
-			out.println("<input type = \"text\" name =\"answer \">");
-			out.println("<p><button type = \" submit \" value = \" Submit/Next Question \" >   </p>");
-			out.println("</form>");
-			break;
-		}
-
-	}
+	out.print(curQuestion.toHTML(servletToCall)); 
 %>
 </body>
 </html>

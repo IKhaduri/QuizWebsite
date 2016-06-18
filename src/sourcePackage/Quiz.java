@@ -2,7 +2,7 @@ package sourcePackage;
 
 import java.util.*;
 
-public class Quiz extends QuizBase implements Iterable<Question>{
+public class Quiz extends QuizBase implements Iterable<QuestionAbstract>{
 	
 	/**
 	 * Parameters subclass is used to help initialize a quiz
@@ -33,7 +33,7 @@ public class Quiz extends QuizBase implements Iterable<Question>{
 	}
 	private Parameters parameters;
 	
-	private List<Question> questions;
+	private List<QuestionAbstract> questions;
 	
 	/**
 	 * Constructor
@@ -42,7 +42,7 @@ public class Quiz extends QuizBase implements Iterable<Question>{
 	 * @param questions - question list
 	 * @param statistics - submission statistics
 	 */
-	public Quiz(Header header, Statistics statistics, int quizScore, Parameters parameters, List<Question> questions){
+	public Quiz(Header header, Statistics statistics, int quizScore, Parameters parameters, List<QuestionAbstract> questions){
 		super(header, statistics, quizScore);
 		this.parameters = parameters;
 		this.questions = questions;
@@ -52,7 +52,7 @@ public class Quiz extends QuizBase implements Iterable<Question>{
 	 * @return list of questions of this quiz
 	 * 
 	 * */
-	public List<Question> getQuestions(){
+	public List<QuestionAbstract> getQuestions(){
 		return questions;
 	}
 	
@@ -96,7 +96,7 @@ public class Quiz extends QuizBase implements Iterable<Question>{
 	 * @param index - index of the question
 	 * @return "index-th" question
 	 */
-	public Question getQuestion(int index){
+	public QuestionAbstract getQuestion(int index){
 		return questions.get(index);
 	}
 	
@@ -104,7 +104,7 @@ public class Quiz extends QuizBase implements Iterable<Question>{
 	 * @return iterator for the questions
 	 */
 	@Override
-	public Iterator<Question> iterator() {
+	public Iterator<QuestionAbstract> iterator() {
 		return questions.iterator();
 	}
 }

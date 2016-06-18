@@ -5,8 +5,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.xml.internal.bind.v2.TODO;
-
 public class Database {
 	public static final int NO_ID = -1;
 	public static final int NO_CONNECTION = -2;
@@ -204,7 +202,7 @@ public class Database {
 		PreparedStatement statement = connection.prepareStatement(sql);
 		for(int i = 0; i < quiz.getQuestionCount(); i++){
 			int startParam = i*4;
-			Question question = quiz.getQuestion(i);
+			QuestionAbstract question = quiz.getQuestion(i);
 			statement.setInt(startParam + 1, quizId);
 			statement.setInt(startParam + 2, i);
 			statement.setString(startParam + 3, Serialization.toString(question));
@@ -229,7 +227,7 @@ public class Database {
 				int questionCap = res.getInt("question_cap");
 				int timeLimit = res.getInt("time_limit");
 				boolean isSinglePage = res.getBoolean("is_single_page");
-				List<Question> questions = getQuizQuestions(res.getInt("id"), connection);
+				List<QuestionAbstract> questions = getQuizQuestions(res.getInt("id"), connection);
 				return Factory_Quiz.getQuiz(base, shouldShaffle, questionCap, timeLimit, isSinglePage, questions);
 			} else return null;
 		} catch (SQLException ex) {
@@ -244,14 +242,14 @@ public class Database {
 			
 	}
 	
-	private List<Question> getQuizQuestions(int quizId, Connection connection) throws SQLException, ClassNotFoundException, IOException {
+	private List<QuestionAbstract> getQuizQuestions(int quizId, Connection connection) throws SQLException, ClassNotFoundException, IOException {
 		String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".questions WHERE quiz_id = ? ORDER BY index_in_quiz ASC;";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setInt(1, quizId);
 		ResultSet res = statement.executeQuery();
-		List<Question> questions = new ArrayList<Question>();
+		List<QuestionAbstract> questions = new ArrayList<QuestionAbstract>();
 		while(res.next()){
-			questions.add((Question)Serialization.fromString(res.getString("serialized_object")));
+			questions.add((QuestionAbstract)Serialization.fromString(res.getString("serialized_object")));
 		}
 		return questions;
 	}
@@ -398,7 +396,7 @@ public class Database {
 		}
 		return authorName;
 	}
-	
+	/*
 	private int getAuthorId(int quizId, Connection connection) throws Exception {
 		int authorId = -1;
 		String stmt = "select author_id from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".quizes where quiz_id = "+quizId;
@@ -407,7 +405,7 @@ public class Database {
 		authorId =  set.getInt(0);
 		return authorId;
 	}
-	
+	*/
 	
 	/**
 	 * Gets the user's submissions
