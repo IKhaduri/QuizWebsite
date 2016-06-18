@@ -10,10 +10,13 @@
     Quiz Name <input type="text" name="quiz_name"><br>
     Description <input type="text" name="description"><br>
     Time Limit (minutes) <input type="text" name="time_limit"><br>
-    Shuffle <input type="checkbox" name="random_shuffle"><br>
+    Shuffle <div class="slideThree">	
+                <input type="checkbox" value="None" id="slideThree" name="check" />
+                <label for="slideThree"></label>
+			</div>
     <input type="submit" value="Start adding questions">
   </form>
-  <form action="homepage.jsp" method="post">
+  <form action="homepage.jsp" method="post" class="cancel_button">
     <input type="submit" value="Cancel">
   </form>
 </body>
