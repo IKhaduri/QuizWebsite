@@ -1,7 +1,7 @@
+<%@page import="sourcePackage.Factory_Database"%>
 <%@page import="sourcePackage.Touple"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="sourcePackage.Factory"%>
 <%@page import="sourcePackage.ServletConstants"%>
 <%@page import="sourcePackage.Quiz"%>
 <%@page import="sourcePackage.QuizBase"%>
@@ -17,7 +17,7 @@
 	Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 	String quizName = (String) request.getParameter(ServletConstants.QUIZ_PARAMETER_NAME);
 	String userName = (String) request.getParameter(ServletConstants.USER_PARAMETER_NAME);
-	Connection con = Factory.getConnection();
+	Connection con = Factory_Database.getConnection();
 	QuizBase quizBase = base.getQuizBase(quizName, con);
 %>
 <title><%=quizBase.getName()%></title>
