@@ -58,6 +58,16 @@ public class QuestionCreationServlet extends HttpServlet {
 		}
 		
 		questions.add(result);
+		
+		checkForFinish(request);
+	}
+
+	private void checkForFinish(HttpServletRequest request) {
+		if (request.getParameter("finish") == null) {
+			request.getRequestDispatcher("QuestionCreation.html");
+		} else {
+			// finish
+		}
 	}
 
 }
