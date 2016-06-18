@@ -26,5 +26,11 @@ public class MultipleChoiceQuestion extends QuestionAbstract implements Serializ
 		return QuestionDrawer.toHTML(this, servletToCall);
 	}
 
+	@Override
+	public int getScore() {
+
+		return 1;
+	}
+
 
 }

@@ -20,7 +20,7 @@ public abstract class QuestionAbstract implements Serializable {
 		this.picture_link = picture_link;
 		correct_answers = answers;
 	}
-
+	
 	
 	/**
 	 * @return ArrayList of answers, since it might have multiple answers
@@ -52,5 +52,5 @@ public abstract class QuestionAbstract implements Serializable {
 	 * */
 	public abstract String toHTML(String servletToCall);
 	
-	
+	public abstract int getScore();
 }

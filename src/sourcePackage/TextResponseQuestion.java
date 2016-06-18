@@ -26,4 +26,10 @@ public class TextResponseQuestion extends QuestionAbstract implements Serializab
 		return QuestionDrawer.toHTML(this, servletToCall);
 	}
 
+	@Override
+	public int getScore() {
+
+		return 1;
+	}
+
 }

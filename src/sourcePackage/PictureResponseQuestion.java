@@ -24,4 +24,9 @@ public class PictureResponseQuestion extends QuestionAbstract implements Seriali
 	public String toHTML(String servletToCall) {
 		return QuestionDrawer.toHTML(this, servletToCall);
 	}
+
+	@Override
+	public int getScore() {
+		return 1;
+	}
 }
