@@ -10,28 +10,28 @@
         <textarea class="area" name="question_area" rows = "10" cols="72" placeholder="Replace this text with your question."></textarea><br>
         <div class="options">
             <div>
-            <input type="radio" name="radio" id="box2" class="radio" checked/>
+            <input type="radio" name="radio" id="box2" class="radio" value="Multiple-choice" checked/>
             <label for="box2">Multiple-choice</label>
             </div>
             
             <div>
-            <input type="radio" name="radio" id="box3" class="radio"/>
+            <input type="radio" name="radio" id="box3" class="radio" value="Text-response / Fill-a-blank"/>
             <label for="box3">Text-response / Fill-a-blank</label>
             </div>
             
             <div>	
-            <input type="radio" name="radio" id="box1" class="radio"/>
+            <input type="radio" name="radio" id="box1" class="radio" value="Picture-response"/>
             <label for="box1">Picture-response </label>
             </div>
             <br>
     
             <div id = "pic" style = "display:none">
                 Please enter URL of the picture here
-                <input type = "text" style= "width:450px">
+                <input type = "text" style= "width:450px" name="picture_link">
             </div>
             <div id = "answers">
                 <button id ="newField" type ='button' class="buttons" style="margin-top:30px;">Add another input field</button><br>
-                <input type ="text" style= "width:450px" placeholder="For multiple choice this must be correct"><br>
+                <input type ="text" style= "width:450px" name="answer(s)" placeholder="For multiple choice this must be correct"><br>
             </div>
     	</div>
 	</form>
@@ -54,7 +54,7 @@
 		//appends new input text field and button
 		//user might want to have lots of answers
 		function appendInput(){
-			var txt = "<input type = 'text' style= 'width:450px'><button type = 'button' name = 'removeButton' class='buttons'>Remove</button><br>";
+			var txt = "<input type = 'text' style= 'width:450px' name='answer(s)'><button type = 'button' name = 'removeButton' class='buttons'>Remove</button><br>";
 			$("#answers").append(txt);
 		}
 		//removes the new buttons and text fields
