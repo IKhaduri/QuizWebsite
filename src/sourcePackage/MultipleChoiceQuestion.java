@@ -17,8 +17,8 @@ public class MultipleChoiceQuestion extends QuestionAbstract implements Serializ
 	 * element as the correct answer and others
 	 * wrong.
 	 * */
-	public MultipleChoiceQuestion(String text, String picture_link, ArrayList<String> answers) {
-		super(text, picture_link, answers);
+	public MultipleChoiceQuestion(String text, ArrayList<String> answers) {
+		super(text, answers);
 	}
 
 	@Override
