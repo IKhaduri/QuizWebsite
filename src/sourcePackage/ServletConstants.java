@@ -13,4 +13,5 @@ public class ServletConstants {
 	public static final String CURRENT_SCORE = "CURRENT_SCORE";
 	public static final String QUIZ_STARTED = "QUIZ_ALREADY_STARTED"; 
 	public static final String HIDDEN_CORRECT_ANSWER = "HIDDEN_CORRECT_ANSWER";
+	public static final String CREATED_QUESTIONS = "CREATED_QUESTIONS";
 }
