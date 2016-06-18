@@ -5,6 +5,7 @@
 <%@page import="sourcePackage.ServletConstants"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+ <%! @SuppressWarnings("unchecked") %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -22,9 +23,14 @@
 <input type="hidden" name=<%=ServletConstants.QUIZ_QUESTION_LIST %> value="<%= request.getParameter(ServletConstants.QUIZ_QUESTION_LIST) %>" >
 <input type="hidden" name=<%=ServletConstants.HIDDEN_CORRECT_ANSWER %> value="<%= curQuestion.getAnswers().get(0) %>" >
 
+
 <% 
+
 	out.println("<h3>"+curQuestion.getQuestion() +"</h3>");
-	out.print(curQuestion.toHTML(servletToCall)); 
+	out.println("<form action = \""+servletToCall+"\" method = \"post\">");
+	out.print(curQuestion.toHTML()); 
+	out.println("<p><button type = \" submit \" value = \" Submit/Next Question \" >   </p>");
+	out.println("</form>");
 %>
-</body>
+</body> 
 </html>
