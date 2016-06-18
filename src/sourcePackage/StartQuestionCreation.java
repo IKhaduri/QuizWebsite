@@ -35,6 +35,7 @@ public class StartQuestionCreation extends HttpServlet {
 		session.setAttribute(ServletConstants.CREATING_QUIZ_NAME, request.getParameter("quiz_name"));
 		session.setAttribute(ServletConstants.CREATING_QUIZ_DESCRIPTION, request.getParameter("description"));
 		session.setAttribute(ServletConstants.CREATING_QUIZ_TIME_LIMIT, request.getParameter("time_limit"));
+		session.setAttribute(ServletConstants.CREATING_QUIZ_SHUFFLE_OPTION, (request.getParameter("check") == null) ? true : false);
 		
 		request.getRequestDispatcher("QuestionCreation.html").forward(request, response);
 	}

@@ -59,14 +59,29 @@ public class QuestionCreationServlet extends HttpServlet {
 		
 		questions.add(result);
 		
-		checkForFinish(request);
+		checkForFinish(request, response);
 	}
 
-	private void checkForFinish(HttpServletRequest request) {
+	private void checkForFinish(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("finish") == null) {
 			request.getRequestDispatcher("QuestionCreation.html");
 		} else {
-			// finish
+			HttpSession session = request.getSession();
+			
+			/** parameters of the quiz we are to add in database */
+			String name = (String) session.getAttribute(ServletConstants.CREATING_QUIZ_NAME);
+			String author = ((User) session.getAttribute(SessionListener.USER_IN_SESSION)).getName();
+			String description = (String) session.getAttribute(ServletConstants.CREATING_QUIZ_DESCRIPTION);
+			boolean shuffle = (boolean) session.getAttribute(ServletConstants.CREATING_QUIZ_SHUFFLE_OPTION);
+			// TODO
+			boolean isSinglePage = false;
+			int timeLimit = (int) session.getAttribute(ServletConstants.CREATING_QUIZ_TIME_LIMIT);
+			@SuppressWarnings("unchecked")
+			ArrayList<QuestionAbstract> questions = (ArrayList<QuestionAbstract>) session.getAttribute(ServletConstants.CREATED_QUESTIONS);
+			
+			Quiz newQuiz = Factory_Quiz.getNewQuiz(name, author, description, shuffle, timeLimit, isSinglePage, questions);
+		
+			request.getRequestDispatcher("homepage.jsp").forward(request, response);
 		}
 	}
 
