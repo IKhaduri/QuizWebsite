@@ -24,7 +24,8 @@ public class CreateAccountServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (!request.getParameter("new_password").equals(request.getParameter("repeat_password")))	// passwords don't match
-			return;
+			request.getRequestDispatcher("login.html");
+		
 		User user = Factory_User.getUser(request.getParameter("new_username"), request.getParameter("new_password"));
 		Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		
