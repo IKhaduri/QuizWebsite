@@ -5,8 +5,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.xml.internal.bind.v2.TODO;
-
 public class Database {
 	public static final int NO_ID = -1;
 	public static final int NO_CONNECTION = -2;
@@ -398,7 +396,7 @@ public class Database {
 		}
 		return authorName;
 	}
-	
+	/*
 	private int getAuthorId(int quizId, Connection connection) throws Exception {
 		int authorId = -1;
 		String stmt = "select author_id from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".quizes where quiz_id = "+quizId;
@@ -407,7 +405,7 @@ public class Database {
 		authorId =  set.getInt(0);
 		return authorId;
 	}
-	
+	*/
 	
 	/**
 	 * Gets the user's submissions
