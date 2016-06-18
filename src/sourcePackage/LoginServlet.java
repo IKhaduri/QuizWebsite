@@ -24,7 +24,10 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
-		User user = db.getUser(request.getParameter("username"), request.getParameter("password"), Factory_Database.getConnection());
+		
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		User user = db.getUser(username, Hasher.hash(username, password), Factory_Database.getConnection());
 		if (user == null) {
 			request.getRequestDispatcher("login.html").forward(request, response);
 		} else {

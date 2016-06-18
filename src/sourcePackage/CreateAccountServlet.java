@@ -26,7 +26,9 @@ public class CreateAccountServlet extends HttpServlet {
 		if (!request.getParameter("new_password").equals(request.getParameter("repeat_password")))	// passwords don't match
 			request.getRequestDispatcher("login.html");
 		
-		User user = Factory_User.getUser(request.getParameter("new_username"), request.getParameter("new_password"));
+		String username = request.getParameter("new_username");
+		String password = request.getParameter("new_password");
+		User user = Factory_User.getUser(username, Hasher.hash(username, password));
 		Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		if (db.addUser(user, Factory_Database.getConnection()))
 			request.getRequestDispatcher("homepage.jsp").forward(request, response);
