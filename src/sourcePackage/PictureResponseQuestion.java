@@ -29,4 +29,10 @@ public class PictureResponseQuestion extends QuestionAbstract implements Seriali
 	public int getScore() {
 		return 1;
 	}
+	/**
+	 * @return Image source or null if not exists 
+	 */
+	public String getImage() {
+		return picture_link;
+	}
 }

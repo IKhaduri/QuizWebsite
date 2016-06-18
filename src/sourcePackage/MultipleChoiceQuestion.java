@@ -31,6 +31,6 @@ public class MultipleChoiceQuestion extends QuestionAbstract implements Serializ
 
 		return 1;
 	}
-
+	
 
 }

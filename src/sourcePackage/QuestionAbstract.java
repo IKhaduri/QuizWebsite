@@ -37,12 +37,6 @@ public abstract class QuestionAbstract implements Serializable {
 	}
 	
 	/**
-	 * @return Image source or null if not exists 
-	 */
-	public String getImage() {
-		return picture_link;
-	}
-	/**
 	 * This method must be implemented in 
 	 * any child class. It must return
 	 * HTML code of the given class,
