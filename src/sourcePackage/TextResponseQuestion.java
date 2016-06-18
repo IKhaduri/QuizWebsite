@@ -20,10 +20,14 @@ public class TextResponseQuestion extends QuestionAbstract implements Serializab
 		super(text, answers);
 
 	}
-
 	@Override
-	public String toHTML(String servletToCall) {
-		return QuestionDrawer.toHTML(this, servletToCall);
+	public String toHTML(int questionNum) {
+		return QuestionDrawer.toHTML(this,questionNum);
+	}
+	
+	@Override
+	public String toHTML() {
+		return QuestionDrawer.toHTML(this);
 	}
 
 	@Override

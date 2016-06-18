@@ -22,14 +22,19 @@ public class MultipleChoiceQuestion extends QuestionAbstract implements Serializ
 	}
 
 	@Override
-	public String toHTML(String servletToCall) {
-		return QuestionDrawer.toHTML(this, servletToCall);
+	public String toHTML() {
+		return QuestionDrawer.toHTML(this);
 	}
 
 	@Override
 	public int getScore() {
 
 		return 1;
+	}
+
+	@Override
+	public String toHTML(int questionNum) {
+		return QuestionDrawer.toHTML(this,questionNum);
 	}
 	
 
