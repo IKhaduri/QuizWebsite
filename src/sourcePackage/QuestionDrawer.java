@@ -87,4 +87,8 @@ public class QuestionDrawer implements Serializable{
 		return res;
 	}
 	
+	public static String toHTML(String paragraph) {
+		return "<!Doctype html><html><head><title>Failed</title></head><body><p>" + paragraph + "</p></body></html>";
+	}
+	
 }

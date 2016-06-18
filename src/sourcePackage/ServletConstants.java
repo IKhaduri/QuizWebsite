@@ -14,4 +14,10 @@ public class ServletConstants {
 	public static final String QUIZ_STARTED = "QUIZ_ALREADY_STARTED"; 
 	public static final String HIDDEN_CORRECT_ANSWER = "HIDDEN_CORRECT_ANSWER";
 	public static final String CREATED_QUESTIONS = "CREATED_QUESTIONS";
+	public static final String CREATING_QUIZ_NAME = "CREATING_QUIZ_NAME";
+	public static final String CREATING_QUIZ_DESCRIPTION = "REATING_QUIZ_DESCRIPTION";
+	public static final String CREATING_QUIZ_TIME_LIMIT = "CREATING_QUIZ_TIME_LIMIT";
+	public static final String CREATING_QUIZ_SHUFFLE_OPTION = "CREATING_QUIZ_SHUFFLE_OPTION";
+	public static final String CREATING_QUIZ_SINGLEPAGE_OPTION = "CREATING_QUIZ_SINGLEPAGE_OPTION";
+	public static final int NUM_OF_ATTEMPTS_ON_DB = 10;
 }

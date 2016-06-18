@@ -1,6 +1,7 @@
 package sourcePackage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -58,6 +59,50 @@ public class QuestionCreationServlet extends HttpServlet {
 		}
 		
 		questions.add(result);
+		
+		checkForFinish(request, response);
+	}
+
+	private void checkForFinish(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (request.getParameter("finish") == null) {
+			request.getRequestDispatcher("QuestionCreation.html");
+		} else {
+			HttpSession session = request.getSession();
+			Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
+			
+			/** parameters of the quiz we are to add in database */
+			String name = (String) session.getAttribute(ServletConstants.CREATING_QUIZ_NAME);
+			String author = ((User) session.getAttribute(SessionListener.USER_IN_SESSION)).getName();
+			String description = (String) session.getAttribute(ServletConstants.CREATING_QUIZ_DESCRIPTION);
+			boolean shuffle = (boolean) session.getAttribute(ServletConstants.CREATING_QUIZ_SHUFFLE_OPTION);
+			boolean isSinglePage = (boolean) session.getAttribute(ServletConstants.CREATING_QUIZ_SINGLEPAGE_OPTION);
+			int timeLimit = (int) session.getAttribute(ServletConstants.CREATING_QUIZ_TIME_LIMIT);
+			@SuppressWarnings("unchecked")
+			ArrayList<QuestionAbstract> questions = (ArrayList<QuestionAbstract>) session.getAttribute(ServletConstants.CREATED_QUESTIONS);
+			
+			Quiz newQuiz = Factory_Quiz.getNewQuiz(name, author, description, shuffle, timeLimit, isSinglePage, questions);
+			
+			boolean success = false;
+			for (int i = 0; i < ServletConstants.NUM_OF_ATTEMPTS_ON_DB; i++) {
+				if (db.addQuiz(newQuiz, Factory_Database.getConnection())) {
+					success = true;
+					break;
+				}
+			}
+			
+			if (success) {
+				request.getRequestDispatcher("homepage.jsp").forward(request, response);
+			} else {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				
+				try {
+					out.println(QuestionDrawer.toHTML("As The Donsky would say - Database is dead..."));
+				} finally {
+					out.close();
+				}
+			}
+		}
 	}
 
 }
