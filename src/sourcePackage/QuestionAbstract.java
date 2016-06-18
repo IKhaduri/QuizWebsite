@@ -1,9 +1,15 @@
 package sourcePackage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class QuestionAbstract {
+public abstract class QuestionAbstract implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7610801638460142197L;
 	protected String question_text;
 	protected String picture_link;	// for picture-response type questions
 	protected ArrayList<String> correct_answers;	
