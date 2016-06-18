@@ -14,7 +14,7 @@ h1 {
 }
 
 .main_form {
-	width:600px;
+  width:400px;
   margin:30px auto;
   padding:10px;
   border-radius:0.4em;
@@ -22,10 +22,11 @@ h1 {
   overflow:hidden;
   position:relative;
   box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
+  text-align:center;
 }
 
 input[type=text] {
-  width:40%;
+  width:60%;
   padding:8px 5px;
   border:1px solid #222;
   box-shadow:
@@ -67,6 +68,16 @@ input[type=submit]:hover {
     text-decoration: none;
 }
 
+.shuffle_par {
+	font-family:  'Hoefler Text', Georgia, 'Times New Roman', serif;
+	font-weight: normal;
+    font-size: 1.75em;
+	letter-spacing: .2em;
+	line-height: 1.1em;
+	margin:0px;
+	text-align: center;
+}
+
 input[type=checkbox] {
 	visibility: hidden;
 }
@@ -75,7 +86,7 @@ input[type=checkbox] {
 	width: 80px;
 	height: 26px;
 	background: #333;
-	margin: 20px auto;
+	margin: 10px auto;
 
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;

@@ -7,13 +7,14 @@
 <body>
   <h1>Quiz Creation</h1>
   <form action="" method="post" class="main_form">
-    Quiz Name <input type="text" name="quiz_name"><br>
-    Description <input type="text" name="description"><br>
-    Time Limit (minutes) <input type="text" name="time_limit"><br>
-    Shuffle <div class="slideThree">	
-                <input type="checkbox" value="None" id="slideThree" name="check" />
-                <label for="slideThree"></label>
-			</div>
+    <input type="text" name="quiz_name" placeholder="Quiz Name"><br>
+    <input type="text" name="description" placeholder="Description"><br>
+    <input type="text" name="time_limit" placeholder="Time Limit (minutes)"><br>
+    <div class="shuffle_par"><center>Shuffle</center></div>
+    <div class="slideThree">
+    	<input type="checkbox" value="None" id="slideThree" name="check" />
+        <label for="slideThree"></label>
+	</div>
     <input type="submit" value="Start adding questions">
   </form>
   <form action="homepage.jsp" method="post" class="cancel_button">
