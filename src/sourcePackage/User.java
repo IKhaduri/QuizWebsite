@@ -63,7 +63,8 @@ public class User {
 	public String getStatus(Database base, Connection connection) {
 		if (base == null) return null;
 		
-		return base.getUserStatus(this.userName, connection);
+		String status = base.getUserStatus(this.userName, connection);
+		return (status == null || status.length() <= 0) ? "no status" : status;
 	}
 	
 	public void setStatus(String newStatus, Connection connection, Database base) {

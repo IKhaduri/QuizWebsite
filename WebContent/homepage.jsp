@@ -43,7 +43,7 @@
                         <a class="header-menu-tab" href="Settings.jsp"><span class="icon entypo-cog scnd-font-color"></span>Settings</a>
                     </li>
                     <li>
-                        <a class="header-menu-tab" href="#3"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages</a>
+                        <a class="header-menu-tab" href="Inox.jsp"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages</a>
                         <a class="header-menu-number" href="Inbox.jsp"><%= user.getNumOfUnreadMessages(connection, db) %></a>
                     </li>
                 </ul>
