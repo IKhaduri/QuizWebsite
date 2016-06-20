@@ -30,6 +30,8 @@ public class CreateAccountServlet extends HttpServlet {
 		String password = request.getParameter("new_password");
 		User user = Factory_User.getUser(username, Hasher.hash(username, password));
 		Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
+		request.getSession().setAttribute(SessionListener.USER_IN_SESSION, user);
+		
 		if (db.addUser(user, Factory_Database.getConnection()))
 			request.getRequestDispatcher("homepage.jsp").forward(request, response);
 		else
