@@ -28,7 +28,8 @@
 	    	User user = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
 	    	
 	    	if (db == null || connection == null || user == null) {
-	    		response.sendRedirect("login.html");
+	    		out.println("<h1>Redirecting to Login page...</h1>");
+	    		out.println("<script> setTimeout(function() { document.location = \"login.html\";}, 3000);	</script>");
 	    		return;
 	    	}
     	%>
