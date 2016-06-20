@@ -26,6 +26,11 @@
 	    	Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 	    	Connection connection = Factory_Database.getConnection();
 	    	User user = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
+	    	
+	    	if (db == null || connection == null || user == null) {
+	    		response.sendRedirect("login.html");
+	    		return;
+	    	}
     	%>
 
         <div class="main-container"> 
