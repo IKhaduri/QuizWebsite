@@ -56,29 +56,32 @@
                     <h2 class="titular">MENU</h2>
                     <ul class="menu-box-menu">
                         <li>
-                        <a class="menu-box-tab"><span class="icon fontawesome-envelope scnd-font-color"></span>Total score
+                        <a class="menu-box-tab"><span class="icon entypo-chart-line scnd-font-color"></span>Total score
                         <div class="menu-box-number"><%= user.getTotalScore(db, connection) %></div></a>	                            
                     </li>
                     <li>
-                        <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Max score
+                        <a class="menu-box-tab"><span class="icon entypo-chart-line scnd-font-color"></span>Max score
                         <div class="menu-box-number"><%= user.getMaxScorePercentage(db, connection) %></div></a>                     
                     </li>
                     <li>
-                        <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Submissions</a>                     
+                        <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Submissions</a>                     
                     </li>
                                                  
                     <div id="submissions"><%
-                    	ArrayList<Submission> submissions = new ArrayList<Submission>(user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT));
-                       	 	for (int i = 0; i < submissions.size(); i++) {
-                       		Submission currSub = submissions.get(i);
-                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-calendar scnd-font-color\"></span>"
-                       				+ currSub.getQuiz().getName());
-                       		out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
-                       	}
+                    	List<Submission> f_list = user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT);
+                   		if (f_list != null && f_list.size() > 0) {
+	                    	ArrayList<Submission> submissions = new ArrayList<Submission>(f_list);
+	                       	for (int i = 0; i < submissions.size(); i++) {
+	                       		Submission currSub = submissions.get(i);
+	                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>"
+	                       				+ currSub.getQuiz().getName());
+	                       		out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
+	                       	}
+                   		}
                     %></div>
                         
                     <li>
-                        <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Recently created quizzes</a>                     
+                        <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Recently created quizzes</a>                     
                     </li>
                         
                     <div id="created_quizzes"><%
@@ -88,7 +91,7 @@
 	                       	for (int i = 0; i < quizzes.size(); i++) {
 	                       		QuizBase currQuiz = quizzes.get(i);
 	                       		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
-	                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
+	                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
 	                       	}
                     	}
                     %></div>                       
@@ -120,7 +123,7 @@
                     <h2 class="titular">MENU</h2>
                     <ul class="menu-box-menu">
                     <li>
-                        <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Popular quizzes</a>                     
+                        <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Popular quizzes</a>                     
                     </li>
                         <div id="popular_quizzes"><%
                         	List<QuizBase> list2 = db.getPopularQuizzes(ServletConstants.LISTS_LIMIT, connection);
@@ -129,13 +132,13 @@
 		                       	for (int i = 0; i < topQuizzes.size(); i++) {
 		                       		QuizBase currQuiz = topQuizzes.get(i);
 		                       		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
-		                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
+		                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
 		                       	}
                         	}
                     %></div>
                     
                     <li>
-                        <a class="menu-box-tab"><span class="icon entypo-paper-plane scnd-font-color"></span>Recently created quizzes</a>                     
+                        <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Recently created quizzes</a>                     
                     </li>
                         <div id="recently_created_quizzes"><%
                         List<QuizBase> list3 = db.recentlyAddedQuizzes(ServletConstants.LISTS_LIMIT, connection);
@@ -144,7 +147,7 @@
 	                       	for (int i = 0; i < recentlyQuizzes.size(); i++) {
 	                       		QuizBase currQuiz = recentlyQuizzes.get(i);
 	                       		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
-	                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-calendar scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
+	                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
 	                       	}
                         }
                        	Factory_Database.closeConnection(connection);
