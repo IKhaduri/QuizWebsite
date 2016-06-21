@@ -1,3 +1,4 @@
+<%@page import="sourcePackage.SessionListener"%>
 <%@page import="sourcePackage.Factory_Database"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -23,7 +24,16 @@
     <%
     	Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
     	Connection connection = Factory_Database.getConnection();
+    	User me = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
+    	
+    	// not main user, but someone we are guested
     	User user = db.getUser(request.getParameter("username"), request.getParameter("password_hash"), connection);
+    	
+    	if (db == null || connection == null || user == null) {
+    		out.println("<h1>Redirecting to Home page...</h1>");
+    		out.println("<script> setTimeout(function() { document.location = \"homepage.jsp\";}, 3000);	</script>");
+    		return;
+    	}
     %>
 
         <div class="main-container"> 
@@ -32,9 +42,10 @@
             <header class="block">
                     
                 <div class="profile-menu">
+                	<p>Log Out <a href="LogoutServlet"><span class="entypo-logout scnd-font-color"></span></a></p>
                     <p>Me <a href="homepage.jsp"><span class="entypo-to-end scnd-font-color"></span></a></p>
                     <div class="profile-picture small-profile-picture">
-                        <img width="40px" alt="user picture" src="http://upload.wikimedia.org/wikipedia/commons/e/e1/Anne_Hathaway_Face.jpg">
+                        <img width="40px" alt="user picture" src=<%= me.profilePictureLink() %> >
                     </div>
                 </div>
             </header> 
@@ -75,7 +86,7 @@
             <div class="middle-container container">
                 <div class="profile block">
                     <div class="profile-picture big-profile-picture clear">
-                        <img width="150px" alt="picture" src="http://www.rmi.ge/~meskhi/meskhi.jpg" >
+                        <img width="150px" alt="picture" src=<%= user.profilePictureLink() %> >
                     </div>
                     <h1 class="user-name"><%= out.print(user.getName()) %></h1>
                     <div class="profile-description">

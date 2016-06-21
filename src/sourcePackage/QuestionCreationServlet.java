@@ -59,13 +59,12 @@ public class QuestionCreationServlet extends HttpServlet {
 		}
 		
 		questions.add(result);
-		
 		checkForFinish(request, response);
 	}
 
 	private void checkForFinish(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("finish") == null) {
-			request.getRequestDispatcher("QuestionCreation.html");
+			request.getRequestDispatcher("QuestionCreation.html").forward(request, response);
 		} else {
 			HttpSession session = request.getSession();
 			Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
@@ -76,12 +75,11 @@ public class QuestionCreationServlet extends HttpServlet {
 			String description = (String) session.getAttribute(ServletConstants.CREATING_QUIZ_DESCRIPTION);
 			boolean shuffle = (boolean) session.getAttribute(ServletConstants.CREATING_QUIZ_SHUFFLE_OPTION);
 			boolean isSinglePage = (boolean) session.getAttribute(ServletConstants.CREATING_QUIZ_SINGLEPAGE_OPTION);
-			int timeLimit = (int) session.getAttribute(ServletConstants.CREATING_QUIZ_TIME_LIMIT);
+			int timeLimit = Integer.parseInt((String)session.getAttribute(ServletConstants.CREATING_QUIZ_TIME_LIMIT));
 			@SuppressWarnings("unchecked")
 			ArrayList<QuestionAbstract> questions = (ArrayList<QuestionAbstract>) session.getAttribute(ServletConstants.CREATED_QUESTIONS);
 			
 			Quiz newQuiz = Factory_Quiz.getNewQuiz(name, author, description, shuffle, timeLimit, isSinglePage, questions);
-			
 			boolean success = false;
 			for (int i = 0; i < ServletConstants.NUM_OF_ATTEMPTS_ON_DB; i++) {
 				if (db.addQuiz(newQuiz, Factory_Database.getConnection())) {
@@ -90,6 +88,7 @@ public class QuestionCreationServlet extends HttpServlet {
 				}
 			}
 			
+			questions.clear();
 			if (success) {
 				request.getRequestDispatcher("homepage.jsp").forward(request, response);
 			} else {

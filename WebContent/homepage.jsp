@@ -21,7 +21,7 @@
 </head>
 
     <body>
-    
+    	
     	<%
 	    	Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 	    	Connection connection = Factory_Database.getConnection();
@@ -33,7 +33,6 @@
 	    		return;
 	    	}
     	%>
-
         <div class="main-container"> 
 
 			<!-- HEADER -->
@@ -43,14 +42,15 @@
                         <a class="header-menu-tab" href="Settings.jsp"><span class="icon entypo-cog scnd-font-color"></span>Settings</a>
                     </li>
                     <li>
-                        <a class="header-menu-tab" href="Inox.jsp"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages</a>
+                        <a class="header-menu-tab" href="Inbox.jsp"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages</a>
                         <a class="header-menu-number" href="Inbox.jsp"><%= user.getNumOfUnreadMessages(connection, db) %></a>
                     </li>
                 </ul>
                 <div class="profile-menu">
+                	<p>Log Out <a href="LogoutServlet"><span class="entypo-logout scnd-font-color"></span></a></p>
                     <p>Me <a href="homepage.jsp"><span class="entypo-to-end scnd-font-color"></span></a></p>
                     <div class="profile-picture small-profile-picture">
-                        <img width="40px" alt="user picture" src="http://upload.wikimedia.org/wikipedia/commons/e/e1/Anne_Hathaway_Face.jpg">
+                        <img width="40px" alt="user picture" src=<%= user.profilePictureLink() %> >
                     </div>
                 </div>
             </header>
@@ -109,7 +109,7 @@
             <div class="middle-container container">
                 <div class="profile block">
                     <div class="profile-picture big-profile-picture clear">
-                        <img width="150px" alt="picture" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Jennifer_Lawrence_SDCC_2015_X-Men.jpg" >
+                        <img width="150px" alt="picture" src=<%= user.profilePictureLink() %> >
                     </div>
                     <h1 class="user-name"><%= user.getName() %></h1>
                     <div class="profile-description">

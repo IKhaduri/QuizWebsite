@@ -64,7 +64,7 @@ public class User {
 		if (base == null) return null;
 		
 		String status = base.getUserStatus(this.userName, connection);
-		return (status == null || status.length() <= 0) ? "no status" : status;
+		return (status == null || status.length() <= 0) ? ServletConstants.NO_STATUS : status;
 	}
 	
 	public void setStatus(String newStatus, Connection connection, Database base) {
@@ -87,6 +87,10 @@ public class User {
 		if (base == null) return false;
 		
 		return base.changeQuizSharing(this.userName, this.passwordHash, newValue, connection);
+	}
+	
+	public String profilePictureLink() {
+		return "http://sites.nicholas.duke.edu/clarklab/files/2011/01/default_profile-d80441a6f25a9a0aac354978c65c8fa9.jpg";
 	}
 	
 }

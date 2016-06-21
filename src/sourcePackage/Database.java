@@ -759,6 +759,32 @@ public class Database {
 			return FAIL_EXPECTED_INT;
 		}
 	}
+	/**
+	 * @param username - receiver name
+	 * @param friendName - sender name
+	 * @param connection - Connection object
+	 * @return number of unread messages for the 
+	 * specified user from specified user
+	 */
+	public int getNumOfUnreadMessages(String username, String friendName, Connection connection){
+		try {
+			String query = "SELECT count(*) FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".messages"
+					+ " WHERE receiver_id = ? AND sender_id = ? AND message_seen = false;";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, getUserId(username, connection));
+			ps.setInt(2, getUserId(friendName,connection));
+			ResultSet set = ps.executeQuery();
+			
+			if (set == null) 
+				return FAIL_EXPECTED_INT;
+			set.next();
+			return set.getInt(1);
+		} catch (SQLException ex) {
+			return FAIL_EXPECTED_INT;
+		}
+	}
+	
+	
 	
 	/**
 	 * Fetches friends for the given user
