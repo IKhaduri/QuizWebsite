@@ -791,6 +791,62 @@ public class Database {
 	
 	
 	/**
+	 * Adds friends to the database
+	 * @param firstUser - first user name
+	 * @param secondUser - second user name
+	 * @return true, if successful
+	 */
+	public boolean addFriends(String firstUser, String secondUser, Connection connection){
+		if(firstUser == null || secondUser == null || connection == null) return false;
+		if(firstUser.equals(secondUser)) return false;
+		try{
+			int first = getUserId(firstUser, connection);
+			int second = getUserId(secondUser, connection);
+			if(first == NO_ID || second == NO_ID) return false;
+			
+			String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends (first_id, second_id) VALUES (?, ?);";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, first);
+			ps.setInt(2, second);
+			ps.execute();
+			return true;
+		}catch (SQLException ex) {
+			return false;
+		}
+	}
+	
+	/**
+	 * Tells, if the given users are friends or not
+	 * @param firstUser - first user name
+	 * @param secondUser - second user name
+	 * @return true, if the users are friends and no SQL exception occurred
+	 */
+	public boolean areFriends(String firstUser, String secondUser, Connection connection){
+		if(firstUser == null || secondUser == null || connection == null) return false;
+		if(firstUser.equals(secondUser)) return false;
+		try{
+			int first = getUserId(firstUser, connection);
+			int second = getUserId(secondUser, connection);
+			if(first == NO_ID || second == NO_ID) return false;
+			
+			String sql = "SELECT FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends"
+					+ " WHERE (first_id = ? and second_id = ?) OR (first_id = ? and second_id = ?)";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, first);
+			ps.setInt(2, second);
+			ps.setInt(3, second);
+			ps.setInt(4, first);
+			ResultSet set = ps.executeQuery();
+			
+			if(set == null) return false;
+			return set.next();
+		}catch (SQLException ex) {
+			return false;
+		}
+	}
+	
+	
+	/**
 	 * @param username - user who we are going to update password for.
 	 * @param newPasswordHash - new password hash
 	 * @param connection - Connection object
