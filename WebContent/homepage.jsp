@@ -52,7 +52,7 @@
                 <div class="profile-menu">
                     <p>Me <a href="homepage.jsp"><span class="entypo-to-end scnd-font-color"></span></a></p>
                     <div class="profile-picture small-profile-picture">
-                        <img width="40px" alt="user picture" src="http://upload.wikimedia.org/wikipedia/commons/e/e1/Anne_Hathaway_Face.jpg">
+                        <img width="40px" alt="user picture" src=<%= user.profilePictureLink() %> >
                     </div>
                 </div>
             </header>
@@ -111,7 +111,7 @@
             <div class="middle-container container">
                 <div class="profile block">
                     <div class="profile-picture big-profile-picture clear">
-                        <img width="150px" alt="picture" src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Jennifer_Lawrence_SDCC_2015_X-Men.jpg" >
+                        <img width="150px" alt="picture" src=<%= user.profilePictureLink() %> >
                     </div>
                     <h1 class="user-name"><%= user.getName() %></h1>
                     <div class="profile-description">
