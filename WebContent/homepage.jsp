@@ -21,7 +21,7 @@
 </head>
 
     <body>
-    
+    	
     	<%
 	    	Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 	    	Connection connection = Factory_Database.getConnection();
@@ -33,7 +33,6 @@
 	    		return;
 	    	}
     	%>
-
         <div class="main-container"> 
 
 			<!-- HEADER -->
@@ -46,7 +45,7 @@
                         <a class="header-menu-tab" href="Settings.jsp"><span class="icon entypo-cog scnd-font-color"></span>Settings</a>
                     </li>
                     <li>
-                        <a class="header-menu-tab" href="Inox.jsp"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages</a>
+                        <a class="header-menu-tab" href="Inbox.jsp"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages</a>
                         <a class="header-menu-number" href="Inbox.jsp"><%= user.getNumOfUnreadMessages(connection, db) %></a>
                     </li>
                 </ul>
