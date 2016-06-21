@@ -37,7 +37,7 @@ public class SettingsServlet extends HttpServlet {
 		Database base = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		User currentUser = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
 		Connection connection = Factory_Database.getConnection();
-		String oldPassword = request.getParameter("old_password");
+		String oldPasswordHash = Hasher.hash(currentUser.getName(), request.getParameter("old_password"));
 		String newPasswordHash = request.getParameter("new_password");
 		String repeated = request.getParameter("repeat_password");
 		String privacyOprtion = request.getParameter("radio");	
@@ -52,8 +52,8 @@ public class SettingsServlet extends HttpServlet {
 			request.getRequestDispatcher("homepage.jsp").forward(request, response);
 		} else {
 			
-			if (newPasswordHash.equals(repeated) && oldPassword.equals(currentUser.getStatus(base, connection))) {
-				currentUser.setPasswordHash(newPasswordHash, base, connection);
+			if (newPasswordHash.equals(repeated) && oldPasswordHash.equals(currentUser.getPasswordHash())) {
+				currentUser.setPasswordHash(Hasher.hash(currentUser.getName(), newPasswordHash), base, connection);
 				request.getRequestDispatcher("homepage.jsp").forward(request, response);
 			} else {
 				request.getRequestDispatcher("Settings.jsp").forward(request, response);

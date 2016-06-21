@@ -772,7 +772,6 @@ public class Database {
 			return false;
 		
 		try {
-			System.out.println("k");
 			int userId = getUserId(username, connection);
 			String query = "update " + MyDBInfo.MYSQL_DATABASE_NAME + ".users set password_hash = ?"
 					+ " where id = ?;";
