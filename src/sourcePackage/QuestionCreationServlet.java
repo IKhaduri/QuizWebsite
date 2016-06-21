@@ -67,7 +67,7 @@ public class QuestionCreationServlet extends HttpServlet {
 		System.out.println("aaa");
 		if (request.getParameter("finish") == null) {
 			System.out.println("bb");
-			request.getRequestDispatcher("QuestionCreation.html");
+			request.getRequestDispatcher("QuestionCreation.html").forward(request, response);;
 		} else {
 			System.out.println("ccc");
 			HttpSession session = request.getSession();
