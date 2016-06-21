@@ -59,17 +59,13 @@ public class QuestionCreationServlet extends HttpServlet {
 		}
 		
 		questions.add(result);
-		System.out.println(result == null);
 		checkForFinish(request, response);
 	}
 
 	private void checkForFinish(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("aaa");
 		if (request.getParameter("finish") == null) {
-			System.out.println("bb");
-			request.getRequestDispatcher("QuestionCreation.html").forward(request, response);;
+			request.getRequestDispatcher("QuestionCreation.html").forward(request, response);
 		} else {
-			System.out.println("ccc");
 			HttpSession session = request.getSession();
 			Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 			
@@ -84,17 +80,15 @@ public class QuestionCreationServlet extends HttpServlet {
 			ArrayList<QuestionAbstract> questions = (ArrayList<QuestionAbstract>) session.getAttribute(ServletConstants.CREATED_QUESTIONS);
 			
 			Quiz newQuiz = Factory_Quiz.getNewQuiz(name, author, description, shuffle, timeLimit, isSinglePage, questions);
-			System.out.println(newQuiz == null);
 			boolean success = false;
 			for (int i = 0; i < ServletConstants.NUM_OF_ATTEMPTS_ON_DB; i++) {
-				System.out.println(i);
 				if (db.addQuiz(newQuiz, Factory_Database.getConnection())) {
-					System.out.println("succes");
 					success = true;
 					break;
 				}
 			}
 			
+			questions.clear();
 			if (success) {
 				request.getRequestDispatcher("homepage.jsp").forward(request, response);
 			} else {
