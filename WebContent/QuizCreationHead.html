@@ -1,15 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
+ <script>
+	<!--javascript validation for passwords  -->
+	function validateForm() {   
+		alert("here");
+		var x = document.getElementById("QUIZ_NAME").value;
+		var y = document.getElementById("DESCRIPTION").value;
+		var z = document.getElementById("TIME_LIMIT").value;
+		if (x == null || x == "") {
+				alert("Quiz name must be filled out");
+				return false;
+			}
+			if (y == null || y == "") {
+				alert("Description can't be empty");
+				return false;
+			}
+			if (x!==y){
+				alert("Please enter time limit");
+				return false;
+		  }
+	}
+</script>
+
 <link rel="stylesheet" href="css/quiz_creation_head.css">
 <title>Quiz Creation</title>
 </head>
 <body>
   <h1>Quiz Creation</h1>
-  <form action="StartQuestionCreation" method="post" class="main_form">
-    <input type="text" name="quiz_name" placeholder="Quiz Name"><br>
-    <input type="text" name="description" placeholder="Description"><br>
-    <input type="text" name="time_limit" placeholder="Time Limit (minutes)"><br>
+  <form action="StartQuestionCreation" method="post" class="main_form" onsubmit="return validateForm();">
+    <input type="text" id ="QUIZ_NAME" name="quiz_name" placeholder="Quiz Name"><br>
+    <input type="text" id = "DESCRIPTION"name="description" placeholder="Description"><br>
+    <input type="text" id ="TIME_LIMIT" name="time_limit" placeholder="Time Limit (minutes)"><br>
     
     <div class="checkbox_labels"><center>Shuffle</center></div>
     <div class="slider">
