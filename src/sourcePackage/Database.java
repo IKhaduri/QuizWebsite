@@ -68,9 +68,9 @@ public class Database {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, username);
 			ResultSet res = statement.executeQuery();
-			if(res.next()){
+			if(res != null && res.next()){
 				return res.getString("user_status");
-			}else return null;
+			}else return "";
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e){
@@ -479,7 +479,7 @@ public class Database {
 			ps.setInt(1, getUserId(username, connection));
 			ResultSet rs = ps.executeQuery();
 			
-			if (rs == null) return NO_CONNECTION;
+			if (rs == null) return 0.0;
 			rs.next();
 			
 			return rs.getDouble(1);
@@ -503,7 +503,7 @@ public class Database {
 			ps.setInt(1, getUserId(username, connection));
 			ResultSet rs = ps.executeQuery();
 			
-			if (rs == null) return NO_CONNECTION;
+			if (rs == null) return 0;
 			rs.next();
 			
 			return rs.getInt(1);
