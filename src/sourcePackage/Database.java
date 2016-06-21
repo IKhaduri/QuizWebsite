@@ -179,7 +179,7 @@ public class Database {
 		statement.setInt(6, autorId);
 		statement.setInt(7, quiz.getQuizScore());
 		statement.setString(8, quiz.getDescription());
-		statement.setBoolean(8, quiz.isSinglePage());
+		statement.setBoolean(9, quiz.isSinglePage());
 		statement.execute();
 	}
 	
