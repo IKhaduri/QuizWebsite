@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
- <script>
-	<!--javascript validation for passwords  -->
+<script>
+	function isInteger(str) {
+	    return !(/^\?(0|[1-9]\d*)$/.test(str));
+	}
+	<!--javascript validation  -->
 	function validateForm() {   
-		alert("here");
 		var x = document.getElementById("QUIZ_NAME").value;
 		var y = document.getElementById("DESCRIPTION").value;
 		var z = document.getElementById("TIME_LIMIT").value;
@@ -16,15 +18,18 @@
 				alert("Description can't be empty");
 				return false;
 			}
-			if (x!==y){
-				alert("Please enter time limit");
+			if (z == null || z ==""){
+				alert("Please enter time limit in minutes");
 				return false;
-		  }
+		  	}
+		 	if (isNaN(z)||isInteger(z)){
+		 		alert("Please enter a positive numerical integer value");
+		 		return false;
+		 	}
 	}
 </script>
-
 <link rel="stylesheet" href="css/quiz_creation_head.css">
-<title>Quiz Creation</title>
+<title>Create Quiz Here</title>
 </head>
 <body>
   <h1>Quiz Creation</h1>
