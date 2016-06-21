@@ -761,6 +761,36 @@ public class Database {
 	}
 	
 	/**
+	 * Fetches friends for the given user
+	 * @param username - user name
+	 * @param num - limit
+	 * @return list of friends
+	 */
+	public List<String> getFriendList(String username, int num, Connection connection){
+		if(username == null || connection == null);
+		try{
+			int userId = getUserId(username, connection);
+			String query = "SELECT username FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends, " + MyDBInfo.MYSQL_DATABASE_NAME + ".users "
+					+ "WHERE (first_id = ? and second_id = id) OR (first_id = id and second_id = ?) LIMIT ?;";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, userId);
+			ps.setInt(2, userId);
+			ps.setInt(3, num);
+			
+			ResultSet set = ps.executeQuery();
+			if (set == null) return null;
+			
+			List<String> list = new ArrayList<String>();
+			while(set.next())
+				list.add(set.getString(username));
+			return list;
+		} catch (SQLException ex) {
+			return null;
+		}
+	}
+	
+	
+	/**
 	 * @param username - user who we are going to update password for.
 	 * @param newPasswordHash - new password hash
 	 * @param connection - Connection object
