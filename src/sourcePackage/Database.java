@@ -581,6 +581,7 @@ public class Database {
 	 * @return Last num submission results the user got for the given quiz
 	 */
 	public List<Touple<Double, Timestamp,Timestamp> > getScores(String username, String quizName, int num, Connection connection){
+		List<Touple<Double, Timestamp,Timestamp> > list = new ArrayList<Touple<Double, Timestamp,Timestamp> >();
 		try {
 			int totalScore = getQuizBase(quizName, connection).getQuizScore();
 			String sql = "SELECT score, start_time, end_time FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log "
@@ -590,21 +591,18 @@ public class Database {
 			ps.setInt(2, getUserId(username, connection));
 			ps.setInt(3, num);
 			ResultSet res = ps.executeQuery();
-			List<Touple<Double, Timestamp,Timestamp> > list = new ArrayList<Touple<Double, Timestamp,Timestamp> >();
 			while(res.next()){
 				double score = percentage(totalScore, res.getInt("score"));
 				Timestamp startTime = res.getTimestamp("start_time");
 				Timestamp endTime = res.getTimestamp("end_time");
 				list.add(Factory_Quiz.makeTouple(score, startTime, endTime));
 			}
-			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		} catch (NullPointerException e){
 			e.printStackTrace();
 		}
-		return null;
+		return list;
 	}
 	
 	private static String getUserName(int id, Connection connection) throws SQLException{
