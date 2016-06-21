@@ -772,15 +772,16 @@ public class Database {
 			return false;
 		
 		try {
+			System.out.println("k");
 			int userId = getUserId(username, connection);
 			String query = "update " + MyDBInfo.MYSQL_DATABASE_NAME + ".users set password_hash = ?"
 					+ " where id = ?;";
+
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setString(1, newPasswordHash);
 			ps.setInt(2, userId);
-			ResultSet rs = ps.executeQuery();
 			
-			if (rs == null) return false;
+			if (!ps.execute()) return false;
 		} catch (SQLException ex) {
 			return false;
 		}

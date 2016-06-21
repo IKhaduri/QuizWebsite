@@ -39,7 +39,7 @@ public class SettingsServlet extends HttpServlet {
 		Connection connection = Factory_Database.getConnection();
 		String newPasswordHash = request.getParameter("new_password");
 		String repeated = request.getParameter("repeat_password");
-		String privacyOprtion = request.getParameter("radio");
+		String privacyOprtion = request.getParameter("radio");	
 		
 		if (privacyOprtion.equals("global")) {
 			currentUser.changeQuizSharing(connection, base, true);
