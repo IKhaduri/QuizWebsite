@@ -30,7 +30,7 @@
     	// not main user, but someone we are guested
     	User user = db.getUser(request.getParameter("username"), connection);
     	
-    	if (db == null || connection == null || user == null) {
+    	if (db == null || connection == null || user == null || me == null || user.equals(me)) {
     		out.println("<h1>Redirecting to Home page...</h1>");
     		out.println("<script> setTimeout(function() { document.location = \"homepage.jsp\";}, 3000);	</script>");
     		return;

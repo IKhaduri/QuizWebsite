@@ -93,6 +93,11 @@ public class User {
 		return "http://sites.nicholas.duke.edu/clarklab/files/2011/01/default_profile-d80441a6f25a9a0aac354978c65c8fa9.jpg";
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof User && this.userName.equals(((User)obj).getName());
+	}
+	
 }
 
 
