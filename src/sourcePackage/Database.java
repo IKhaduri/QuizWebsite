@@ -201,7 +201,7 @@ public class Database {
 		}
 		PreparedStatement statement = connection.prepareStatement(sql);
 		for(int i = 0; i < quiz.getQuestionCount(); i++){
-			int startParam = i*4;
+			int startParam = i*3;
 			QuestionAbstract question = quiz.getQuestion(i);
 			statement.setInt(startParam + 1, quizId);
 			statement.setInt(startParam + 2, i);
