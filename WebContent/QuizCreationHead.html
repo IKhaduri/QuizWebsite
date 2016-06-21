@@ -2,14 +2,10 @@
 <html>
 <head>
 <script>
-	function isInteger(str) {
-	    return !(/^\?(0|[1-9]\d*)$/.test(str));
-	}
 	<!--javascript validation  -->
 	function validateForm() {   
 		var x = document.getElementById("QUIZ_NAME").value;
 		var y = document.getElementById("DESCRIPTION").value;
-		var z = document.getElementById("TIME_LIMIT").value;
 		if (x == null || x == "") {
 				alert("Quiz name must be filled out");
 				return false;
@@ -18,14 +14,6 @@
 				alert("Description can't be empty");
 				return false;
 			}
-			if (z == null || z ==""){
-				alert("Please enter time limit in minutes");
-				return false;
-		  	}
-		 	if (isNaN(z)||isInteger(z)){
-		 		alert("Please enter a positive numerical integer value");
-		 		return false;
-		 	}
 	}
 </script>
 <link rel="stylesheet" href="css/quiz_creation_head.css">
@@ -36,7 +24,7 @@
   <form action="StartQuestionCreation" method="post" class="main_form" onsubmit="return validateForm();">
     <input type="text" id ="QUIZ_NAME" name="quiz_name" placeholder="Quiz Name"><br>
     <input type="text" id = "DESCRIPTION"name="description" placeholder="Description"><br>
-    <input type="text" id ="TIME_LIMIT" name="time_limit" placeholder="Time Limit (minutes)"><br>
+    <input type="number" id ="TIME_LIMIT" name="time_limit" placeholder="Time Limit (minutes)" min="1"><br>
     
     <div class="checkbox_labels"><center>Shuffle</center></div>
     <div class="slider">
