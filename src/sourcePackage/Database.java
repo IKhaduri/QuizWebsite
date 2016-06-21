@@ -407,11 +407,11 @@ public class Database {
 	private String getAuthorName(int authorId, Connection connection) throws SQLException{
 		String authorName = null;
 		ResultSet set = null;
-		String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".users where id = "+authorId;
+		String stmt = "select username from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".users where id = "+authorId;
 		set = connection.prepareStatement(stmt).executeQuery();
 		if (set!=null){
 			set.next();
-			authorName = set.getString(1);
+			authorName = set.getString("username");
 		}
 		return authorName;
 	}
