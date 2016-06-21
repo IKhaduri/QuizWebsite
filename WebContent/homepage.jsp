@@ -39,6 +39,9 @@
 			<!-- HEADER -->
             <header class="block">
                 <ul class="header-menu horizontal-list">
+                	<li>
+                        <a class="header-menu-tab" href="QuizCreationHead.html"><span class="icon entypo-plus scnd-font-color"></span>New Quiz</a>
+                    </li>
                     <li>
                         <a class="header-menu-tab" href="Settings.jsp"><span class="icon entypo-cog scnd-font-color"></span>Settings</a>
                     </li>
