@@ -390,6 +390,7 @@ h1, h2, p, a, span{
 		/********************************************* RIGHT CONTAINER ****************************************/
 		.right-container {}
 			.menu-box {
+				display: inline-block;
 				height: 360px;
 			}
 				.menu-box .titular {

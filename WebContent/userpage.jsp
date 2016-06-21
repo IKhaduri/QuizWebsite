@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="sourcePackage.SessionListener"%>
 <%@page import="sourcePackage.Factory_Database"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -27,7 +28,7 @@
     	User me = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
     	
     	// not main user, but someone we are guested
-    	User user = db.getUser(request.getParameter("username"), request.getParameter("password_hash"), connection);
+    	User user = db.getUser(request.getParameter("username"), connection);
     	
     	if (db == null || connection == null || user == null) {
     		out.println("<h1>Redirecting to Home page...</h1>");
@@ -68,14 +69,16 @@
                         </li>
                                                  
                         <div id="submissions"><%
-                        	Submission[] subs = new Submission[ServletConstants.LISTS_LIMIT];
-                        	user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT).toArray(subs);
-                        	for (int i = 0; i < ServletConstants.LISTS_LIMIT; i++) {
-                        		Submission currSub = subs[i];
-                        		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-calendar scnd-font-color\"></span>"
-                        				+ currSub.getQuiz().getName());
-                        		out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
-                        	}
+                        	List<Submission> f_list = user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT);
+	                   		if (f_list != null && f_list.size() > 0) {
+		                    	ArrayList<Submission> submissions = new ArrayList<Submission>(f_list);
+		                       	for (int i = 0; i < submissions.size(); i++) {
+		                       		Submission currSub = submissions.get(i);
+		                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>"
+		                       				+ currSub.getQuiz().getName());
+		                       		out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
+		                       	}
+	                   		}
                         %></div>
                                               
                     </ul>
@@ -88,9 +91,9 @@
                     <div class="profile-picture big-profile-picture clear">
                         <img width="150px" alt="picture" src=<%= user.profilePictureLink() %> >
                     </div>
-                    <h1 class="user-name"><%= out.print(user.getName()) %></h1>
+                    <h1 class="user-name"><%= user.getName() %></h1>
                     <div class="profile-description">
-                        <p class="scnd-font-color"><%= out.print(user.getStatus(db, connection)) %></p>
+                        <p class="scnd-font-color"><%= user.getStatus(db, connection) %></p>
                     </div>
                 </div>
             </div>

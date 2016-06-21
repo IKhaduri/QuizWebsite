@@ -301,6 +301,25 @@ public class Database {
 		}
 		
 	}
+	
+	public User getUser(String username, Connection connection) {
+		if (connection == null) return null;
+		
+		try {
+			String sql = "select password_hash from users where username = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			if (rs == null) 
+				return null;
+			rs.next();
+			String password_from_db = rs.getString(1);
+			
+			return Factory_User.getUser(username, password_from_db);
+		} catch (Exception ex) {
+			return null;
+		}
+	}
 
 	/**
 	 * gets popular quizzes of all time, to display 

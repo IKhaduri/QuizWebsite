@@ -40,7 +40,7 @@
 		</p>
 	</div>
 	<a
-		href=<%out.println("homepage.jsp?username=" + quizBase.getAuthor());%>>
+		href=<%out.println("userpage.jsp?username=" + quizBase.getAuthor());%>>
 		<h4>
 			The Magnificent Author
 			<%=quizBase.getAuthor()%></h4>
