@@ -42,6 +42,7 @@
             <header class="block">
                     
                 <div class="profile-menu">
+                	<p>Log Out <a href="LogoutServlet"><span class="entypo-logout scnd-font-color"></span></a></p>
                     <p>Me <a href="homepage.jsp"><span class="entypo-to-end scnd-font-color"></span></a></p>
                     <div class="profile-picture small-profile-picture">
                         <img width="40px" alt="user picture" src=<%= me.profilePictureLink() %> >
