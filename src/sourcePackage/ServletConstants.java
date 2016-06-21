@@ -20,4 +20,5 @@ public class ServletConstants {
 	public static final String CREATING_QUIZ_SHUFFLE_OPTION = "CREATING_QUIZ_SHUFFLE_OPTION";
 	public static final String CREATING_QUIZ_SINGLEPAGE_OPTION = "CREATING_QUIZ_SINGLEPAGE_OPTION";
 	public static final int NUM_OF_ATTEMPTS_ON_DB = 10;
+	public static final String NO_STATUS = "no status";
 }
