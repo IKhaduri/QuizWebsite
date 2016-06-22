@@ -1,6 +1,8 @@
 package sourcePackage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +40,19 @@ public class StartQuestionCreation extends HttpServlet {
 		session.setAttribute(ServletConstants.CREATING_QUIZ_SHUFFLE_OPTION, (request.getParameter("shuffle_check") == null) ? false : true);
 		session.setAttribute(ServletConstants.CREATING_QUIZ_SINGLEPAGE_OPTION, (request.getParameter("singlepage_check") == null) ? false : true);
 		
-		request.getRequestDispatcher("QuestionCreation.html").forward(request, response);
+		if (session.getAttribute(SessionListener.USER_IN_SESSION) == null) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			try {
+	    		out.println("<style>body {background: #1f253d;} h1{color:#fff;} </style><h1>Redirecting to Login page...</h1>");
+	    		out.println("<script> setTimeout(function() { document.location = \"login.html\";}, 3000);	</script>");
+			} finally {
+				out.close();
+			}
+    	} else {
+    		request.getRequestDispatcher("QuestionCreation.html").forward(request, response);
+    	}
 	}
 
 }
