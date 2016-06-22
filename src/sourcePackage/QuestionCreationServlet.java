@@ -47,6 +47,10 @@ public class QuestionCreationServlet extends HttpServlet {
 		String question_text = request.getParameter("question_area");
 		ArrayList<String> question_answers = new ArrayList<>(Arrays.asList(request.getParameterValues("answer(s)")));
 		String question_type = request.getParameter("radio");
+		if (question_text == null || question_text.length() <= 0 || question_answers == null || question_answers.size() <= 0 || question_type == null) {
+			request.getRequestDispatcher("QuestionCreation.html").forward(request, response);
+			return;
+		}
 		QuestionAbstract result;
 		
 		if (question_type.equals("Multiple-choice")) {
