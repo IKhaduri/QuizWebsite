@@ -1,3 +1,5 @@
+<%@page import="sourcePackage.SessionListener"%>
+<%@page import="sourcePackage.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,6 +11,16 @@
 		<title>Settings</title>
 	</head>
 	<body>
+		<%
+	    	if (session == null || session.getAttribute(SessionListener.USER_IN_SESSION) == null) {
+	    		if (session != null)
+	    		    session.invalidate();
+	    		
+	    		out.println("<style>body {background: #1f253d;} </style><h1>Redirecting to Login page...</h1>");
+	    		out.println("<script> setTimeout(function() { document.location = \"login.html\";}, 3000);	</script>");
+	    		return;
+	    	}
+    	%>
 	    
 		<form action="SettingsServlet" method="post">
 			<div class="privacy">
