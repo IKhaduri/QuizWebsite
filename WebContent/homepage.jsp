@@ -92,7 +92,7 @@
                     %></div>
                         
                     <li>
-                        <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Recently created quizzes</a>                     
+                        <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>My Quizzes</a>                     
                     </li>
                         
                     <div id="created_quizzes"><%

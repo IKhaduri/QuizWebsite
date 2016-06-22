@@ -162,12 +162,12 @@ public class Database {
 	}
 	
 	private int getQuizId(String quizName, Connection connection) throws SQLException{
-		return(getIdForName(quizName, "quizes", "quiz_name", connection));
+		return(getIdForName(quizName, "quizzes", "quiz_name", connection));
 	}
 	
 	private void addQuizBase(Quiz quiz, Connection connection) throws SQLException{
 		int autorId = getUserId(quiz.getAuthor(), connection);
-		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes "
+		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes "
 				+ "(quiz_name, creation_date, random_shuffle, question_cap, time_limit, author_id, quiz_score, description, is_single_page) "
 				+ "VALUES ( ?, 			   ?, 			   ?,			  ?,		  ?, 	 	?, 			?, 			 ?, 			 ?);";
 		PreparedStatement statement = connection.prepareStatement(sql);
@@ -184,7 +184,7 @@ public class Database {
 	}
 	
 	private void removeQuizFromDB(String quizName, Connection connection) throws SQLException{
-		PreparedStatement statement = connection.prepareStatement("DELETE FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes WHERE quiz_name = ?;");
+		PreparedStatement statement = connection.prepareStatement("DELETE FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes WHERE quiz_name = ?;");
 		statement.setString(1, quizName);
 		statement.execute();
 	}
@@ -217,7 +217,7 @@ public class Database {
 	 * */
 	public Quiz getQuiz(String name, Connection connection){ 
 		try {
-			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes WHERE quiz_name = ?;";
+			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes WHERE quiz_name = ?;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, name);
 			ResultSet res = statement.executeQuery();
@@ -261,7 +261,7 @@ public class Database {
 	 */
 	public QuizBase getQuizBase(String name, Connection connection){
 		try {
-			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes WHERE quiz_name = ?;";
+			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes WHERE quiz_name = ?;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, name);
 			ResultSet res = statement.executeQuery();
@@ -335,10 +335,10 @@ public class Database {
 		
 		ResultSet set = null;
 		try{
-			String sql = "select * from "+ MyDBInfo.MYSQL_DATABASE_NAME +" .quizes q"+ 
-					"order by (select count(*) from"+ MyDBInfo.MYSQL_DATABASE_NAME+
-					".event_log e where e.quiz_id = q.id ) DESC "+ 
-					"limit ?;";
+			String sql = "SELECT * FROM "+ MyDBInfo.MYSQL_DATABASE_NAME +" .quizzes q"+ 
+					" ORDER BY (SELECT COUNT(*) FROM "+ MyDBInfo.MYSQL_DATABASE_NAME+
+					".event_log e WHERE e.quiz_id = q.id ) DESC "+ 
+					"LIMIT ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, num);
 			set = ps.executeQuery();
@@ -348,7 +348,7 @@ public class Database {
 			return null;
 		}
 		try {
-			res = getQuizBaseList(set, connection);			
+			res = getQuizBaseList(set, connection, "q");			
 		} catch (Exception e) {
 			return null;
 		}
@@ -367,7 +367,7 @@ public class Database {
 			if (connection==null||num<=0)
 				return null;
 			String stmt = "select * from " + MyDBInfo.MYSQL_DATABASE_NAME+
-						".quizes order by creation_date DESC limit ?";
+						".quizzes order by creation_date DESC limit ?";
 			PreparedStatement ps = connection.prepareStatement(stmt);
 			ps.setInt(1, num);
 			set = ps.executeQuery();	
@@ -382,22 +382,53 @@ public class Database {
 		}
 	}
 	
-	private QuizBase getQuizBase(ResultSet res, Connection connection) throws SQLException{
-		String name = res.getString("quiz_name");
-		Timestamp date = res.getTimestamp("creation_date");
-		String author = getAuthorName(res.getInt("author_id"), connection);
-		String description = res.getString("description");
-		int totalScore = res.getInt("total_score");
-		int numSubmissions = res.getInt("total_submittions");
-		int quizScore = res.getInt("quiz_score");
+	private QuizBase getQuizBase(ResultSet res, String authorName, Connection connection, String tableName) throws SQLException{
+		if(tableName == null) tableName = "";
+		if(!tableName.equals("")) tableName+=".";
+		
+		String name = res.getString(tableName + "quiz_name");
+		Timestamp date = res.getTimestamp(tableName + "creation_date");
+		String author = authorName;
+		if(author == null)
+			author = getAuthorName(res.getInt(tableName + "author_id"), connection);
+		String description = res.getString(tableName + "description");
+		int totalScore = res.getInt(tableName + "total_score");
+		int numSubmissions = res.getInt(tableName + "total_submittions");
+		int quizScore = res.getInt(tableName + "quiz_score");
 		return (Factory_Quiz.getQuizBase(name, date, author, description, totalScore, numSubmissions, quizScore));
 	}
 	
-	private List<QuizBase> getQuizBaseList(ResultSet res, Connection connection) throws SQLException{
+	private QuizBase getQuizBase(ResultSet res, Connection connection) throws SQLException{
+		return getQuizBase(res, null, connection, "");
+	}
+	
+	/*
+	private QuizBase getQuizBase(ResultSet res, String authorName, Connection connection) throws SQLException{
+		return getQuizBase(res, authorName, connection, "");
+	}
+	
+	private QuizBase getQuizBase(ResultSet res, Connection connection, String tableName) throws SQLException{
+		return getQuizBase(res, null, connection, tableName);
+	}
+	*/
+	
+	private List<QuizBase> getQuizBaseList(ResultSet res, String author, Connection connection, String tableName) throws SQLException{
 		List<QuizBase> list = new ArrayList<QuizBase>();
 		while(res.next())
-			list.add(getQuizBase(res, connection));
+			list.add(getQuizBase(res, author, connection, tableName));
 		return list;
+	}
+	
+	private List<QuizBase> getQuizBaseList(ResultSet res, Connection connection) throws SQLException{
+		return getQuizBaseList(res,  null, connection, "");
+	}
+	
+	private List<QuizBase> getQuizBaseList(ResultSet res, String authorName, Connection connection) throws SQLException{
+		return getQuizBaseList(res,  authorName, connection, "");
+	}
+	
+	private List<QuizBase> getQuizBaseList(ResultSet res, Connection connection, String tableName) throws SQLException{
+		return getQuizBaseList(res,  null, connection, tableName);
 	}
 	
 	/*
@@ -418,7 +449,7 @@ public class Database {
 	/*
 	private int getAuthorId(int quizId, Connection connection) throws Exception {
 		int authorId = -1;
-		String stmt = "select author_id from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".quizes where quiz_id = "+quizId;
+		String stmt = "select author_id from " + MyDBInfo.MYSQL_DATABASE_NAME+ ".quizzes where quiz_id = "+quizId;
 		ResultSet set = connection.prepareStatement(stmt).executeQuery();
 		set.next();
 		authorId =  set.getInt(0);
@@ -437,7 +468,7 @@ public class Database {
 		try {
 			int userId = getUserId(username, connection);
 			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log"
-					+ " INNER JOIN " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes ON id = quiz_id"
+					+ " INNER JOIN " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes ON id = quiz_id"
 					+ " WHERE user_id = ? ORDER BY end_time DESC LIMIT ?;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, userId);
@@ -468,8 +499,10 @@ public class Database {
 	public List<QuizBase> getUserCreatedQuizzes(String username, int limit, Connection connection){
 		try {
 			int userId = getUserId(username, connection);
-			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes"
-					+ "where author_id = ? limit ?;";
+			if(userId == NO_ID) return null;
+			
+			String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes"
+					+ " WHERE author_id = ? ORDER BY creation_date DESC LIMIT ?;";
 					
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, userId);
@@ -477,7 +510,7 @@ public class Database {
 			ResultSet res = statement.executeQuery();
 			if(res == null) return null;
 			
-			return getQuizBaseList(res, connection);
+			return getQuizBaseList(res, username, connection);
 		} catch (SQLException e) {
 			return null;
 		}
@@ -549,7 +582,7 @@ public class Database {
 		try {
 			int userId = getUserId(username, connection);
 			String sql = "SELECT count(*) from " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log"
-					+ " INNER JOIN " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizes ON id = quiz_id"
+					+ " INNER JOIN " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes ON id = quiz_id"
 					+ " WHERE user_id = ?;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setInt(1, userId);
