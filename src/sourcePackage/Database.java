@@ -336,7 +336,7 @@ public class Database {
 		ResultSet set = null;
 		try{
 			String sql = "SELECT * FROM "+ MyDBInfo.MYSQL_DATABASE_NAME +" .quizzes q"+ 
-					"ORDER BY (SELECT COUNT(*) FROM"+ MyDBInfo.MYSQL_DATABASE_NAME+
+					" ORDER BY (SELECT COUNT(*) FROM "+ MyDBInfo.MYSQL_DATABASE_NAME+
 					".event_log e WHERE e.quiz_id = q.id ) DESC "+ 
 					"LIMIT ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
@@ -498,11 +498,8 @@ public class Database {
 	 */
 	public List<QuizBase> getUserCreatedQuizzes(String username, int limit, Connection connection){
 		try {
-			System.out.println("a");
 			int userId = getUserId(username, connection);
-			System.out.println("aa");
 			if(userId == NO_ID) return null;
-			System.out.println("b");
 			
 			String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes"
 					+ " WHERE author_id = ? ORDER BY creation_date DESC LIMIT ?;";
@@ -511,12 +508,10 @@ public class Database {
 			statement.setInt(1, userId);
 			statement.setInt(2, limit);
 			ResultSet res = statement.executeQuery();
-			System.out.println(res==null);
 			if(res == null) return null;
 			
 			return getQuizBaseList(res, username, connection);
 		} catch (SQLException e) {
-			System.out.println("exc");
 			return null;
 		}
 	}
