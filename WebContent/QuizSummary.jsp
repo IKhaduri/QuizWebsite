@@ -1,3 +1,5 @@
+<%@page import="sourcePackage.User"%>
+<%@page import="sourcePackage.SessionListener"%>
 <%@page import="sourcePackage.Factory_Database"%>
 <%@page import="sourcePackage.Touple"%>
 <%@page import="java.sql.Timestamp"%>
@@ -40,19 +42,23 @@
 			<%=quizBase.getDescription()%>
 		</p>
 	</div>
-	<a
-		href=<%out.println("userpage.jsp?username=" + quizBase.getAuthor());%>>
+	<% if (session.getAttribute(SessionListener.USER_IN_SESSION) != null)
+		out.println("<a href=userpage.jsp?username=" + quizBase.getAuthor());%>
 		<h4>
 			The Magnificent Author
 			<%=quizBase.getAuthor()%>
 		</h4>
 	</a>
-	<h2>Your Past Results</h2>
-	<ul>
+	<h2>Your Past Results
 		<%
-			for (Touple<Double, Timestamp, Timestamp> result : base.getScores(userName, quizName, ServletConstants.LISTS_LIMIT, con)) {
+			if (session.getAttribute(SessionListener.USER_IN_SESSION) == null) {
+				out.println(" - Not for Guests :)</h2>");
+			} else {
+				out.println("</h1><ul>");
+				for (Touple<Double, Timestamp, Timestamp> result : base.getScores(userName, quizName, ServletConstants.LISTS_LIMIT, con)) {
 				out.println(
 						"<li>" + result.getSecond() + " " + result.getThird() + " " + result.getFirst() + "% </li>");
+				}
 			}
 		%>
 	</ul>
@@ -91,20 +97,19 @@
 	</ul>
 	<h2>User Statistics On This Glorious Quiz!</h2>
 	<% 
-			out.println("<p>Maximum Score of this quiz:" +quizBase.getQuizScore()+"</p>");
-			out.println("<p>Average Score for this quiz:" +quizBase.getAverageScore()+"</p>");
-			out.println("<p>Average Score for this quiz:" +quizBase.getAverageScoreScaled()*100+"% </p>");
-			out.println("<p>Number of users that took the quiz: "+quizBase.getSubmissionCount()+"</p>");
-		%>
-	<a 
-		href = 
-		<%
-			out.println((quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"?"+ServletConstants.QUIZ_QUESTION_NUMBER+"="+0
+		out.println("<p>Maximum Score of this quiz:" +quizBase.getQuizScore()+"</p>");
+		out.println("<p>Average Score for this quiz:" +quizBase.getAverageScore()+"</p>");
+		out.println("<p>Average Score for this quiz:" +quizBase.getAverageScoreScaled()*100+"% </p>");
+		out.println("<p>Number of users that took the quiz: "+quizBase.getSubmissionCount()+"</p>");
+	
+		if (session.getAttribute(SessionListener.USER_IN_SESSION) != null) {
+			out.println("<a href=" + (quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"?"+ServletConstants.QUIZ_QUESTION_NUMBER+"="+0
 			+"&"+ServletConstants.QUIZ_PARAMETER_NAME+"="+quiz.getName());
-		%> 
-	>
-		<p>Start the Quiz</p>
-	</a>
+		
+			out.println("<p>Start the Quiz</p></a>");
+		}
+	%> 
+	
 	
 
 	<%con.close(); %>

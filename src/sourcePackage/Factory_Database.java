@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpSession;
+
 public class Factory_Database {
 
 	public static Database getDBObject() {
@@ -46,6 +48,12 @@ public class Factory_Database {
 		return connection;
 	}
 	
+	public static void cleanSession(HttpSession session) {
+		if (session != null) {
+			session.removeAttribute(SessionListener.USER_IN_SESSION);
+		    session.invalidate();
+		}
+	}
 	
 }
 

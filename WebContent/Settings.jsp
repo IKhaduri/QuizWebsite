@@ -1,3 +1,4 @@
+<%@page import="sourcePackage.Factory_Database"%>
 <%@page import="sourcePackage.SessionListener"%>
 <%@page import="sourcePackage.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -13,8 +14,7 @@
 	<body>
 		<%
 	    	if (session == null || session.getAttribute(SessionListener.USER_IN_SESSION) == null) {
-	    		if (session != null)
-	    		    session.invalidate();
+	    		Factory_Database.cleanSession(session);
 	    		
 	    		out.println("<style>body {background: #1f253d;} </style><h1>Redirecting to Login page...</h1>");
 	    		out.println("<script> setTimeout(function() { document.location = \"login.html\";}, 3000);	</script>");
