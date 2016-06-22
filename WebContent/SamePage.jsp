@@ -16,11 +16,8 @@
 <title>Enjoy your quiz!</title>
 <%
 	Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
-	ArrayList<QuestionAbstract> questions = (ArrayList<QuestionAbstract>) 
-											request.getAttribute(ServletConstants.QUIZ_QUESTION_LIST);
-	
-	ArrayList<QuestionAbstract> questionList = new ArrayList<QuestionAbstract>(questions);
 	Quiz quiz = base.getQuiz(request.getParameter(ServletConstants.QUIZ_PARAMETER_NAME), Factory_Database.getConnection());
+	ArrayList<QuestionAbstract> questionList = new ArrayList<QuestionAbstract>( quiz.getQuestions());
 	if (quiz.shouldShuffle())
 		Collections.shuffle(questionList);
 %>

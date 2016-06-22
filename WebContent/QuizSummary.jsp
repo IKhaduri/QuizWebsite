@@ -19,6 +19,7 @@
 	String userName = (String) request.getParameter(ServletConstants.USER_PARAMETER_NAME);
 	Connection con = Factory_Database.getConnection();
 	QuizBase quizBase = base.getQuizBase(quizName, con);
+	Quiz quiz = base.getQuiz(quizName, con);
 %>
 <title><%=quizBase.getName()%></title>
 
@@ -43,7 +44,8 @@
 		href=<%out.println("userpage.jsp?username=" + quizBase.getAuthor());%>>
 		<h4>
 			The Magnificent Author
-			<%=quizBase.getAuthor()%></h4>
+			<%=quizBase.getAuthor()%>
+		</h4>
 	</a>
 	<h2>Your Past Results</h2>
 	<ul>
@@ -94,6 +96,16 @@
 			out.println("<p>Average Score for this quiz:" +quizBase.getAverageScoreScaled()*100+"% </p>");
 			out.println("<p>Number of users that took the quiz: "+quizBase.getSubmissionCount()+"</p>");
 		%>
+	<a 
+		href = 
+		<%
+			out.println((quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"?"+ServletConstants.QUIZ_QUESTION_NUMBER+"="+0
+			+"&"+ServletConstants.QUIZ_PARAMETER_NAME+"="+quiz.getName());
+		%> 
+	>
+		<p>Start the Quiz</p>
+	</a>
+	
 
 	<%con.close(); %>
 </body>
