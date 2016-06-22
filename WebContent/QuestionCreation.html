@@ -2,12 +2,52 @@
 <html>
 	<head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script>
+    	var cnt = 1;
+	    function validateForm() {
+			var x = document.getElementById("questionArea").value;
+				if (x == null || x == "") {
+					alert("Question must be filled out");
+					return false;
+				}
+			var arr = [];
+			for (i=1;i<=cnt;i++){
+				var y = document.getElementById("answer"+i);
+				if (y!==null)
+					y = y.value;
+				else
+					continue;
+				if (y == null || y == "") {
+					alert("Empty Answers are not allowed");
+					return false;
+				}
+				arr.push(y);
+			}
+			//Christian Landgren's way of uniqueness finding
+			// pretty elegant, indeed
+			var uniq = arr.map((name) => {
+			  return {count: 1, name: name}
+			}).reduce((a, b) => {
+			  a[b.name] = (a[b.name] || 0) + b.count
+			  return a
+			}, {})
+
+			var duplicates = Object.keys(uniq).filter((a) => uniq[a] > 1)
+			if (duplicates !== null){
+				if (duplicates.length!==0){
+					alert("Your answers contain duplicates! ["+duplicates+"]");
+					return false;
+				}
+			}
+				
+		}
+    </script>
     <link rel="stylesheet" href="css/question_creation_style.css">
 	</head>
 	<body>
 	<h1>Create question here!</h1>
-    <form action="QuestionCreationServlet" method="post" id="main_form">
-        <textarea class="area" name="question_area" rows = "10" cols="72" placeholder="Replace this text with your question."></textarea><br>
+    <form action="QuestionCreationServlet" method="post" id="main_form" onsubmit = "return validateForm();">
+        <textarea class="area" id="questionArea" name="question_area" rows = "10" cols="72" placeholder="Replace this text with your question."></textarea><br>
         <div class="options">
             <div>
             <input type="radio" name="radio" id="box2" class="radio" value="Multiple-choice" checked/>
@@ -31,12 +71,13 @@
             </div>
             <div id = "answers">
                 <button id ="newField" type ='button' class="buttons" style="margin-top:30px;">Add another input field</button><br>
-                <input type ="text" style= "width:450px" name="answer(s)" placeholder="For multiple choice this must be correct"><br>
+                <input type ="text" id = "answer1" style= "width:450px" name="answer(s)" placeholder="For multiple choice this must be correct"><br>
             </div>
     	</div>
 	</form>
     
-	<script>	
+	<script>
+
 		document.getElementById("box1").addEventListener("click",toggle);
 		document.getElementById("box2").addEventListener("click",toggle);
 		document.getElementById("box3").addEventListener("click",toggle);
@@ -54,7 +95,8 @@
 		//appends new input text field and button
 		//user might want to have lots of answers
 		function appendInput(){
-			var txt = "<input type = 'text' style= 'width:450px' name='answer(s)'><button type = 'button' name = 'removeButton' class='buttons'>Remove</button><br>";
+			cnt+=1;
+			var txt = "<input type = 'text' id = 'answer"+cnt+"' style= 'width:450px' name='answer(s)'><button type = 'button' name = 'removeButton' class='buttons'>Remove</button><br>";
 			$("#answers").append(txt);
 		}
 		//removes the new buttons and text fields
@@ -65,6 +107,7 @@
 				var t = $(e.target).prev();
 				var z = $(e.target).next();
 				if (x == "removeButton"){
+
 					$(t).remove();
 					$(e.target).remove();
 					$(z).remove();
