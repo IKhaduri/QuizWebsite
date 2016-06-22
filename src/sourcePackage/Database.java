@@ -129,16 +129,16 @@ public class Database {
 	/**
 	 * Tells, whether the Quiz name is used or not
 	 * @param quizName - name of the quiz
-	 * @return true, if the name is used and NO exception occurred (dead DB makes the method yield false as well)
+	 * @return true, if the name is not used and NO exception occurred (dead DB makes the method yield false as well)
 	 */
-	public boolean quizNameUsed(String quizName, Connection connection){
+	public boolean quizNameAvailable(String quizName, Connection connection){
 		if(quizName == null || connection == null) return false;
 		try{
 			String sql = "SELECT id FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes WHERE quiz_name = ?;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, quizName);
 			ResultSet res = statement.executeQuery();
-			return res.next();
+			return (!res.next());
 		} catch(SQLException e){
 			return false;
 		} catch(NullPointerException e){
