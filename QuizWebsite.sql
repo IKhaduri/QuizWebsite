@@ -12,8 +12,8 @@ create table if not exists categories(
     primary key(id)
 );
 
-# quizes table contains headers and statistical informaition for the individual quizes.
-create table if not exists quizes(
+# quizzes table contains headers and statistical informaition for the individual quizes.
+create table if not exists quizzes(
 	id int(11) not null auto_increment,		# unique identifier for the quiz
     quiz_name varchar(128) unique,			# unique name for the quiz
     creation_date timestamp,				# date of creation
