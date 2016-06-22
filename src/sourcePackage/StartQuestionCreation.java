@@ -33,10 +33,20 @@ public class StartQuestionCreation extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String quizname = request.getParameter("quiz_name"), description = request.getParameter("description"),
+				timelimit = request.getParameter("time_limit");
+		
+		if (quizname == null || quizname.length() <= 0 ||
+				((Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME)).quizNameUsed(quizname, Factory_Database.getConnection())
+				|| description == null || description.length() <= 0 || timelimit == null || timelimit.length() <= 0) {
+			request.getRequestDispatcher("QuizCreationHead.html").forward(request, response);
+			return;
+		}
+
 		HttpSession session = request.getSession();
-		session.setAttribute(ServletConstants.CREATING_QUIZ_NAME, request.getParameter("quiz_name"));
-		session.setAttribute(ServletConstants.CREATING_QUIZ_DESCRIPTION, request.getParameter("description"));
-		session.setAttribute(ServletConstants.CREATING_QUIZ_TIME_LIMIT, request.getParameter("time_limit"));
+		session.setAttribute(ServletConstants.CREATING_QUIZ_NAME, quizname);
+		session.setAttribute(ServletConstants.CREATING_QUIZ_DESCRIPTION, description);
+		session.setAttribute(ServletConstants.CREATING_QUIZ_TIME_LIMIT, timelimit);
 		session.setAttribute(ServletConstants.CREATING_QUIZ_SHUFFLE_OPTION, (request.getParameter("shuffle_check") == null) ? false : true);
 		session.setAttribute(ServletConstants.CREATING_QUIZ_SINGLEPAGE_OPTION, (request.getParameter("singlepage_check") == null) ? false : true);
 		
