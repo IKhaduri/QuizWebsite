@@ -1,4 +1,4 @@
-
+drop schema if  exists quiz_website;
 # Quiz Website Database:
 CREATE SCHEMA IF NOT EXISTS quiz_website;
 
