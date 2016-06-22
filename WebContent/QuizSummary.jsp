@@ -48,7 +48,7 @@
 	<h2>Your Past Results</h2>
 	<ul>
 		<%
-			for (Touple<Double, Timestamp, Timestamp> result : base.getScores(quizName, userName, ServletConstants.LISTS_LIMIT, con)) {
+			for (Touple<Double, Timestamp, Timestamp> result : base.getScores(userName, quizName, ServletConstants.LISTS_LIMIT, con)) {
 				out.println(
 						"<li>" + result.getSecond() + " " + result.getThird() + " " + result.getFirst() + "% </li>");
 			}
