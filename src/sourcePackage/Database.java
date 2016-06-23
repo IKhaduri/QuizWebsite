@@ -238,7 +238,7 @@ public class Database {
 	 * */
 	public Quiz getQuiz(String name, Connection connection){ 
 		try {
-			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes WHERE quiz_name = ?;";
+			String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes WHERE quiz_name = ?;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, name);
 			ResultSet res = statement.executeQuery();
@@ -250,6 +250,7 @@ public class Database {
 				boolean isSinglePage = res.getBoolean("is_single_page");
 				List<QuestionAbstract> questions = getQuizQuestions(res.getInt("id"), connection);
 				if(questions == null) System.out.println("bazas shig aqvs");
+				else System.out.println("QUESTION COUNT: " + questions.size());
 				return Factory_Quiz.getQuiz(base, shouldShaffle, questionCap, timeLimit, isSinglePage, questions);
 			} else return null;
 		} catch (SQLException ex) {
