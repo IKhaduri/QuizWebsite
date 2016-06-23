@@ -3,6 +3,7 @@ package sourcePackage;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Database {
@@ -229,6 +230,83 @@ public class Database {
 			statement.setString(startParam + 3, Serialization.toString(question));
 		}
 		statement.execute();
+	}
+	
+	/**
+	 * Saves the submission results to DB
+	 * (startTime and endTime will be set to "now");
+	 * @param quizName - quiz name
+	 * @param username - user name
+	 * @param score - user's score
+	 * @return true, if successful
+	 */
+	public boolean logSubmission(String quizName, String username, int score, Connection connection){
+		return logSubmission(quizName, username, score, now(), now(), connection);
+	}
+	
+	/**
+	 * Saves the submission results to DB
+	 * (endTime will be set to "now");
+	 * @param quizName - quiz name
+	 * @param username - user name
+	 * @param score - user's score
+	 * @param startTime - test start date
+	 * @return true, if successful
+	 */
+	public boolean logSubmission(String quizName, String username, int score, Timestamp startTime, Connection connection){
+		return logSubmission(quizName, username, score, startTime, now(), connection);
+	}
+	
+	
+	/**
+	 * Saves the submission results to DB
+	 * @param quizName - quiz name
+	 * @param username - user name
+	 * @param score - user's score
+	 * @param startTime - test start date
+	 * @param endTime - test end date
+	 * @return true, if successful
+	 */
+	public boolean logSubmission(String quizName, String username, int score, Timestamp startTime, Timestamp endTime, Connection connection){
+		try{
+			int quizId = getQuizId(quizName, connection);
+			int userId = getUserId(username, connection);
+			if(quizId == NO_ID || userId == NO_ID) return false;
+			updateQuiz(quizId, score, connection);
+			logSubmission(quizId, userId, score, startTime, endTime, connection);
+		} catch (SQLException ex) {
+			return false;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	private Timestamp now(){
+		return new Timestamp(new Date().getTime());
+	}
+	
+	private void updateQuiz(int quizId, int newScore, Connection connection) throws SQLException{
+		String sql = "UPDATE " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes "
+				+ "SET total_score = total_score + ?, total_submittions = total_submittions + 1 "
+				+ "WHERE id = ?;";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, newScore);
+		statement.setInt(2, quizId);
+		statement.execute();
+	}
+	
+	private void logSubmission(int quizId, int userId, int score, Timestamp startTime, Timestamp endTime, Connection connection) throws SQLException{
+		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log "
+				+ " (quiz_id, user_id, score, start_time, end_time) "
+				+ "VALUES (?,		?, 	   ?,		   ?, 		 ?);";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, quizId);
+		statement.setInt(2, userId);
+		statement.setInt(3, score);
+		statement.setTimestamp(4, startTime);
+		statement.setTimestamp(5, endTime);
 	}
 	
 	/**
