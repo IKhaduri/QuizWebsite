@@ -64,19 +64,8 @@
             <!-- LEFT-CONTAINER -->
             <div class="left-container container">
                 <div class="menu-box block">
-                    <h2 class="titular">MENU</h2>
+                    <h2 class="titular">Submissions</h2>
                     <ul class="menu-box-menu">
-                        <li>
-                        <a class="menu-box-tab"><span class="icon entypo-chart-line scnd-font-color"></span>Total score
-                        <div class="menu-box-number"><%= user.getTotalScore(db, connection) %></div></a>	                            
-                    </li>
-                    <li>
-                        <a class="menu-box-tab"><span class="icon entypo-chart-line scnd-font-color"></span>Max score
-                        <div class="menu-box-number"><%= user.getMaxScorePercentage(db, connection) %></div></a>                     
-                    </li>
-                    <li>
-                        <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Submissions</a>                     
-                    </li>
                                                  
                     <div id="submissions"><%
                     	List<Submission> f_list = user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT);
@@ -90,22 +79,22 @@
 	                       	}
                    		}
                     %></div>
-                        
-                    <li>
-                        <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>My Quizzes</a>                     
-                    </li>
-                        
-                    <div id="created_quizzes"><%
-                    	List<QuizBase> list = user.getCreatedQuizzes(db, connection, ServletConstants.LISTS_LIMIT);
-                    	if (list != null && list.size() > 0) {
-	                       	ArrayList<QuizBase> quizzes = new ArrayList<QuizBase>(list);
-	                       	for (int i = 0; i < quizzes.size(); i++) {
-	                       		QuizBase currQuiz = quizzes.get(i);
-	                       		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
-	                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
-	                       	}
-                    	}
-                    %></div>                       
+                    </ul>
+                </div>
+                 <div class="menu-box block">
+                    <h2 class="titular">My Quizzes</h2>
+                    <ul class="menu-box-menu">                        
+	                    <div id="created_quizzes"><%
+	                    	List<QuizBase> list = user.getCreatedQuizzes(db, connection, ServletConstants.LISTS_LIMIT);
+	                    	if (list != null && list.size() > 0) {
+		                       	ArrayList<QuizBase> quizzes = new ArrayList<QuizBase>(list);
+		                       	for (int i = 0; i < quizzes.size(); i++) {
+		                       		QuizBase currQuiz = quizzes.get(i);
+		                       		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
+		                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
+		                       	}
+	                    	}
+	                    %></div>                  
                     </ul>
                 </div>
                </div>
@@ -124,6 +113,19 @@
 	                	<input type="text" name="update_description_field">
 	                    <input class="button" type="submit" name="update_description_update" value="UPDATE">
                     </form>
+                </div>
+                <div class="menu-box block">
+                    <h2 class="titular">Statistics</h2>
+                    <ul class="menu-box-menu">
+                        <li>
+                        <a class="menu-box-tab"><span class="icon entypo-chart-line scnd-font-color"></span>Total score
+                        <div class="menu-box-number"><%= user.getTotalScore(db, connection) %></div></a>	                            
+                    </li>
+                    <li>
+                        <a class="menu-box-tab"><span class="icon entypo-chart-line scnd-font-color"></span>Max score
+                        <div class="menu-box-number"><%= user.getMaxScorePercentage(db, connection) %></div></a>                     
+                    </li>
+                    </ul>
                 </div>
             </div>
 

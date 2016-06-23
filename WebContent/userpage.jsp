@@ -114,9 +114,7 @@
                         	List<QuizBase> list = user.getCreatedQuizzes(db, connection, ServletConstants.LISTS_LIMIT);
                         	if (list != null && list.size() > 0) {
 		                       	ArrayList<QuizBase> quizzes = new ArrayList<QuizBase>(list);
-		                       	System.out.println(list.size() + " - " + quizzes.size());
 		                       	for (int i = 0; i < quizzes.size(); i++) {
-		                       		System.out.println(i);
 		                       		QuizBase currQuiz = quizzes.get(i);
 		                       		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
 		                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
