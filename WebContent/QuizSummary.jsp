@@ -102,10 +102,16 @@
 		out.println("<p>Number of users that took the quiz: "+quizBase.getSubmissionCount()+"</p>");
 	
 		if (session.getAttribute(SessionListener.USER_IN_SESSION) != null) {
-			out.println("<a href=" + (quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"?"+ServletConstants.QUIZ_QUESTION_NUMBER+"="+0
-			+"&"+ServletConstants.QUIZ_PARAMETER_NAME+"="+quiz.getName());
+			out.println("<form action ='/"+(quiz.isSinglePage()?"SamePage":"QuizPage")+"' method ='submit'>");
+			request.setAttribute(ServletConstants.QUIZ_QUESTION_LIST, quiz.getQuestions());
+			out.println("<input type = 'button' value ='Start Quiz'>");
+		//	out.println("<a href=" + (quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"?"+ServletConstants.QUIZ_QUESTION_NUMBER+"="+0
+	//		+"&"+ServletConstants.QUIZ_PARAMETER_NAME+"="+quiz.getName());
 		
-			out.println("<p>Start the Quiz</p></a>");
+		//	out.println("<p>Start the Quiz</p></a>");
+			out.println("<input type ='hidden' name ='"+ServletConstants.QUIZ_QUESTION_NUMBER+"' value ='0'>");
+			out.println("<input type ='hidden' name ='"+ServletConstants.QUIZ_PARAMETER_NAME+"' value ='"+quiz.getName()+"'>");
+			out.println("</form>");
 		}
 	%> 
 	
