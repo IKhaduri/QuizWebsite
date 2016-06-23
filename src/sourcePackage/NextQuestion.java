@@ -70,7 +70,7 @@ public class NextQuestion extends HttpServlet {
 				String quizName = (String)request.getSession().getAttribute(ServletConstants.QUIZ_PARAMETER_NAME);
 				con = Factory_Database.getConnection();
 				base.logSubmission(quizName, userName, curScore, con);
-				
+				request.getSession().setAttribute(ServletConstants.QUIZ_STARTED, false);
 			}catch(Throwable e){
 				e.printStackTrace();
 			}
