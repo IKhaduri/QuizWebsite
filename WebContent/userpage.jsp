@@ -17,7 +17,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/userpage_style.css">
-<title>user</title>
+<title>User</title>
+<style>
+.menu-box {
+	height: <%="" + ServletConstants.LISTS_LIMIT * 72 + "px;"%>
+}
+</style>
 </head>
 
     <body>
@@ -56,20 +61,8 @@
             <!-- LEFT-CONTAINER -->
             <div class="left-container container">
                 <div class="menu-box block">
-                    <h2 class="titular">MENU</h2>
-                    <ul class="menu-box-menu">
-                        <li>
-                            <a class="menu-box-tab"><span class="icon entypo-chart-line scnd-font-color"></span>Total score
-                            <div class="menu-box-number"><%= user.getTotalScore(db, connection) %></div></a>	                            
-                        </li>
-                        <li>
-                            <a class="menu-box-tab"><span class="icon entypo-chart-line scnd-font-color"></span>Max score
-                            <div class="menu-box-number"><%= user.getMaxScorePercentage(db, connection) %></div></a>                     
-                        </li>
-                        <li>
-                            <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Submissions</a>                     
-                        </li>
-                                                 
+                    <h2 class="titular">Submissions</h2>
+                    <ul class="menu-box-menu">                                                 
                         <div id="submissions"><%
                         	List<Submission> f_list = user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT);
 	                   		if (f_list != null && f_list.size() > 0) {
@@ -81,11 +74,23 @@
 		                       		out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
 		                       	}
 	                   		}
-                        %></div>
-                                              
+                        %></div>              
                     </ul>
                 </div>
+                <div class="menu-box block">
+                    <h2 class="titular">Statistics</h2>
+                    <ul class="menu-box-menu">
+		                <li>
+			                <a class="menu-box-tab"><span class="icon entypo-chart-line scnd-font-color"></span>Total score
+	                        <div class="menu-box-number"><%= user.getTotalScore(db, connection) %></div></a>	                            
+                        </li>
+                        <li>
+                            <a class="menu-box-tab"><span class="icon entypo-chart-line scnd-font-color"></span>Max score
+                            <div class="menu-box-number"><%= user.getMaxScorePercentage(db, connection) %></div></a>                     
+                        </li>
+                    </ul>
                </div>
+           </div>
 
             <!-- MIDDLE-CONTAINER -->
             <div class="middle-container container">
@@ -104,12 +109,8 @@
             
             <div class="right-container container">
                 <div class="menu-box block">
-                    <h2 class="titular">MENU</h2>
-                    <ul class="menu-box-menu">
-                        <li>
-                            <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Own Quizzes</a>                     
-                        </li>
-                        
+                    <h2 class="titular">Own Quizzes</h2>
+                    <ul class="menu-box-menu">                        
                         <div id="created_quizzes"><%
                         	List<QuizBase> list = user.getCreatedQuizzes(db, connection, ServletConstants.LISTS_LIMIT);
                         	if (list != null && list.size() > 0) {

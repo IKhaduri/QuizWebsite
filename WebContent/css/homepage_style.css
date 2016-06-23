@@ -314,9 +314,6 @@ h1, h2, p, a, span{
 		}
 		/******************************************** LEFT CONTAINER *****************************************/
 		.left-container {}
-			.menu-box {
-				height: 360px;
-			}
 				.menu-box .titular {
 					background: #11a8ab;
 				}
@@ -389,9 +386,6 @@ h1, h2, p, a, span{
 			
 		/********************************************* RIGHT CONTAINER ****************************************/
 		.right-container {}
-			.menu-box {
-				height: 360px;
-			}
 				.menu-box .titular {
 					background: #11a8ab;
 				}

@@ -17,7 +17,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/homepage_style.css">
-<title>homepage</title>
+<title>Homepage</title>
+<style>
+.menu-box {
+	height: <%="" + ServletConstants.LISTS_LIMIT * 72 + "px;"%>
+}
+</style>
 </head>
 
     <body>
@@ -80,7 +85,7 @@
                    		}
                     %></div>
                     </ul>
-                </div>
+                </div><br>
                  <div class="menu-box block">
                     <h2 class="titular">My Quizzes</h2>
                     <ul class="menu-box-menu">                        
@@ -113,7 +118,7 @@
 	                	<input type="text" name="update_description_field">
 	                    <input class="button" type="submit" name="update_description_update" value="UPDATE">
                     </form>
-                </div>
+                </div><br>
                 <div class="menu-box block">
                     <h2 class="titular">Statistics</h2>
                     <ul class="menu-box-menu">
@@ -133,11 +138,8 @@
             
             <div class="right-container container">
                 <div class="menu-box block">
-                    <h2 class="titular">MENU</h2>
+                    <h2 class="titular">Popular quizzes</h2>
                     <ul class="menu-box-menu">
-                    <li>
-                        <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Popular quizzes</a>                     
-                    </li>
                         <div id="popular_quizzes"><%
                         	List<QuizBase> list2 = db.getPopularQuizzes(ServletConstants.LISTS_LIMIT, connection);
                         	if (list2 != null && list2.size() > 0) {
@@ -148,26 +150,27 @@
 		                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
 		                       	}
                         	}
-                    %></div>
-                    
-                    <li>
-                        <a class="menu-box-tab"><span class="icon entypo-calendar scnd-font-color"></span>Recently created quizzes</a>                     
-                    </li>
-                        <div id="recently_created_quizzes"><%
-                        List<QuizBase> list3 = db.recentlyAddedQuizzes(ServletConstants.LISTS_LIMIT, connection);
-                        if (list3 != null && list3.size() > 0) {
-	                       	ArrayList<QuizBase> recentlyQuizzes = new ArrayList<QuizBase>(list3);
-	                       	for (int i = 0; i < recentlyQuizzes.size(); i++) {
-	                       		QuizBase currQuiz = recentlyQuizzes.get(i);
-	                       		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
-	                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
-	                       	}
-                        }
-                       	Factory_Database.closeConnection(connection);
-                    %></div>                        
-                    
+                    	%></div>
                     </ul>
-                </div>
+                </div><br>
+                    
+                <div class="menu-box block">
+                    <h2 class="titular">Recently created quizzes</h2>
+                    	<ul class="menu-box-menu">
+	                        <div id="recently_created_quizzes"><%
+		                        List<QuizBase> list3 = db.recentlyAddedQuizzes(ServletConstants.LISTS_LIMIT, connection);
+		                        if (list3 != null && list3.size() > 0) {
+			                       	ArrayList<QuizBase> recentlyQuizzes = new ArrayList<QuizBase>(list3);
+			                       	for (int i = 0; i < recentlyQuizzes.size(); i++) {
+			                       		QuizBase currQuiz = recentlyQuizzes.get(i);
+			                       		out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "="
+			                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
+			                       	}
+		                        }
+		                       	Factory_Database.closeConnection(connection);
+	                    	%></div>
+                    	</ul>
+                	</div>
                </div>
         </div> <!-- end main-container -->
     </body>
