@@ -50,9 +50,14 @@ public abstract class QuestionAbstract implements Serializable {
 	 * @param questionNum - simple ordering
 	 * */
 	public abstract String toHTML(int questionNum);
-	
+	/**given some string, this methods
+	 * tells if it is a correct response
+	 * for the question.
+	 * @param answer - answer to be tested
+	 * @return true or false, depending on answer
+	 * */
 	public abstract boolean isCorrectAnswer(String answer);
-	
+	 
 	
 	public abstract int getScore();
 }

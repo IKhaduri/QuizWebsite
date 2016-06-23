@@ -19,9 +19,6 @@
 </head>
 <body>
 <input type="hidden" name=<%="'"+ServletConstants.QUIZ_QUESTION_NUMBER+"'" %> value="<%= request.getParameter(ServletConstants.QUIZ_QUESTION_NUMBER) %>" >
-<input type="hidden" name=<%="'"+ServletConstants.HIDDEN_CORRECT_ANSWER +"'"%> value="<%= curQuestion.getAnswers().get(0) %>" >
-
-
 <% 
 
 	out.println("<h3>"+curQuestion.getQuestion() +"</h3>");
