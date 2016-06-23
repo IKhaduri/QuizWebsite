@@ -108,6 +108,7 @@
 			out.println("</form>");
 		}
 	%> 
+	<br><a href="homepage.jsp" class="start">Back to Home</a>
 	
 	
 
