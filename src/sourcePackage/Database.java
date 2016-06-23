@@ -249,8 +249,6 @@ public class Database {
 				int timeLimit = res.getInt("time_limit");
 				boolean isSinglePage = res.getBoolean("is_single_page");
 				List<QuestionAbstract> questions = getQuizQuestions(res.getInt("id"), connection);
-				if(questions == null) System.out.println("bazas shig aqvs");
-				else System.out.println("QUESTION COUNT: " + questions.size());
 				return Factory_Quiz.getQuiz(base, shouldShaffle, questionCap, timeLimit, isSinglePage, questions);
 			} else return null;
 		} catch (SQLException ex) {
