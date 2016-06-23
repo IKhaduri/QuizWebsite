@@ -212,6 +212,7 @@ public class Database {
 	private void addQuestions(Quiz quiz, Connection connection) throws SQLException, IOException{
 		if(quiz.getQuestionCount() <= 0) return;
 		int quizId = getQuizId(quiz.getName(), connection);
+		if(quizId == NO_ID) return;
 		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".questions (quiz_id, index_in_quiz, serialized_object) VALUES";
 		for(int i = 0; i < quiz.getQuestionCount(); i++){
 			sql += "(?, ?, ?)";
@@ -237,7 +238,7 @@ public class Database {
 	 * */
 	public Quiz getQuiz(String name, Connection connection){ 
 		try {
-			String sql = "SELECT * from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes WHERE quiz_name = ?;";
+			String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes WHERE quiz_name = ?;";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, name);
 			ResultSet res = statement.executeQuery();

@@ -1,4 +1,3 @@
-<%@page import="sourcePackage.User"%>
 <%@page import="sourcePackage.SessionListener"%>
 <%@page import="sourcePackage.Factory_Database"%>
 <%@page import="sourcePackage.Touple"%>
@@ -95,11 +94,18 @@
 		out.println("<p>Average Score for this quiz:" +quizBase.getAverageScoreScaled()*100+"% </p>");
 		out.println("<p>Number of users that took the quiz: "+quizBase.getSubmissionCount()+"</p><br><br>");
 	
-		if (session.getAttribute(SessionListener.USER_IN_SESSION) != null) {
-			out.print("<a class=\"start\" href=" + (quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"?"+ServletConstants.QUIZ_QUESTION_NUMBER+"="+0
-			+"&"+ServletConstants.QUIZ_PARAMETER_NAME+"="+quiz.getName() + ">");
-		
-			out.println("Start the Quiz</a>");
+		if (session.getAttribute(SessionListener.USER_IN_SESSION) != null) {			
+			out.println("<form action ='"+(quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"' method ='submit'>");
+			session.setAttribute(ServletConstants.QUIZ_QUESTION_LIST, quiz.getQuestions());
+			session.setAttribute(ServletConstants.QUIZ_PARAMETER_NAME, quiz.getName());
+			session.setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER,"0");
+			session.setAttribute(ServletConstants.CURRENT_SCORE, "0");
+			out.println("<button type = 'submit' value ='Start Quiz' class='start'>");
+			out.println("Start Quiz</button>");
+
+			out.println("<input type ='hidden' name ='"+ServletConstants.QUIZ_QUESTION_NUMBER+"' value ='0'>");
+			out.println("<input type ='hidden' name ='"+ServletConstants.QUIZ_PARAMETER_NAME+"' value ='"+quiz.getName()+"'>");
+			out.println("</form>");
 		}
 	%> 
 	

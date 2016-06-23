@@ -11,22 +11,18 @@
 <head>
 <% 
 	String userName = ((User) session.getAttribute(SessionListener.USER_IN_SESSION)).getName();
-
+	Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
+	int uMessages = base.getNumOfUnreadMessages(userName, Factory_Database.getConnection());
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Inbox of <%=userName%></title>
-<%
-	Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
-
-	
-%>
-
+<title>You have <%=uMessages%> unread messages</title>
 </head>
 	<body>
-		
-
-
-
-
+		<% 
+			for (String friendName:base.getFriendList(userName, 10000000, Factory_Database.getConnection())){
+				out.println("<h3>You have"+base.getNumOfUnreadMessages(userName, friendName, Factory_Database.getConnection())
+					+"Message(s) from"+friendName+"</h3>");
+			}
+		%>
 	</body>
 </html>
