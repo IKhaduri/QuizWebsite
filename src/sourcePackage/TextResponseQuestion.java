@@ -35,5 +35,8 @@ public class TextResponseQuestion extends QuestionAbstract implements Serializab
 
 		return 1;
 	}
-
+	@Override
+	public boolean isCorrectAnswer(String answer) {
+		return correct_answers.contains(answer);
+	}
 }

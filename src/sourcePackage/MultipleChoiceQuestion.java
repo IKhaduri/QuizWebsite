@@ -36,6 +36,13 @@ public class MultipleChoiceQuestion extends QuestionAbstract implements Serializ
 	public String toHTML(int questionNum) {
 		return QuestionDrawer.toHTML(this,questionNum);
 	}
+
+	@Override
+	public boolean isCorrectAnswer(String answer) {
+		if (correct_answers.get(0).equals(answer))
+			return true;
+		return false;
+	}
 	
 
 }

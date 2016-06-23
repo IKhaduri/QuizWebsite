@@ -51,5 +51,8 @@ public abstract class QuestionAbstract implements Serializable {
 	 * */
 	public abstract String toHTML(int questionNum);
 	
+	public abstract boolean isCorrectAnswer(String answer);
+	
+	
 	public abstract int getScore();
 }

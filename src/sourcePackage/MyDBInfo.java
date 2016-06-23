@@ -9,7 +9,7 @@ package sourcePackage;
 public class MyDBInfo {
 	
 	public static final String MYSQL_USERNAME = "root";
-	public static final String MYSQL_PASSWORD = "1221";
+	public static final String MYSQL_PASSWORD = "123456";
 	public static final String MYSQL_DATABASE_SERVER = "jdbc:mysql://localhost:3306";
 	public static final String MYSQL_DATABASE_NAME = "quiz_website";
 

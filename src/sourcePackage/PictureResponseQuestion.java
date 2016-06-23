@@ -40,4 +40,8 @@ public class PictureResponseQuestion extends QuestionAbstract implements Seriali
 	public String getImage() {
 		return picture_link;
 	}
+	@Override
+	public boolean isCorrectAnswer(String answer) {
+		return correct_answers.contains(answer);
+	}
 }

@@ -37,29 +37,13 @@ public class NextQuestion extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int curQuestionNum = Integer.parseInt(request.getParameter(ServletConstants.QUIZ_QUESTION_NUMBER));
-		//TODO add a score, correct one
-		int curScore = (Integer)request.getAttribute(ServletConstants.CURRENT_SCORE);
-		ArrayList<Question> questions = (ArrayList<Question>) request.getAttribute(ServletConstants.QUIZ_QUESTION_LIST);
-		Question curQuestion = questions.get(curQuestionNum);
-		switch(curQuestion.getQuestionType()){
-			case FILL_BLANK: case TEXT_RESPONSE: case PICTURE_RESPONSE:{
-				String userResponse = request.getParameter("answer");
-				if (curQuestion.getAnswers().contains(userResponse)){
-					curScore++;
-					break;
-				}
-				break;	
-			}
-			case MULTIPLE_CHOICE:{
-				String correctAnswer = request.getParameter(ServletConstants.HIDDEN_CORRECT_ANSWER);
-				String userAnswer = request.getParameter("answer");
-				if (correctAnswer.equals(userAnswer))
-					curScore++;
-				break;
-			}
-		}
-
+		int curQuestionNum = Integer.parseInt((String)request.getSession().getAttribute(ServletConstants.QUIZ_QUESTION_NUMBER));
+		int curScore = (Integer.parseInt((String)request.getSession().getAttribute(ServletConstants.CURRENT_SCORE)));
+		ArrayList<QuestionAbstract> questions = (ArrayList<QuestionAbstract>) request.getSession().getAttribute(ServletConstants.QUIZ_QUESTION_LIST);
+		QuestionAbstract curQuestion = questions.get(curQuestionNum);
+		String userResponse = request.getParameter("answer");
+		if (curQuestion.isCorrectAnswer(userResponse))
+			curScore++;
 		curQuestionNum++;
 		
 		if (questions.size() == curQuestionNum){
@@ -86,12 +70,9 @@ public class NextQuestion extends HttpServlet {
 			}finally{
 				out.close();
 			}
-			
-			
-			
 		}
-		request.setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER, curQuestionNum);
-		request.setAttribute(ServletConstants.CURRENT_SCORE, curScore);
+		request.getSession().setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER, curQuestionNum+"");
+		request.getSession().setAttribute(ServletConstants.CURRENT_SCORE, curScore+"");
 		RequestDispatcher dispatch = request.getRequestDispatcher("QuizPage.jsp");
 		dispatch.forward(request, response);
 	}
