@@ -100,7 +100,6 @@
 			session.setAttribute(ServletConstants.QUIZ_PARAMETER_NAME, quiz.getName());
 			session.setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER,"0");
 			session.setAttribute(ServletConstants.CURRENT_SCORE, "0");
-			
 			out.println("<button type = 'submit' value ='Start Quiz' class='start'>");
 			out.println("Start Quiz</button>");
 

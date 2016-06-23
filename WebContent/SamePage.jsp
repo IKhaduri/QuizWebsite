@@ -8,7 +8,6 @@
 <%@page import="sourcePackage.Database"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%! @SuppressWarnings("unchecked") %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -20,19 +19,18 @@
 	ArrayList<QuestionAbstract> questionList = new ArrayList<QuestionAbstract>( quiz.getQuestions());
 	if (quiz.shouldShuffle())
 		Collections.shuffle(questionList);
+	session.setAttribute(ServletConstants.QUIZ_QUESTION_SHUFFLED_LIST, questionList);
 %>
 </head>
 <body>
 <form action = "QuizFinished" method = post>
-<% 
-	for (int i=0;i<questionList.size();i++){
-		String hidden = "<input type=\"hidden\" name="+ServletConstants.HIDDEN_CORRECT_ANSWER+i+
-				" value="+ questionList.get(i).getAnswers().get(0)+">";
-		out.println(hidden);
-		out.println(questionList.get(i).toHTML(i));
-	}
+	<% 
+		for (int i=0;i<questionList.size();i++){
+			out.println(questionList.get(i).toHTML(i));
+		}
 	
-%>
+	%>
+	<button type = "submit">Submit All Answers</button>
 </form>
 
 </body>
