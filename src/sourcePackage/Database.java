@@ -212,6 +212,7 @@ public class Database {
 	private void addQuestions(Quiz quiz, Connection connection) throws SQLException, IOException{
 		if(quiz.getQuestionCount() <= 0) return;
 		int quizId = getQuizId(quiz.getName(), connection);
+		if(quizId == NO_ID) return;
 		String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".questions (quiz_id, index_in_quiz, serialized_object) VALUES";
 		for(int i = 0; i < quiz.getQuestionCount(); i++){
 			sql += "(?, ?, ?)";
@@ -248,6 +249,7 @@ public class Database {
 				int timeLimit = res.getInt("time_limit");
 				boolean isSinglePage = res.getBoolean("is_single_page");
 				List<QuestionAbstract> questions = getQuizQuestions(res.getInt("id"), connection);
+				if(questions == null) System.out.println("bazas shig aqvs");
 				return Factory_Quiz.getQuiz(base, shouldShaffle, questionCap, timeLimit, isSinglePage, questions);
 			} else return null;
 		} catch (SQLException ex) {
