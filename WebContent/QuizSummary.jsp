@@ -98,7 +98,7 @@
 		%>
 	<a 
 		href = 
-		<%
+		<%	request.setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER, 0);
 			out.println((quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"?"+ServletConstants.QUIZ_QUESTION_NUMBER+"="+0
 			+"&"+ServletConstants.QUIZ_PARAMETER_NAME+"="+quiz.getName());
 		%> 
