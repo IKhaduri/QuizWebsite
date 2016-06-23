@@ -23,45 +23,38 @@
 	QuizBase quizBase = base.getQuizBase(quizName, con);
 	Quiz quiz = base.getQuiz(quizName, con);
 %>
+
+<link rel="stylesheet" href="css/quiz_summary_style.css">
 <title><%=quizBase.getName()%></title>
 
-<style>
-#Description {
-	width: 750px;
-	padding: 10px;
-	border: 5px solid gray;
-	margin: 0;
-}
-</style>
 </head>
 <body>
-
-	<h1>Description</h1>
 	<div id="Description">
 		<p>
 			<%=quizBase.getDescription()%>
 		</p>
 	</div>
-	<% if (session.getAttribute(SessionListener.USER_IN_SESSION) != null)
-		out.println("<a href=userpage.jsp?username=" + quizBase.getAuthor());%>
-		<h4>
-			The Magnificent Author
-			<%=quizBase.getAuthor()%>
+		<h4>The Magnificent Author - 
+		<%
+		if (session.getAttribute(SessionListener.USER_IN_SESSION) != null)
+			out.print("<a href=userpage.jsp?username=" + quizBase.getAuthor() + ">" + quizBase.getAuthor() + "</a>");
+		else
+			out.println(quizBase.getAuthor());%>
 		</h4>
-	</a>
+	
 	<h2>Your Past Results
 		<%
 			if (session.getAttribute(SessionListener.USER_IN_SESSION) == null) {
 				out.println(" - Not for Guests :)</h2>");
 			} else {
-				out.println("</h1><ul>");
+				out.println("</h2><ul>");
 				for (Touple<Double, Timestamp, Timestamp> result : base.getScores(userName, quizName, ServletConstants.LISTS_LIMIT, con)) {
 				out.println(
 						"<li>" + result.getSecond() + " " + result.getThird() + " " + result.getFirst() + "% </li>");
 				}
+				out.println("</ul>");
 			}
 		%>
-	</ul>
 
 	<h2>The Glorious Hall Of Fame</h2>
 
@@ -100,13 +93,13 @@
 		out.println("<p>Maximum Score of this quiz:" +quizBase.getQuizScore()+"</p>");
 		out.println("<p>Average Score for this quiz:" +quizBase.getAverageScore()+"</p>");
 		out.println("<p>Average Score for this quiz:" +quizBase.getAverageScoreScaled()*100+"% </p>");
-		out.println("<p>Number of users that took the quiz: "+quizBase.getSubmissionCount()+"</p>");
+		out.println("<p>Number of users that took the quiz: "+quizBase.getSubmissionCount()+"</p><br><br>");
 	
 		if (session.getAttribute(SessionListener.USER_IN_SESSION) != null) {
-			out.println("<a href=" + (quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"?"+ServletConstants.QUIZ_QUESTION_NUMBER+"="+0
-			+"&"+ServletConstants.QUIZ_PARAMETER_NAME+"="+quiz.getName());
+			out.print("<a class=\"start\" href=" + (quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"?"+ServletConstants.QUIZ_QUESTION_NUMBER+"="+0
+			+"&"+ServletConstants.QUIZ_PARAMETER_NAME+"="+quiz.getName() + ">");
 		
-			out.println("<p>Start the Quiz</p></a>");
+			out.println("Start the Quiz</a>");
 		}
 	%> 
 	
