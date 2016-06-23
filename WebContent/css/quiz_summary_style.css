@@ -59,6 +59,7 @@ a:hover, a:active {
 .start {
 	padding:10px;
 	font-size:18px;
+	cursor: pointer;
 }
 
 #Description {
