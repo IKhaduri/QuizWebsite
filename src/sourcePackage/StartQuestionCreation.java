@@ -37,7 +37,7 @@ public class StartQuestionCreation extends HttpServlet {
 				timelimit = request.getParameter("time_limit");
 		
 		if (quizname == null || quizname.length() <= 0 ||
-				((Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME)).quizNameUsed(quizname, Factory_Database.getConnection())
+				!((Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME)).quizNameAvailable(quizname, Factory_Database.getConnection())
 				|| description == null || description.length() <= 0 || timelimit == null || timelimit.length() <= 0) {
 			request.getRequestDispatcher("QuizCreationHead.html").forward(request, response);
 			return;
