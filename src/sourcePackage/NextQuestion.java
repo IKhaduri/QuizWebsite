@@ -2,6 +2,8 @@ package sourcePackage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -45,7 +47,7 @@ public class NextQuestion extends HttpServlet {
 		if (curQuestion.isCorrectAnswer(userResponse))
 			curScore++;
 		curQuestionNum++;
-		
+		Connection con =null;
 		if (questions.size() == curQuestionNum){
 			PrintWriter out = null;
 			try{
@@ -64,8 +66,22 @@ public class NextQuestion extends HttpServlet {
 				out.println("<a href = 'userpage.jsp?"+userName+"' value = 'Back To Home'>Back to Home</a>");
 				out.println("</body>");
 				out.println("</html>");
-			}finally{
+				Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
+				String quizName = (String)request.getSession().getAttribute(ServletConstants.QUIZ_PARAMETER_NAME);
+				con = Factory_Database.getConnection();
+				base.logSubmission(quizName, userName, curScore, con);
+				
+			}catch(Throwable e){
+				e.printStackTrace();
+			}
+			finally{
 				out.close();
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		request.getSession().setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER, curQuestionNum+"");

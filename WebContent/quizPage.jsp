@@ -1,3 +1,8 @@
+<%@page import="sourcePackage.Quiz"%>
+<%@page import="sourcePackage.Factory_Database"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="sourcePackage.Database"%>
+<%@page import="sourcePackage.ContextInitializer"%>
 <%@page import="sourcePackage.QuestionAbstract"%>
 <%@page import="java.util.Collections"%>
 <%@page import="java.util.ArrayList"%>
@@ -11,6 +16,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title> Have fun! </title>
 <% 
+	
+	boolean quizStarted = (Boolean)session.getAttribute(ServletConstants.QUIZ_STARTED);
+	if (!quizStarted){
+		Connection con = Factory_Database.getConnection();
+		Database base =(Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
+		Quiz quiz = base.getQuiz(request.getParameter(ServletConstants.QUIZ_PARAMETER_NAME), con);
+		session.setAttribute(ServletConstants.QUIZ_QUESTION_LIST, quiz.getQuestions());
+		session.setAttribute(ServletConstants.QUIZ_PARAMETER_NAME, quiz.getName());
+		session.setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER,"0");
+		session.setAttribute(ServletConstants.CURRENT_SCORE, "0");
+		session.setAttribute(ServletConstants.QUIZ_STARTED,true);
+	}
 	int curQuestionNum = (Integer.parseInt((String)session.getAttribute(ServletConstants.QUIZ_QUESTION_NUMBER)));
 	ArrayList<QuestionAbstract> questions = (ArrayList<QuestionAbstract>) session.getAttribute(ServletConstants.QUIZ_QUESTION_LIST);
 	String servletToCall = questions.size()-1>=curQuestionNum?"NextQuestion":"QuizFinished";

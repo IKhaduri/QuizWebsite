@@ -19,6 +19,7 @@ public class SessionListener implements HttpSessionListener {
     public void sessionCreated(HttpSessionEvent arg0)  { 
          User currentUser = null;
          arg0.getSession().setAttribute(USER_IN_SESSION, currentUser);
+         arg0.getSession().setAttribute(ServletConstants.QUIZ_STARTED, false);
     }
 
 	/**
