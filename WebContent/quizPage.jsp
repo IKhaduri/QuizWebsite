@@ -9,7 +9,7 @@
 <%@page import="sourcePackage.ServletConstants"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
- <%! @SuppressWarnings("unchecked") %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -30,7 +30,7 @@
 	}
 	int curQuestionNum = (Integer.parseInt((String)session.getAttribute(ServletConstants.QUIZ_QUESTION_NUMBER)));
 	ArrayList<QuestionAbstract> questions = (ArrayList<QuestionAbstract>) session.getAttribute(ServletConstants.QUIZ_QUESTION_LIST);
-	String servletToCall = questions.size()-1>=curQuestionNum?"NextQuestion":"QuizFinished";
+	String servletToCall = questions.size()+1>=curQuestionNum?"NextQuestion":"QuizFinished";
 	QuestionAbstract curQuestion = questions.get(curQuestionNum);
 %>
 </head>
@@ -41,7 +41,7 @@
 	out.println("<h3>"+curQuestion.getQuestion() +"</h3>");
 	out.println("<form action = \""+servletToCall+"\" method = \"post\">");
 	out.print(curQuestion.toHTML()); 
-	out.println("<p><button type = \" submit \" value = \" Submit/Next Question \" >   </p>");
+	out.println("<br><input type = \"submit\" value = \"submit/Next Question\">");
 	out.println("</form>");
 %>
 </body> 

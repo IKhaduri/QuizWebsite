@@ -240,8 +240,8 @@ public class Database {
 	 * @param score - user's score
 	 * @return true, if successful
 	 */
-	public boolean logSubmission(String quizName, String username, int score, Connection connection){
-		return logSubmission(quizName, username, score, now(), now(), connection);
+	public boolean logSubmission(String quizName, String username, int score, int quizScore, Connection connection){
+		return logSubmission(quizName, username, score, quizScore, now(), now(), connection);
 	}
 	
 	/**
@@ -252,10 +252,10 @@ public class Database {
 	 * @param score - user's score
 	 * @param startTime - test start date
 	 * @return true, if successful
-	 */
+	 *
 	public boolean logSubmission(String quizName, String username, int score, Timestamp startTime, Connection connection){
 		return logSubmission(quizName, username, score, startTime, now(), connection);
-	}
+	}*/
 	
 	
 	/**
@@ -267,12 +267,13 @@ public class Database {
 	 * @param endTime - test end date
 	 * @return true, if successful
 	 */
-	public boolean logSubmission(String quizName, String username, int score, Timestamp startTime, Timestamp endTime, Connection connection){
+	public boolean logSubmission(String quizName, String username, int score, int quizScore, Timestamp startTime, Timestamp endTime, Connection connection){
 		try{
 			int quizId = getQuizId(quizName, connection);
 			int userId = getUserId(username, connection);
 			if(quizId == NO_ID || userId == NO_ID) return false;
 			updateQuiz(quizId, score, connection);
+			updateUserStatistics(userId, score, quizScore, connection);
 			logSubmission(quizId, userId, score, startTime, endTime, connection);
 		} catch (SQLException ex) {
 			return false;
@@ -283,6 +284,56 @@ public class Database {
 		return true;
 	}
 	
+	private void updateUserStatistics(int userId, int score, int quizScore, Connection connection) {
+		if (score <= 0) return;
+		
+		updateUserTotalScore(userId, score, connection);
+		updateUserMaxScore(userId, score, quizScore, connection);
+	}
+
+	private void updateUserTotalScore(int userId, int score, Connection connection) {
+		try {
+			String query = "update " + MyDBInfo.MYSQL_DATABASE_NAME + ".users set total_score = ? where id = ?;";
+			PreparedStatement st = connection.prepareStatement(query);
+			st.setInt(1, score  + getUserTotalScore(getUserName(userId, connection), connection));
+			st.setInt(2, userId);
+			st.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void updateUserMaxScore(int userId, int score, int quizScore, Connection connection) {
+		double score_in_percentage = percentage(quizScore, score);
+		try {
+			if (getUserMaxScore(getUserName(userId, connection), connection) >= score_in_percentage)
+				return;
+			
+			String query = "update " + MyDBInfo.MYSQL_DATABASE_NAME + ".users set max_score = ? where id = ?;";
+			PreparedStatement st = connection.prepareStatement(query);
+			st.setDouble(1, score_in_percentage);
+			st.setInt(2, userId);
+			st.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	/*private int getQuizMaxPossibleScore(int quizId, Connection connection) {
+		try {
+			String query = "select quiz_score from " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes " +
+					"where id = ?;";
+			PreparedStatement st = connection.prepareStatement(query);
+			st.setInt(1, quizId);
+			ResultSet set = st.executeQuery();
+			if (set == null || !set.next()) return -1;
+			return set.getInt(1);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return -1;
+		}
+	}*/
+
 	private Timestamp now(){
 		return new Timestamp(new Date().getTime());
 	}
@@ -625,7 +676,7 @@ public class Database {
 		if (connection == null) return NO_CONNECTION;
 		
 		try {
-			PreparedStatement ps = connection.prepareStatement("select 'max_score' from "
+			PreparedStatement ps = connection.prepareStatement("select max_score from "
 					+ MyDBInfo.MYSQL_DATABASE_NAME + ".users where id = ?;");
 			ps.setInt(1, getUserId(username, connection));
 			ResultSet rs = ps.executeQuery();
@@ -649,13 +700,12 @@ public class Database {
 		if (connection == null) return NO_CONNECTION;
 		
 		try {
-			PreparedStatement ps = connection.prepareStatement("select 'total_score' from "
+			PreparedStatement ps = connection.prepareStatement("select total_score from "
 					+ MyDBInfo.MYSQL_DATABASE_NAME + ".users where id = ?;");
 			ps.setInt(1, getUserId(username, connection));
 			ResultSet rs = ps.executeQuery();
 			
-			if (rs == null) return 0;
-			rs.next();
+			if (rs == null || !rs.next()) return NO_CONNECTION;
 			
 			return rs.getInt(1);
 		} catch (Exception e) {
@@ -759,6 +809,7 @@ public class Database {
 	private static String getUserName(int id, Connection connection) throws SQLException{
 		String sql = "SELECT username FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".users WHERE id = ?;";
 		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setInt(1, id);
 		ResultSet res = ps.executeQuery();
 		if(res.next()){
 			return res.getString("username");

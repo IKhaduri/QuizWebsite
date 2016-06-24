@@ -31,7 +31,7 @@ public class QuizFinished extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		doPost(request, response);
 	}
 
 	/**
@@ -60,15 +60,16 @@ public class QuizFinished extends HttpServlet {
 				out.println("<h1>Congratulations! You Have Successfully Finished The Quiz!</h1>");
 				out.println("<h2>Your Score Is :"+ curScore+ "</h2>");
 				out.println("<h3>Maximum Score On this Quiz Was:"+questionList.size()+"</h3>");
-				if (questionList.size()*5/6<=curScore)
+				if (questionList.size()*5/6<=curScore) {
 					out.println("<h1>So, YOU DID AN AWESOME JOB! KEEP THAT UP!</h1>");
-				out.println("<a href = 'userpage.jsp?"+userName+"' value = 'Back To Home'>Back to Home</a>");
+				}
+				out.println("<a href = 'homepage.jsp' value = 'Back To Home'>Back to Home</a>");
 				out.println("</body>");
 				out.println("</html>");
 				Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 				String quizName = (String)request.getSession().getAttribute(ServletConstants.QUIZ_PARAMETER_NAME);
 				con = Factory_Database.getConnection();
-				base.logSubmission(quizName, userName, curScore, con);
+				base.logSubmission(quizName, userName, curScore, questionList.size(), con);
 				request.getSession().setAttribute(ServletConstants.QUIZ_STARTED, false);
 			}catch(Throwable e){
 				e.printStackTrace();

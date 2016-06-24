@@ -95,7 +95,7 @@
 		out.println("<p>Number of users that took the quiz: "+quizBase.getSubmissionCount()+"</p><br><br>");
 	
 		if (session.getAttribute(SessionListener.USER_IN_SESSION) != null) {			
-			out.println("<form action ='"+(quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"' method ='submit'>");
+			out.println("<form action ='"+(quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"' method ='get'>");
 			session.setAttribute(ServletConstants.QUIZ_QUESTION_LIST, quiz.getQuestions());
 			session.setAttribute(ServletConstants.QUIZ_PARAMETER_NAME, quiz.getName());
 			session.setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER,"0");

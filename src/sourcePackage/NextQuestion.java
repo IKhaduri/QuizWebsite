@@ -63,13 +63,13 @@ public class NextQuestion extends HttpServlet {
 				out.println("<h3>Maximum Score On this Quiz Was:"+questions.size()+"</h3>");
 				if (questions.size()*5/6<=curScore)
 					out.println("<h1>So, YOU DID AN AWESOME JOB! KEEP THAT UP!</h1>");
-				out.println("<a href = 'userpage.jsp?"+userName+"' value = 'Back To Home'>Back to Home</a>");
+				out.println("<a href = 'homepage.jsp' value = 'Back To Home'>Back to Home</a>");
 				out.println("</body>");
 				out.println("</html>");
 				Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 				String quizName = (String)request.getSession().getAttribute(ServletConstants.QUIZ_PARAMETER_NAME);
 				con = Factory_Database.getConnection();
-				base.logSubmission(quizName, userName, curScore, con);
+				base.logSubmission(quizName, userName, curScore, questions.size(), con);
 				request.getSession().setAttribute(ServletConstants.QUIZ_STARTED, false);
 			}catch(Throwable e){
 				e.printStackTrace();
@@ -83,6 +83,7 @@ public class NextQuestion extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
+			return;
 		}
 		request.getSession().setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER, curQuestionNum+"");
 		request.getSession().setAttribute(ServletConstants.CURRENT_SCORE, curScore+"");
