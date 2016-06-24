@@ -16,12 +16,13 @@ public class QuestionDrawer implements Serializable{
 	 * */
 	public static String toHTML(MultipleChoiceQuestion question){
 		String res = "";
-		res+="<p>"+question.getQuestion()+"<p>";
+		res+="<p>"+question.getQuestion()+"</p>";
 		ArrayList<String> toShuffle = new ArrayList<String>(question.getAnswers());
 		Collections.shuffle(toShuffle);
 		for (String answer: toShuffle){
 			res+=("<input type=\"radio\" name=\'answer\' value=\""+answer+"\" >")+ answer+"<br> \n";
 		}
+		res += "<br><br>";
 		return res;
 	}
 	/**
@@ -38,6 +39,7 @@ public class QuestionDrawer implements Serializable{
 		for (String answer: toShuffle){
 			res+=("<input type=\"radio\" name=\'answer"+questionNum+"\' value=\""+answer+"\" >")+ answer+" <br> \n";
 		}
+		res += "<br><br>";
 		return res;
 	}
 	
@@ -50,8 +52,8 @@ public class QuestionDrawer implements Serializable{
 	public static String toHTML(PictureResponseQuestion question){
 		String res = "";
 		res+="<p>"+question.getQuestion()+"<p>";
-		res+=("<img src=\"" + question.getImage()+ "\">")+"\n";
-		res+=("<input type = \"text\" name =\"answer\">")+"\n";
+		res+=("<img src=\"" + question.getImage()+ "\" width=\"500\" height=\"375\" alt=\"Picture should be here... :/\">")+"<br><br>\n";
+		res+=("<textarea class=\"area\" name=\"answer\" rows = \"5\" cols=\"68\" placeholder=\"answer here...\"></textarea><br><br>")+"\n";
 		return res;
 	}
 	/**
@@ -63,8 +65,8 @@ public class QuestionDrawer implements Serializable{
 	public static String toHTML(PictureResponseQuestion question, int questionNum){
 		String res = "";
 		res+="<p>"+question.getQuestion()+"<p>";
-		res+=("<img src=\"" + question.getImage()+ "\">")+"\n";
-		res+=("<input type = \"text\" name =\"answer"+questionNum+"\">")+"\n";
+		res+=("<img src=\"" + question.getImage()+ "\" width=\"500\" height=\"375\" alt=\"Picture should be here... :/\">")+"<br><br>\n";
+		res+=("<textarea class=\"area\" name=\"answer"+questionNum+"\" rows = \"5\" cols=\"68\" placeholder=\"answer here...\"></textarea><br><br>")+"\n";
 		return res;
 	}
 	
@@ -75,8 +77,8 @@ public class QuestionDrawer implements Serializable{
 	 * */
 	public static String toHTML(TextResponseQuestion question){
 		String res = "";
-		res+="<p>"+question.getQuestion()+"<p>";
-		res+=("<input type = \"text\" name =\"answer\">")+"\n";
+		res+="<p>"+question.getQuestion()+"</p>";
+		res+=("<textarea class=\"area\" name=\"answer\" rows = \"5\" cols=\"68\" placeholder=\"answer here...\"></textarea><br><br>")+"\n";
 		return res;
 	}
 	
@@ -88,8 +90,8 @@ public class QuestionDrawer implements Serializable{
 	 * */
 	public static String toHTML(TextResponseQuestion question, int questionNum){
 		String res = "";
-		res+="<p>"+question.getQuestion()+"<p>";
-		res+=("<input type = \"text\" name =\"answer"+questionNum+"\">")+"\n";
+		res+="<p>"+question.getQuestion()+"</p>";
+		res+=("<textarea class=\"area\" name=\"answer"+questionNum+"\" rows = \"5\" cols=\"68\" placeholder=\"answer here...\"></textarea><br><br>")+"\n";
 		return res;
 	}
 	
