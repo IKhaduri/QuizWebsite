@@ -997,7 +997,7 @@ public class Database {
 		try{
 			int userId = getUserId(username, connection);
 			String query = "SELECT username FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends, " + MyDBInfo.MYSQL_DATABASE_NAME + ".users "
-					+ "WHERE (first_id = ? and second_id = id) OR (first_id = id and second_id = ?) LIMIT ?;";
+					+ "WHERE ((first_id = ? and second_id = id) OR (first_id = id and second_id = ?)) AND type = true LIMIT ?;";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setInt(1, userId);
 			ps.setInt(2, userId);
@@ -1056,7 +1056,7 @@ public class Database {
 			if(first == NO_ID || second == NO_ID) return false;
 			
 			String sql = "SELECT FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends"
-					+ " WHERE (first_id = ? and second_id = ?) OR (first_id = ? and second_id = ?)";
+					+ " WHERE type = true AND ((first_id = ? and second_id = ?) OR (first_id = ? and second_id = ?))";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, first);
 			ps.setInt(2, second);

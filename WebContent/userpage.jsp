@@ -108,6 +108,12 @@
             <!-- RIGHT-CONTAINER -->
             
             <div class="right-container container">
+            	<% if (!db.areFriends(me.getName(), user.getName(), connection)) {
+	            	out.println("<form action=\"FriendRequest\" method=\"post\">");
+	            	out.println("<input type=\"hidden\" name=\"username\" value=\"" + user.getName() + "\">");
+	            	out.println("<input type=\"submit\" value=\"Add Friend\" class=\"friend\"></form><br>");
+            	}%>
+            	
                 <div class="menu-box block">
                     <h2 class="titular">Own Quizzes</h2>
                     <ul class="menu-box-menu">                        

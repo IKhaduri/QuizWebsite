@@ -158,6 +158,21 @@ h1, h2, p, a, span{
 	border-top-right-radius: 5px;
 }
 
+.friend {
+	background-color:#ed8223;
+	color:#fff;
+	font-family:'Helvetica Neue',sans-serif;
+	font-size:18px;
+	line-height:30px;
+	border-radius:20px;
+	-webkit-border-radius:20px;
+	-moz-border-radius:20px;
+	border:0;
+	text-shadow:#C17C3A 0 -1px 0;
+	width:120px;
+	height:32px
+} 
+
 .button {
 	display: block;
 	width: 175px;
