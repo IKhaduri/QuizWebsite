@@ -13,6 +13,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" href="css/quizpage_style.css">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title> Have fun! </title>
 <% 
@@ -38,10 +39,9 @@
 <input type="hidden" name=<%="'"+ServletConstants.QUIZ_QUESTION_NUMBER+"'" %> value="<%= request.getParameter(ServletConstants.QUIZ_QUESTION_NUMBER) %>" >
 <% 
 
-	out.println("<h3>"+curQuestion.getQuestion() +"</h3>");
 	out.println("<form action = \""+servletToCall+"\" method = \"post\">");
 	out.print(curQuestion.toHTML()); 
-	out.println("<br><input type = \"submit\" value = \"submit/Next Question\">");
+	out.println("<br><input type = \"submit\" value = \"submit / Next Question\">");
 	out.println("</form>");
 %>
 </body> 
