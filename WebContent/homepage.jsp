@@ -68,6 +68,10 @@
 
             <!-- LEFT-CONTAINER -->
             <div class="left-container container">
+            	<form action="SearchServlet" method="get">
+            		<input type="text" name="search" placeholder="search...">
+            		<input type="submit" style="position: absolute; left: -9999px"/>
+            	</form>
                 <div class="menu-box block">
                     <h2 class="titular">Submissions</h2>
                     <ul class="menu-box-menu">
@@ -137,6 +141,7 @@
             <!-- RIGHT-CONTAINER -->
             
             <div class="right-container container">
+            	<input type="text" class="strainght_to_search">
                 <div class="menu-box block">
                     <h2 class="titular">Popular quizzes</h2>
                     <ul class="menu-box-menu">

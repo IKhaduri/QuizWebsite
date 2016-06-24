@@ -149,6 +149,10 @@ h1, h2, p, a, span{
 	font-size: 25px;
 }
 
+.strainght_to_search {
+	visibility: hidden;
+}
+
 .titular {
 	display: block;
 	line-height: 60px;

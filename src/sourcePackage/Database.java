@@ -460,9 +460,9 @@ public class Database {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
-			if (rs == null) 
+			if (rs == null || !rs.next()) 
 				return null;
-			rs.next();
+			
 			String password_from_db = rs.getString(1);
 			
 			return Factory_User.getUser(username, password_from_db);
