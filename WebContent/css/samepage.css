@@ -1,0 +1,41 @@
+body {
+  font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  color:white;
+  font-size:16px;
+  background-color:rgba(215, 40, 40, 0.9);
+  text-align:center;
+  
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.question {
+	font-size:24px;
+	font-weight:bold;
+}
+
+textarea {
+  padding:8px 5px;
+  border:1px solid #222;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.1);
+  border-radius:0.3em;
+  margin-bottom:20px;
+  resize:none;
+}
+
+input[type=submit] {
+	background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+	font-weight:bold;
+    margin: 4px 2px;
+    cursor: pointer;
+}

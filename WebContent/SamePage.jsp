@@ -30,7 +30,7 @@
 		}
 	
 	%>
-	<button type = "submit">Submit All Answers</button>
+	<input type = "submit">
 </form>
 
 </body>

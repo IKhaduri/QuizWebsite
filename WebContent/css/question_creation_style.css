@@ -35,10 +35,12 @@ div {
 }
 
 .area {
+	resize:none;
 	color: black;
 	background-color: transparent;
 	margin:0px;
-	width:100%;
+	width:99%;
+	border:none;
 	font-family: Candara,Calibri,Segoe,Segoe UI,Optima,Arial,sans-serif;
 	font-size:16px;
 }
