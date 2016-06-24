@@ -81,6 +81,7 @@ create table if not exists messages(
 create table if not exists friends(
 	first_id int(11) not null,				# first user
     second_id int(11) not null,				# second user
+	type bool default true,					# one side / two side (true)
     
     unique key (first_id, second_id)
 );

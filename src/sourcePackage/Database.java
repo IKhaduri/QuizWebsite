@@ -1011,6 +1011,7 @@ public class Database {
 				list.add(set.getString(username));
 			return list;
 		} catch (SQLException ex) {
+			ex.printStackTrace();
 			return null;
 		}
 	}
@@ -1022,7 +1023,7 @@ public class Database {
 	 * @param secondUser - second user name
 	 * @return true, if successful
 	 */
-	public boolean addFriends(String firstUser, String secondUser, Connection connection){
+	public boolean addFriends(String firstUser, String secondUser, boolean type, Connection connection){
 		if(firstUser == null || secondUser == null || connection == null) return false;
 		if(firstUser.equals(secondUser)) return false;
 		try{
@@ -1030,16 +1031,43 @@ public class Database {
 			int second = getUserId(secondUser, connection);
 			if(first == NO_ID || second == NO_ID) return false;
 			
-			String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends (first_id, second_id) VALUES (?, ?);";
+			String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends (first_id, second_id, type) VALUES (?, ?, ?);";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, first);
 			ps.setInt(2, second);
+			ps.setBoolean(3, type);
 			ps.execute();
 			return true;
 		}catch (SQLException ex) {
+			ex.printStackTrace();
 			return false;
 		}
 	}
+	
+	public boolean unfriend(String firstUser, String secondUser, Connection connection) {
+		if(firstUser == null || secondUser == null || connection == null) return false;
+		if(firstUser.equals(secondUser)) return false;
+		try{
+			int first = getUserId(firstUser, connection);
+			int second = getUserId(secondUser, connection);
+			if(first == NO_ID || second == NO_ID) return false;
+			
+			String sql = "DELETE FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends WHERE "
+					+ "(first_id = ? and second_id = ?) OR (first_id = ? and second_id = ?);";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, first);
+			ps.setInt(2, second);
+			ps.setInt(3, second);
+			ps.setInt(4, first);
+			ps.execute();
+			return true;
+		}catch (SQLException ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+	
+	
 	
 	/**
 	 * Tells, if the given users are friends or not
@@ -1047,7 +1075,7 @@ public class Database {
 	 * @param secondUser - second user name
 	 * @return true, if the users are friends and no SQL exception occurred
 	 */
-	public boolean areFriends(String firstUser, String secondUser, Connection connection){
+	public boolean areFriends(String firstUser, String secondUser, boolean type, Connection connection){
 		if(firstUser == null || secondUser == null || connection == null) return false;
 		if(firstUser.equals(secondUser)) return false;
 		try{
@@ -1055,18 +1083,21 @@ public class Database {
 			int second = getUserId(secondUser, connection);
 			if(first == NO_ID || second == NO_ID) return false;
 			
-			String sql = "SELECT FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends"
-					+ " WHERE type = true AND ((first_id = ? and second_id = ?) OR (first_id = ? and second_id = ?))";
+			String sql = "SELECT count(*) FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends"
+					+ " WHERE type = ? AND ((first_id = ? and second_id = ?) OR (first_id = ? and second_id = ?));";
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, first);
-			ps.setInt(2, second);
+			ps.setBoolean(1, type);
+			ps.setInt(2, first);
 			ps.setInt(3, second);
-			ps.setInt(4, first);
+			ps.setInt(4, second);
+			ps.setInt(5, first);
 			ResultSet set = ps.executeQuery();
 			
 			if(set == null) return false;
-			return set.next();
+			set.next();
+			return set.getInt("count(*)") > 0;
 		}catch (SQLException ex) {
+			ex.printStackTrace();
 			return false;
 		}
 	}

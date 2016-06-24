@@ -108,11 +108,18 @@
             <!-- RIGHT-CONTAINER -->
             
             <div class="right-container container">
-            	<% if (!db.areFriends(me.getName(), user.getName(), connection)) {
+            	<%
+            		String label = "Unfriend";
+	            	if (!db.areFriends(me.getName(), user.getName(), true, connection)) {
+	            		if (!db.areFriends(me.getName(), user.getName(), false, connection))
+				           	label = "Add Friend";
+	            		else
+				           	label = "Cancel Request";
+	            	}
 	            	out.println("<form action=\"FriendRequest\" method=\"post\">");
-	            	out.println("<input type=\"hidden\" name=\"username\" value=\"" + user.getName() + "\">");
-	            	out.println("<input type=\"submit\" value=\"Add Friend\" class=\"friend\"></form><br>");
-            	}%>
+		           	out.println("<input type=\"hidden\" name=\"username\" value=\"" + user.getName() + "\">");
+		           	out.println("<input type=\"submit\" value=\"" + label + "\" class=\"friend\"></form><br>");
+            	%>
             	
                 <div class="menu-box block">
                     <h2 class="titular">Own Quizzes</h2>
