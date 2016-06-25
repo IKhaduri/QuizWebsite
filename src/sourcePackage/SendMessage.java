@@ -1,6 +1,9 @@
 package sourcePackage;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +36,13 @@ public class SendMessage extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
+		User user = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
+		String receiver = request.getParameter("username");
+		String msg_text = request.getParameter("message_text");
 		
+		Message msg = Factory_User.getMessage(receiver, user.getName(), msg_text, new Timestamp(new Date().getTime()), false);
+		db.addMessage(msg, Factory_Database.getConnection());
 	}
 
 }
