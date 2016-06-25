@@ -1209,6 +1209,29 @@ public class Database {
 		
 		return true;
 	}
+	
+	public List<String> getFriendRequestsList(String username, Connection connection) {
+		if (connection == null || username == null || username.length() <= 0) return null;
+		
+		try {
+			String query = "select first_id from " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends "
+					+ "where second_id = ? and type = false;";
+			PreparedStatement st = connection.prepareStatement(query);
+			st.setInt(1, getUserId(username, connection));
+			ResultSet set = st.executeQuery();
+			if (set == null) return null;
+			
+			List<String> res = new ArrayList<String>();
+			while (set.next())
+				res.add(getUserName(set.getInt("first_id"), connection));
+			
+			return res;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
 }
+
 
 
