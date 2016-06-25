@@ -928,12 +928,41 @@ public class Database {
 	 * @return List of unread messages
 	 */
 	public List<Message> getUnreadMessages(String username, int num, Connection connection){
+		return getMessages(username, null, true, num, connection);
+	}
+	
+	/**
+	 * Fetches unread messages for the given user
+	 * @param username - receiver name
+	 * @param senderName - sender name
+	 * @param num - limit for the returned list size
+	 * @return List of unread messages
+	 */
+	public List<Message> getUnreadMessages(String username, String senderName, int num, Connection connection){
+		return getMessages(username, senderName, true, num, connection);
+	}
+	
+	/**
+	 * Fetches unread messages for the given user
+	 * @param username - receiver name
+	 * @param senderName - sender name
+	 * @param unreadOnly - true, if user wants only unread messages
+	 * @param num - limit for the returned list size
+	 * @return List of unread messages
+	 */
+	public List<Message> getMessages(String username, String senderName, boolean unreadOnly, int num, Connection connection){
 		try{
 			String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".messages"
-					+ " WHERE receiver_id = ? AND message_seen = false ORDER BY delivery_date DESC LIMIT ?;";
+					+ " WHERE receiver_id = ?";
+			if (senderName != null) sql += " AND sender_id = ?"; 
+			if (unreadOnly) sql += " AND message_seen = false"; 
+			sql += " ORDER BY delivery_date DESC LIMIT ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, getUserId(username, connection));
-			ps.setInt(2, num);
+			if (senderName != null){
+				ps.setInt(2, getUserId(senderName, connection));
+				ps.setInt(3, num);
+			} else ps.setInt(2, num);
 			return(getMessages(null, username, ps.executeQuery(), connection));
 		} catch (SQLException e) {
 			e.printStackTrace();
