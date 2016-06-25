@@ -24,5 +24,11 @@
 					+" Message(s) from"+friendName+"</h3></a>");
 			}
 		%>
+		<br><br><br>
+		<form action="SendMessage" method="post">
+			<input type="text" name="dest" placeholder="To:">
+			<textarea class="area" name="message_text" rows="5" cols="68" placeholder="type here..."></textarea><br><br>
+			<input type="submit" value="Reply">
+		</form>
 	</body>
 </html>
