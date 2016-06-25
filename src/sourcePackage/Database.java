@@ -361,6 +361,7 @@ public class Database {
 		statement.setInt(3, score);
 		statement.setTimestamp(4, startTime);
 		statement.setTimestamp(5, endTime);
+		statement.execute();
 	}
 	
 	/**
