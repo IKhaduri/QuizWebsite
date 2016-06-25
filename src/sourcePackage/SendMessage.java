@@ -43,6 +43,8 @@ public class SendMessage extends HttpServlet {
 		
 		Message msg = Factory_User.getMessage(receiver, user.getName(), msg_text, new Timestamp(new Date().getTime()), false);
 		db.addMessage(msg, Factory_Database.getConnection());
+		
+		request.getRequestDispatcher("Inbox.jsp").forward(request, response);
 	}
 
 }
