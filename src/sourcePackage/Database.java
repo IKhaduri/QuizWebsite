@@ -1164,7 +1164,7 @@ public class Database {
 		return true;
 	}
 	
-	public List<Integer> getFriendRequestsList(String username, Connection connection) {
+	public List<String> getFriendRequestsList(String username, Connection connection) {
 		if (connection == null || username == null || username.length() <= 0) return null;
 		
 		try {
@@ -1175,9 +1175,9 @@ public class Database {
 			ResultSet set = st.executeQuery();
 			if (set == null) return null;
 			
-			List<Integer> res = new ArrayList<Integer>();
+			List<String> res = new ArrayList<String>();
 			while (set.next())
-				res.add(set.getInt("first_id"));
+				res.add(getUserName(set.getInt("first_id"), connection));
 			
 			return res;
 		} catch (SQLException ex) {
