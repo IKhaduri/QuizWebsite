@@ -29,6 +29,7 @@
 	%>
 
 	<form action="SendMessage" method="post">
+		<input type="hidden" name="dest" value="\"" + senderName + "\"">
 		<textarea class="area" name="message_text" rows="5" cols="68" placeholder="type here..."> </textarea><br><br>
 		<input type="submit" value="Reply">
 	</form>	

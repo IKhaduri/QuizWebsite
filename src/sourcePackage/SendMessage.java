@@ -38,7 +38,7 @@ public class SendMessage extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		User user = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
-		String receiver = request.getParameter("username");
+		String receiver = request.getParameter("dest");
 		String msg_text = request.getParameter("message_text");
 		
 		Message msg = Factory_User.getMessage(receiver, user.getName(), msg_text, new Timestamp(new Date().getTime()), false);
