@@ -51,8 +51,6 @@
 				out.println(" - Not for Guests :)</h2>");
 			} else {
 				out.println("</h2><ul>");
-				System.out.println(base.getScores(userName, quizName, ServletConstants.LISTS_LIMIT, con).isEmpty());
-				System.out.println(userName);
 				for (Touple<Double, Timestamp, Timestamp> result : base.getScores(userName, quizName, ServletConstants.LISTS_LIMIT, con)) {
 				
 				out.println(

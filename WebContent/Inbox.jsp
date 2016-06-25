@@ -1,3 +1,7 @@
+<%@page import="java.util.HashSet"%>
+<%@page import="sourcePackage.Message"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.util.Set"%>
 <%@page import="sourcePackage.Factory_Database"%>
 <%@page import="sourcePackage.User"%>
 <%@page import="sourcePackage.SessionListener"%>
@@ -12,18 +16,26 @@
 <% 
 	String userName = ((User) session.getAttribute(SessionListener.USER_IN_SESSION)).getName();
 	Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
-	int uMessages = base.getNumOfUnreadMessages(userName, Factory_Database.getConnection());
+	Connection con = Factory_Database.getConnection();
+	int uMessages = base.getNumOfUnreadMessages(userName, con);
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>You have <%=uMessages%> unread messages</title>
 </head>
 	<body>
 		<%
-			for (String friendName:base.getFriendList(userName, 10000000, Factory_Database.getConnection())){
-				out.println("<a href=\"SeeMessage.jsp?username=\"" + friendName + "\"><h3>You have"+base.getNumOfUnreadMessages(userName, friendName, Factory_Database.getConnection())
-					+" Message(s) from"+friendName+"</h3></a>");
+			Set<String> set = new HashSet<String>();
+			for(Message message : base.getUnreadMessages(userName,  10000000, con)){
+				set.add(message.getSender());
+			}
+		
+			for (String friendName:set){
+
+				out.println("<a href=\"SeeMessage.jsp?username=" + friendName + "\"><h3>You have "+base.getNumOfUnreadMessages(userName, friendName, con)
+					+" Unread Message(s) from "+friendName+"</h3></a>");
 			}
 		%>
+		
 		<br><br><br>
 		<form action="SendMessage" method="post">
 			<input type="text" name="dest" placeholder="To:">
@@ -31,4 +43,5 @@
 			<input type="submit" value="Send">
 		</form>
 	</body>
+	<%con.close();%>
 </html>

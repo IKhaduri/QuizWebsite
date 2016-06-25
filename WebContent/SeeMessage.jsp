@@ -1,3 +1,5 @@
+<%@page import="sourcePackage.User"%>
+<%@page import="sourcePackage.SessionListener"%>
 <%@page import="sourcePackage.Message"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="sourcePackage.Factory_Database"%>
@@ -11,10 +13,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<% 
-		String userName = (String)session.getAttribute(ServletConstants.USER_PARAMETER_NAME);
+		String userName = ((User)session.getAttribute(SessionListener.USER_IN_SESSION)).getName();
 		Database base = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		String senderName = request.getParameter("username");
 		Connection con = Factory_Database.getConnection();
+
 		int uMessages = base.getNumOfUnreadMessages(userName, senderName, con);
 	%>
 
@@ -29,7 +32,7 @@
 	%>
 
 	<form action="SendMessage" method="post">
-		<input type="hidden" name="dest" value="\"" + senderName + "\"">
+		<input type="hidden" name="dest" value=<%="'"+senderName+"'"%>>
 		<textarea class="area" name="message_text" rows="5" cols="68" placeholder="type here..."> </textarea><br><br>
 		<input type="submit" value="Reply">
 	</form>	
