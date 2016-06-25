@@ -81,6 +81,52 @@ public class Database {
 	}
 	
 	/**
+	 * Sets an image for the given user
+	 * @param username - user name
+	 * @param imageUrl - image address
+	 * @return true, if successful
+	 */
+	public boolean setUserImage(String username, String imageUrl, Connection connection){
+		if(username == null || imageUrl == null || connection == null) return false;
+		try{
+			String sql = "UPDATE " + MyDBInfo.MYSQL_DATABASE_NAME + ".users SET user_image = ? WHERE username = ?;";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, imageUrl);
+			statement.setString(2, username);
+			statement.execute();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * Gets image address for the given user
+	 * @param username - user name
+	 * @return address or null, if there's none/base is dead or any exception occurred
+	 */
+	public String getUserImage(String username, Connection connection){
+		if(username == null || connection == null) return null;
+		try{
+			String sql = "SELECT user_image FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".users WHERE username = ?;";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, username);
+			ResultSet res = statement.executeQuery();
+			if(res != null && res.next()){
+				return res.getString("user_image");
+			}else return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * Tells, if the user's quizzes are shared to everyone
 	 * @param username - user name
 	 * @return - true, if the quizzes are shared (failure yields false as well)
