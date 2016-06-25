@@ -18,10 +18,10 @@
 <title>You have <%=uMessages%> unread messages</title>
 </head>
 	<body>
-		<% 
+		<%
 			for (String friendName:base.getFriendList(userName, 10000000, Factory_Database.getConnection())){
-				out.println("<h3>You have"+base.getNumOfUnreadMessages(userName, friendName, Factory_Database.getConnection())
-					+"Message(s) from"+friendName+"</h3>");
+				out.println("<a href=\"SeeMessage.jsp?username=\"" + friendName + "\"><h3>You have"+base.getNumOfUnreadMessages(userName, friendName, Factory_Database.getConnection())
+					+" Message(s) from"+friendName+"</h3></a>");
 			}
 		%>
 	</body>
