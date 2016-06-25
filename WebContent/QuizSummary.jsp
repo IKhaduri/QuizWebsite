@@ -1,3 +1,4 @@
+<%@page import="sourcePackage.User"%>
 <%@page import="sourcePackage.SessionListener"%>
 <%@page import="sourcePackage.Factory_Database"%>
 <%@page import="sourcePackage.Touple"%>
@@ -17,7 +18,10 @@
 <%
 	Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 	String quizName = (String) request.getParameter(ServletConstants.QUIZ_PARAMETER_NAME);
-	String userName = (String) request.getParameter(ServletConstants.USER_PARAMETER_NAME);
+	User user = (User) session.getAttribute(SessionListener.USER_IN_SESSION);
+	String userName = null;
+	if(user!=null)
+		userName = user.getName();
 	Connection con = Factory_Database.getConnection();
 	QuizBase quizBase = base.getQuizBase(quizName, con);
 	Quiz quiz = base.getQuiz(quizName, con);
@@ -47,7 +51,10 @@
 				out.println(" - Not for Guests :)</h2>");
 			} else {
 				out.println("</h2><ul>");
+				System.out.println(base.getScores(userName, quizName, ServletConstants.LISTS_LIMIT, con).isEmpty());
+				System.out.println(userName);
 				for (Touple<Double, Timestamp, Timestamp> result : base.getScores(userName, quizName, ServletConstants.LISTS_LIMIT, con)) {
+				
 				out.println(
 						"<li>" + result.getSecond() + " " + result.getThird() + " " + result.getFirst() + "% </li>");
 				}
