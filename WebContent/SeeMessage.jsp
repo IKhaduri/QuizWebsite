@@ -4,9 +4,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<link rel="stylesheet" href="css/quizpage_style.css">
+<title><%=request.getParameter("username") %></title>
 </head>
 <body>
-
+<form action="SendMessage" method="post">
+	<textarea class="area" name="message_text" rows="5" cols="68" placeholder="type here..."> </textarea><br><br>
+	<input type="submit" value="Reply">
+</form>	
 </body>
 </html>
