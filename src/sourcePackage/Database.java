@@ -1060,10 +1060,49 @@ public class Database {
 			return set.getInt(1);
 		} catch (SQLException ex) {
 			return FAIL_EXPECTED_INT;
-		}
+		} 
 	}
 	
 	
+	/**
+	 * Marks given message read
+	 * @param message - message
+	 * @return true, if successful
+	 */
+	public boolean markMessageRead(Message message, Connection connection){
+		return markMessagesRead(message.getSender(), message.getReceiver(), message.getDate(), connection);
+	}
+	
+	/**
+	 * Marks all messages between given users as read
+	 * @param sender - sender
+	 * @param receiver receiver
+	 * @return true, if successful
+	 */
+	public boolean markMessagesRead(String sender, String receiver, Connection connection){
+		return markMessagesRead(sender, receiver, null, connection);
+	}
+	
+	private boolean markMessagesRead(String sender, String receiver, Timestamp time, Connection connection){
+		try{
+			String sql = "UPDATE " + MyDBInfo.MYSQL_DATABASE_NAME + ".messages "
+					+ "SET message_seen = true "
+					+ "WHERE sender_id = ? AND receiver_id = ?";
+			if (time != null) sql += " AND delivery_date = ?;";
+			else sql += ";";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, getUserId(sender, connection));
+			ps.setInt(2, getUserId(receiver, connection));
+			if(time != null) ps.setTimestamp(3, time);
+			ps.execute();
+			return true;
+		} catch (SQLException ex) {
+			return false;
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 	/**
 	 * Fetches friends for the given user
