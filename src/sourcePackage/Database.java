@@ -238,6 +238,7 @@ public class Database {
 	 * @param quizName - quiz name
 	 * @param username - user name
 	 * @param score - user's score
+	 * @param quizScore - total score for the quiz
 	 * @return true, if successful
 	 */
 	public boolean logSubmission(String quizName, String username, int score, int quizScore, Connection connection){
@@ -250,12 +251,13 @@ public class Database {
 	 * @param quizName - quiz name
 	 * @param username - user name
 	 * @param score - user's score
+	 * @param quizScore - total score for the quiz
 	 * @param startTime - test start date
 	 * @return true, if successful
-	 *
-	public boolean logSubmission(String quizName, String username, int score, Timestamp startTime, Connection connection){
-		return logSubmission(quizName, username, score, startTime, now(), connection);
-	}*/
+	 */
+	public boolean logSubmission(String quizName, String username, int score, int quizScore, Timestamp startTime, Connection connection){
+		return logSubmission(quizName, username, score, quizScore, startTime, now(), connection);
+	}
 	
 	
 	/**
@@ -263,6 +265,7 @@ public class Database {
 	 * @param quizName - quiz name
 	 * @param username - user name
 	 * @param score - user's score
+	 * @param quizScore - total score for the quiz
 	 * @param startTime - test start date
 	 * @param endTime - test end date
 	 * @return true, if successful
@@ -786,7 +789,7 @@ public class Database {
 		try {
 			int totalScore = getQuizBase(quizName, connection).getQuizScore();
 			String sql = "SELECT score, start_time, end_time FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log "
-					+ "WHERE quiz_id = ? AND user_id = ? ORDER BY start_time DESC LIMIT ?;";
+					+ " WHERE quiz_id = ? AND user_id = ? ORDER BY start_time DESC LIMIT ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, getQuizId(quizName, connection));
 			ps.setInt(2, getUserId(username, connection));
