@@ -56,6 +56,7 @@ create table if not exists users(
 	max_score decimal(5, 2) default 0,		# maximum score reached in some quiz, specified in percentage terms
     user_status varchar(144) default "",	# user's status
     shares_quizzes bool default true,		# true, if the quizzes created by this user are flobally visible; false, if friends and only friends can see them.
+    user_image varchar(1024) default null,	# user image url
     
     primary key(id)
 );
@@ -82,7 +83,7 @@ create table if not exists messages(
 create table if not exists friends(
 	first_id int(11) not null,				# first user
     second_id int(11) not null,				# second user
-	`type` bool default true,					# one side / two side (true)
+	`type` bool default true,				# one side / two side (true)
     
     unique key (first_id, second_id)
 );
