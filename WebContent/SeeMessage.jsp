@@ -1,3 +1,4 @@
+<%@page import="sourcePackage.Message"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="sourcePackage.Factory_Database"%>
 <%@page import="sourcePackage.Database"%>
@@ -17,18 +18,23 @@
 		int uMessages = base.getNumOfUnreadMessages(userName, senderName, con);
 	%>
 
-<title>Insert title here</title>
-</head>
-<body>
-	<h1><title>You have <%=uMessages%> unread messages</title> </h1>
+<title><%=uMessages%> Unread Messages</title>
 <link rel="stylesheet" href="css/quizpage_style.css">
-<title><%=request.getParameter("username") %></title>
 </head>
 <body>
-<form action="SendMessage" method="post">
-	<textarea class="area" name="message_text" rows="5" cols="68" placeholder="type here..."> </textarea><br><br>
-	<input type="submit" value="Reply">
-</form>	
+	<% 
+		for (Message message:base.getUnreadMessages(userName, senderName, uMessages, con)){
+			out.println("<p> "+message.getMessage()+"</p>");
+		}
+	%>
+
+	<form action="SendMessage" method="post">
+		<textarea class="area" name="message_text" rows="5" cols="68" placeholder="type here..."> </textarea><br><br>
+		<input type="submit" value="Reply">
+	</form>	
+
+
+
 </body>
 <%con.close(); %>
 </html>
