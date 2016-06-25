@@ -28,7 +28,9 @@
 	<% 
 		for (Message message:base.getUnreadMessages(userName, senderName, uMessages, con)){
 			out.println("<p> "+message.getMessage()+"</p>");
+		
 		}
+		base.markMessagesRead(senderName, userName, con);
 	%>
 
 	<form action="SendMessage" method="post">

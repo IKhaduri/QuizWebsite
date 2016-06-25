@@ -1002,7 +1002,7 @@ public class Database {
 					+ " WHERE receiver_id = ?";
 			if (senderName != null) sql += " AND sender_id = ?"; 
 			if (unreadOnly) sql += " AND message_seen = false"; 
-			sql += " ORDER BY delivery_date DESC LIMIT ?;";
+			sql += " ORDER BY delivery_date ASC LIMIT ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, getUserId(username, connection));
 			if (senderName != null){
