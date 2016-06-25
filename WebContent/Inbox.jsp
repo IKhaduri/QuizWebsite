@@ -42,6 +42,8 @@
 			<textarea class="area" name="message_text" rows="5" cols="68" placeholder="type here..."></textarea><br><br>
 			<input type="submit" value="Send">
 		</form>
+		<a href = 'homepage.jsp' value = 'Back To Home'>Back to Home</a>
+	
 	</body>
 	<%con.close();%>
 </html>

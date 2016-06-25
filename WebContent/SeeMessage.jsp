@@ -39,8 +39,8 @@
 		<input type="submit" value="Reply">
 	</form>	
 
-
-
+	<a href = 'homepage.jsp' value = 'Back To Home'>Back to Home</a><br>
+	<a href = 'Inbox.jsp' value = 'Back To Home'>Back to Inbox</a>
 </body>
 <%con.close(); %>
 </html>
