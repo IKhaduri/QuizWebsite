@@ -33,12 +33,16 @@
 		}
 	
 	%>
-	<input type = "submit">
+	<input id ="clickInput" type = "submit">
 </form>
 <script>
-	var minutesLeft = <%=time%>
-	var secondsLeft = 0;
+	var minutesLeft =0;
+	var secondsLeft = 10;
 	function timer(){
+		if (minutesLeft<=0&&secondsLeft<=0){
+			document.getElementById('clickInput').click();
+			return;
+		}
 		if (secondsLeft==0){
 			secondsLeft=59;
 			minutesLeft--;
@@ -46,16 +50,11 @@
 			if (minutesLeft>=0 && secondsLeft>0){
 				secondsLeft--;
 			}
-			else
-		if (minutesLeft<0){
-			document.getElementById("submitForm").submit();
-			document.location.href = "/QuizWebsite/QuizFinished";
-			return;
-		}
+		
 		var timerDisplay = document.getElementById("timer");
 		timerDisplay.innerHTML = "Time left: "+minutesLeft+"minutes : "+secondsLeft+" seconds";
 	}
-	setInterval(timer, 100);
+	setInterval(timer, 1000);
 </script>
 
 <p id = "timer">Time left:</p>
