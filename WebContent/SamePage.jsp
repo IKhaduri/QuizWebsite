@@ -16,8 +16,15 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Enjoy your quiz!</title>
 	<%
+		boolean quizStarted = (Boolean)session.getAttribute(ServletConstants.QUIZ_STARTED);
+	
 		Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		Quiz quiz = base.getQuiz(request.getParameter(ServletConstants.QUIZ_PARAMETER_NAME), Factory_Database.getConnection());
+		if (!quizStarted){	
+			session.setAttribute(ServletConstants.QUIZ_PARAMETER_NAME, quiz.getName());
+			session.setAttribute(ServletConstants.CURRENT_SCORE, "0");
+			session.setAttribute(ServletConstants.QUIZ_STARTED,true);
+		}
 		ArrayList<QuestionAbstract> questionList = new ArrayList<QuestionAbstract>( quiz.getQuestions());
 		if (quiz.shouldShuffle())
 			Collections.shuffle(questionList);
@@ -36,8 +43,8 @@
 	<input id ="clickInput" type = "submit">
 </form>
 <script>
-	var minutesLeft =0;
-	var secondsLeft = 10;
+	var minutesLeft = <%=time%>;
+	var secondsLeft = 0;
 	function timer(){
 		if (minutesLeft<=0&&secondsLeft<=0){
 			document.getElementById('clickInput').click();

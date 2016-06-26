@@ -48,7 +48,11 @@ public class NextQuestion extends HttpServlet {
 			curScore++;
 		curQuestionNum++;
 		Connection con =null;
-		if (questions.size() == curQuestionNum){
+		int minutesLeft = Integer.parseInt(request.getParameter("minutesLeft"));
+		int secondsLeft = Integer.parseInt(request.getParameter("secondsLeft"));
+		request.setAttribute("minutesLeft", minutesLeft);
+		request.setAttribute("secondsLeft", secondsLeft);	
+		if (questions.size() == curQuestionNum||minutesLeft+secondsLeft<=0){
 			PrintWriter out = null;
 			try{
 				String userName =((User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION)).getName();
