@@ -933,12 +933,16 @@ public class Database {
 	 */
 	public boolean addMessage(Message message, Connection connection){
 		try{
+			int senderID = getUserId(message.getSender(), connection);
+			int receiverID = getUserId(message.getReceiver(), connection);
+			if (senderID == NO_ID || receiverID == NO_ID) return false;
+			
 			String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".messages"
 					+ " (sender_id, receiver_id, message_string, delivery_date, message_seen) "
 					+ " VALUES (  ?, 		  ?, 			  ?, 			 ?, 		   ?);";
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, getUserId(message.getSender(), connection));
-			ps.setInt(2, getUserId(message.getReceiver(), connection));
+			ps.setInt(1, senderID);
+			ps.setInt(2, receiverID);
 			ps.setString(3, message.getMessage());
 			ps.setTimestamp(4, message.getDate());
 			ps.setBoolean(5, message.isSeen());
@@ -1158,7 +1162,7 @@ public class Database {
 			ps.setBoolean(3, type);
 			ps.execute();
 			return true;
-		}catch (SQLException ex) {
+		} catch (SQLException ex) {
 			ex.printStackTrace();
 			return false;
 		}
