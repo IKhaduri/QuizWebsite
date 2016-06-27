@@ -109,16 +109,25 @@
             
             <div class="right-container container">
             	<%
+            		boolean received = false;	// friend request received from this user
             		String label = "Unfriend";
 	            	if (!db.areFriends(me.getName(), user.getName(), true, connection)) {
-	            		if (!db.areFriends(me.getName(), user.getName(), false, connection))
+	            		if (!db.areFriends(me.getName(), user.getName(), false, connection)) {
 				           	label = "Add Friend";
-	            		else
-				           	label = "Cancel Request";
+	            		} else {
+	            			if (db.hasFriendRequestSentOrReceived(me.getName(), user.getName(), true, connection)) {
+				           		label = "Cancel Request";
+	            			} else {
+	            				label = "Confirm";
+	            				received = true;
+	            			}
+	            		}
 	            	}
 	            	out.println("<form action=\"FriendRequest\" method=\"post\">");
 		           	out.println("<input type=\"hidden\" name=\"username\" value=\"" + user.getName() + "\">");
-		           	out.println("<input type=\"submit\" value=\"" + label + "\" class=\"friend\"></form><br>");
+		           	out.println("<input type=\"submit\" value=\"" +  label + "\" class=\"friend\">");
+		           	if (received) out.println("<input type=\"submit\" value=\" Decline \" class=\"friend\">");
+		           	out.println("</form><br>");
             	%>
             	
                 <div class="menu-box block">

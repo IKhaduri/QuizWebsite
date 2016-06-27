@@ -1220,6 +1220,43 @@ public class Database {
 		}
 	}
 	
+	/**
+	 * @param my_username - main user name
+	 * @param second_username - user name of the user we guest
+	 * @param sent - check for sent request or received
+	 * @param connection
+	 * @return returns if user has sent friend request to, or got request from specified user.
+	 */
+	public boolean hasFriendRequestSentOrReceived(String my_username, String second_username, boolean sent, Connection connection) {
+		if(my_username == null || second_username == null || connection == null) return false;
+		if(my_username.equals(second_username)) return false;
+		try{
+			int first = getUserId(my_username, connection);
+			int second = getUserId(second_username, connection);
+			if(first == NO_ID || second == NO_ID) return false;
+			
+			String sql = "SELECT count(*) FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends"
+					+ " WHERE type = ? AND first_id = ? and second_id = ?;";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setBoolean(1, false);
+			if (sent) {
+				ps.setInt(2, first);
+				ps.setInt(3, second);
+			} else {
+				ps.setInt(2, second);
+				ps.setInt(3, first);
+			}
+			ResultSet set = ps.executeQuery();
+			
+			if(set == null) return false;
+			set.next();
+			return set.getInt("count(*)") > 0;
+		}catch (SQLException ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+	
 	
 	/**
 	 * @param username - user who we are going to update password for.
