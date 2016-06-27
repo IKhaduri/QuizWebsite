@@ -125,8 +125,9 @@
 	            	}
 	            	out.println("<form action=\"FriendRequest\" method=\"post\">");
 		           	out.println("<input type=\"hidden\" name=\"username\" value=\"" + user.getName() + "\">");
-		           	out.println("<input type=\"submit\" value=\"" +  label + "\" class=\"friend\">");
-		           	if (received) out.println("<input type=\"submit\" value=\" Decline \" class=\"friend\">");
+		           	out.println("<input type=\"hidden\" name=\"action\" value=\"" + label + "\">");
+		           	out.println("<input type=\"submit\" name = \"first_button\" value=\"" +  label + "\" class=\"friend\">");
+		           	if (received) out.println("<input type=\"submit\" name = \"decline\" value=\" Decline \" class=\"friend\">");
 		           	out.println("</form><br>");
             	%>
             	

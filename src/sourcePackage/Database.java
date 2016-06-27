@@ -1149,6 +1149,8 @@ public class Database {
 			int second = getUserId(secondUser, connection);
 			if(first == NO_ID || second == NO_ID) return false;
 			
+			if (type) unfriend(firstUser, secondUser, connection);
+			
 			String sql = "INSERT INTO " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends (first_id, second_id, type) VALUES (?, ?, ?);";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, first);
