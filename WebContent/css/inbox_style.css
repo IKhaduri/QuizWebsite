@@ -1,0 +1,22 @@
+	body {
+		padding-top: 15px;
+	}
+
+	input[type=text] {
+	  width:15%;
+	  padding:8px 5px;
+	  border:1px solid #222;
+	  box-shadow:
+	  0 1px 0 rgba(255,255,255,0.1);
+	  border-radius:0.3em;
+	  margin-bottom:20px;
+	}
+	
+	a {
+	    color:yellow;
+	    text-decoration:none;
+	}
+	
+	.home {
+		color:#888888;
+	}

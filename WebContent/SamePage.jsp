@@ -40,7 +40,7 @@
 		}
 	
 	%>
-	<input id ="clickInput" type = "submit">
+	<input id ="clickInput" type = "submit" value="Submit All">
 </form>
 <script>
 	var minutesLeft = <%=time%>;

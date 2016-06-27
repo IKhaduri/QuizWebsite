@@ -27,6 +27,9 @@
 	int uMessages = base.getNumOfUnreadMessages(userName, con);
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="css/quizpage_style.css">
+<link rel="stylesheet" href="css/inbox_style.css">
+
 <title>You have <%=uMessages%> unread messages</title>
 </head>
 	<body>
@@ -44,7 +47,7 @@
 				out.println("<form action=\"FriendRequest\" method=\"post\">");
 	           	out.println("<input type=\"hidden\" name=\"username\" value=\"" + friendName + "\">");
 	           	out.println("<input type=\"hidden\" name=\"action\" value=\"Confirm\">");
-	           	out.println("<h3><a href=userpage.jsp?username=" + friendName + ">" + friendName + "</a> sent you a friend request</h3>");
+	           	out.println("<h2><a href=userpage.jsp?username=" + friendName + ">" + friendName + "</a> sent you a friend request</h2>");
 	           	out.println("<input type=\"submit\" name = \"first_button\" value=\" Confirm \" class=\"friend\">");
 	           	out.println("<input type=\"submit\" name = \"decline\" value=\" Decline \" class=\"friend\"></form><br>");
 			}
@@ -57,11 +60,11 @@
 		
 		<br><br><br>
 		<form action="SendMessage" method="post">
-			<input type="text" name="dest" placeholder="To:">
+			<input type="text" name="dest" placeholder="To:"><br>
 			<textarea class="area" name="message_text" rows="5" cols="68" placeholder="type here..."></textarea><br><br>
 			<input type="submit" value="Send">
-		</form>
-		<a href = 'homepage.jsp' value = 'Back To Home'>Back to Home</a>
+		</form><br>
+		<a href = 'homepage.jsp' class="home" value = 'Back To Home'>Back to Home</a>
 	
 	</body>
 	<%con.close();%>

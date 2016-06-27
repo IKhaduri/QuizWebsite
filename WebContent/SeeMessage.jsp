@@ -23,24 +23,25 @@
 
 <title><%=uMessages%> Unread Messages</title>
 <link rel="stylesheet" href="css/quizpage_style.css">
+<link rel="stylesheet" href="css/inbox_style.css">
 </head>
 <body>
 	<% 
 		for (Message message:base.getUnreadMessages(userName, senderName, uMessages, con)){
-			out.println("<p> "+message.getMessage()+"</p>");
-		
+			out.println("<p><a href=userpage?username" + message.getSender() + ">" + message.getSender() + ":</a>" + message.getMessage() + "</p>");
+			
 		}
 		base.markMessagesRead(senderName, userName, con);
 	%>
-
+	
 	<form action="SendMessage" method="post">
 		<input type="hidden" name="dest" value=<%="'"+senderName+"'"%>>
 		<textarea class="area" name="message_text" rows="5" cols="68" placeholder="type here..."> </textarea><br><br>
 		<input type="submit" value="Reply">
-	</form>	
+	</form><br>
 
-	<a href = 'homepage.jsp' value = 'Back To Home'>Back to Home</a><br>
-	<a href = 'Inbox.jsp' value = 'Back To Home'>Back to Inbox</a>
+	<a href = 'homepage.jsp' class="home" value = 'Back To Home'>Back to Home</a><br>
+	<a href = 'Inbox.jsp' class="home" value = 'Back To Home'>Back to Inbox</a>
 </body>
 <%con.close(); %>
 </html>
