@@ -1,7 +1,9 @@
 package sourcePackage;
 
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -763,9 +765,14 @@ public class Database {
 		}
 	}
 	
-	private double percentage(int totalScore, int score){
-		return (100.0 * (((double)score) / ((double)totalScore)));
+	public static double percentage(int totalScore, int score){
+		double percentage = 100.0 * (((double)score) / ((double)totalScore));
+		DecimalFormat df = new DecimalFormat("#.#");
+		df.setRoundingMode(RoundingMode.CEILING);
+		
+	    return Double.parseDouble(df.format(percentage));
 	}
+	
 	/**
 	 * returns number of submission have been 
 	 * made with given username 

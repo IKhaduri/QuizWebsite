@@ -14,9 +14,16 @@
 <html>
 <head>
 <% 
-	String userName = ((User) session.getAttribute(SessionListener.USER_IN_SESSION)).getName();
+	User user = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
 	Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 	Connection con = Factory_Database.getConnection();
+	if (user == null || base == null || con == null) {
+		out.println("<h1>Redirecting to Login page...</h1>");
+		out.println("<script> setTimeout(function() { document.location = \"login.html\";}, 3000);	</script>");
+		return;
+	}
+	
+	String userName = user.getName();
 	int uMessages = base.getNumOfUnreadMessages(userName, con);
 %>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">

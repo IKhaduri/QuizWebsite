@@ -40,7 +40,7 @@
     		out.println("<script> setTimeout(function() { document.location = \"homepage.jsp\";}, 3000);	</script>");
     		return;
     	} else if (user.equals(me)) {
-    		out.println("<script> setTimeout(function() { document.location = \"homepage.jsp\";}, 1);	</script>");
+    		out.println("<script> function Redirect() { window.location=\"homepage.jsp\";} Redirect();	</script>");
     	}
     %>
 

@@ -84,7 +84,7 @@
 	                       		Submission currSub = submissions.get(i);
 	                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>"
 	                       				+ currSub.getQuiz().getName());
-	                       		out.println("<div class=\"menu-box-number\">" + user.getMaxScorePercentage(db, connection) + "</div></a></li>");
+	                       		out.println("<div class=\"menu-box-number\">" + Database.percentage(currSub.getQuiz().getQuizScore(), currSub.getScore()) + "</div></a></li>");
 	                       	}
                    		}
                     %></div>
