@@ -101,7 +101,7 @@
 	
 		if (session.getAttribute(SessionListener.USER_IN_SESSION) != null && 
 				(base.areFriends(userName, quizBase.getAuthor(), true, con) || base.userSharesQuizzes(quizBase.getAuthor(), con))) {			
-			out.println("<form action ='"+(quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"' method ='get'>");
+			out.println("<form action ='"+(quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"' method ='get' onsubmit = 'return validateForm();'>");
 			session.setAttribute(ServletConstants.QUIZ_QUESTION_LIST, quiz.getQuestions());
 			session.setAttribute(ServletConstants.QUIZ_PARAMETER_NAME, quiz.getName());
 			session.setAttribute(ServletConstants.QUIZ_QUESTION_NUMBER,"0");
@@ -119,9 +119,15 @@
 		}
 	%> 
 	<br><a href="homepage.jsp" class="start">Back to Home</a>
-	
-	
-
+	<script>
+		function validateForm(){
+			var quizStarted = <%= (Boolean)session.getAttribute(ServletConstants.QUIZ_STARTED)%>
+			if (quizStarted){
+				alert("You can't write multiple quizzes at the same time!");
+				return false;
+			}
+		}
+	</script>
 	<%con.close(); %>
 </body>
 
