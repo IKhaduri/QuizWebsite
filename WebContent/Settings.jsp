@@ -21,8 +21,35 @@
 	    		return;
 	    	}
     	%>
-	    
-		<form action="SettingsServlet" method="post">
+	    <script>
+	    	function validateForm(){
+	    		var x = document.getElementById("new_password").value;
+	    		var y = document.getElementById("repeat_password").value;
+	 			var z = document.getElementById("old_password").value;
+	    		if ((z==null||z=="")&&(x!=null||x!="")&&(y!=null||y!="")){
+	    			alert("To change passwords enter old password")
+	    			return false;
+	    		}
+	    			
+	 			if (x==null&&y!==null){
+	    			alert("Passwords do not match");
+	    			return false;
+	    		}
+	    		if (y==null&&x!==null){
+	    			alert("Passwords do not match");
+	    			return false;
+	    		}
+	    		if (x!==y){
+	    			alert("Passwords do not match");
+	    			return false;
+	    		}
+	    		if ((x==null||x=="")&&(y==null||y=="")&&(z!=null||z!="")){
+	    			alert("You cannot set password to be empty!");
+	    			return false;
+	    		}
+	    	}
+	    </script>
+		<form action="SettingsServlet" method="post" onsubmit="return validateForm();">
 			<div class="privacy">
 				<h1>Privacy</h1>
 				<div>
@@ -37,15 +64,15 @@
 			<div class="inset">
 			<p>
 			    <label for="old">OLD</label>
-			    <input type="text" name="old_password">
+			    <input id = "old_password" type="text" name="old_password">
 			</p>
 			<p>
 			    <label for="new">NEW</label>
-			    <input type="password" name="new_password">
+			    <input id = "new_password" type="password" name="new_password">
 			</p>
 			<p>
 			    <label for="repeat">REPEAT</label>
-			    <input type="password" name="repeat_password">
+			    <input id = "repeat_password" type="password" name="repeat_password">
 			</p>
 			</div>
 			<p class="p-container">
