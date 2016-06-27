@@ -24,13 +24,25 @@
 </head>
 	<body>
 		<%
+			Set<String> friend_requests = new HashSet<String>();
+			for (String req : base.getFriendRequestsList(userName, con))
+				friend_requests.add(req);
+		
 			Set<String> set = new HashSet<String>();
 			for(Message message : base.getUnreadMessages(userName,  10000000, con)){
 				set.add(message.getSender());
 			}
 		
+			for (String friendName : friend_requests) {
+				out.println("<form action=\"FriendRequest\" method=\"post\">");
+	           	out.println("<input type=\"hidden\" name=\"username\" value=\"" + friendName + "\">");
+	           	out.println("<input type=\"hidden\" name=\"action\" value=\"Confirm\">");
+	           	out.println("<h3><a href=userpage.jsp?username=" + friendName + ">" + friendName + "</a> sent you a friend request</h3>");
+	           	out.println("<input type=\"submit\" name = \"first_button\" value=\" Confirm \" class=\"friend\">");
+	           	out.println("<input type=\"submit\" name = \"decline\" value=\" Decline \" class=\"friend\"></form><br>");
+			}
+			
 			for (String friendName:set){
-
 				out.println("<a href=\"SeeMessage.jsp?username=" + friendName + "\"><h3>You have "+base.getNumOfUnreadMessages(userName, friendName, con)
 					+" Unread Message(s) from "+friendName+"</h3></a>");
 			}

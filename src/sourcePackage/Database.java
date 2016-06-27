@@ -1292,6 +1292,11 @@ public class Database {
 		return true;
 	}
 	
+	/**
+	 * @param username - main user name
+	 * @param connection - Connection object
+	 * @return list of usernames of users who sent friend request to main user
+	 */
 	public List<String> getFriendRequestsList(String username, Connection connection) {
 		if (connection == null || username == null || username.length() <= 0) return null;
 		
@@ -1311,6 +1316,30 @@ public class Database {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			return null;
+		}
+	}
+	
+	/**
+	 * @param username - main user name
+	 * @param con - Connection object
+	 * @return number of received friend requests
+	 */
+	public int getNumOfFriendRequests(String username, Connection con) {
+		if (con == null || username == null || username.length() <= 0) return NO_ID;
+		
+		try {
+			String query = "select count(*) from " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends "
+					+ "where second_id = ? and type = false;";
+			PreparedStatement st = con.prepareStatement(query);
+			st.setInt(1, getUserId(username, con));
+			ResultSet set = st.executeQuery();
+			if (set == null) return NO_CONNECTION;
+			
+			set.next();			
+			return set.getInt(1);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return NO_CONNECTION;
 		}
 	}
 }
