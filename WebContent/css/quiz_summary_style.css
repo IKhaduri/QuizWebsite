@@ -72,3 +72,21 @@ a:hover, a:active {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
+
+.challenge {
+	position: fixed;
+    bottom: 0;
+    right: 0;
+	padding:10px;
+	margin:10px;
+}
+
+input[type=text], input[type=submit] {
+  width:45%;
+  padding:8px 5px;
+  border:1px solid #222;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.1);
+  border-radius:0.3em;
+  margin-bottom:20px;
+}

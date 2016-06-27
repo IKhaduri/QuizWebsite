@@ -112,6 +112,10 @@
 			out.println("<input type ='hidden' name ='"+ServletConstants.QUIZ_QUESTION_NUMBER+"' value ='0'>");
 			out.println("<input type ='hidden' name ='"+ServletConstants.QUIZ_PARAMETER_NAME+"' value ='"+quiz.getName()+"'>");
 			out.println("</form>");
+			
+			out.println("<form action=\"ChallengeServlet\" method=\"post\" class=\"challenge\"'>");
+			out.println("<input type='text' name='friend_name' placeholder='friend name:'>");
+			out.println("<input type='submit' value='Challenge a Friend!'></form>");
 		}
 	%> 
 	<br><a href="homepage.jsp" class="start">Back to Home</a>
