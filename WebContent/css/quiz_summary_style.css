@@ -1,5 +1,5 @@
 html { 
-  background: url(../images/msc-background_03.jpg) no-repeat center center fixed; 
+  background: url(../images/grunge.jpg) repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -9,7 +9,7 @@ html {
 body {
 	font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
 	color:white;
-	font-size:12px;
+	font-size:14px;
 	margin-left:30px;
 	margin-right:30px;
 	background-position:center;
@@ -22,11 +22,10 @@ body {
 }
 
 h2 {
+	color:yellow;
 	font-weight: bold;
 	font-family: 'Ultra', sans-serif;  
 	text-transform: uppercase;
-	text-shadow: 0 1px white, 0 2px #777;
-	color: #343434;
 	text-align:center;
 	padding:15px 0;
 	border-bottom:1px solid rgba(0,0,0,1);
@@ -40,6 +39,7 @@ p, li, a, h4 {
 
 li {
 	padding-right:40px;
+	list-style: none;
 }
 
 a:link, a:visited {
