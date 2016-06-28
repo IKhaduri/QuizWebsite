@@ -122,14 +122,25 @@
 	<br><a href="homepage.jsp" class="start">Back to Home</a>
 	<script>
 		function validateForm(){
-			var quizStarted = <%= (Boolean)session.getAttribute(ServletConstants.QUIZ_STARTED)%>
-			if (quizStarted){
+			console.log("validating!");
+			var quizStarted;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (xhttp.readyState == 4 && xhttp.status == 200) {
+					quizStarted = xhttp.responseText;
+					console.log("quiz started? "+quizStarted);
+					}
+				};
+				xhttp.open("GET", "SessionGetter", false);
+				xhttp.send();
+			if (quizStarted=="true"){
 				alert("You can't write multiple quizzes at the same time!");
 				return false;
 			}
 		}
+
 	</script>
-	<%con.close(); %>
+	<% con.close();%>
 </body>
 
 

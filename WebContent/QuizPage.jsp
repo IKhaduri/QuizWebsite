@@ -20,6 +20,7 @@
 	Connection con = Factory_Database.getConnection();
 	int minutesLeft,secondsLeft;
 	boolean quizStarted = (Boolean)session.getAttribute(ServletConstants.QUIZ_STARTED);
+	System.out.println(quizStarted);
 	if (!quizStarted){
 		Database base =(Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 		Quiz quiz = base.getQuiz(request.getParameter(ServletConstants.QUIZ_PARAMETER_NAME), con);
