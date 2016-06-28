@@ -41,14 +41,16 @@ public class ChallengeServlet extends HttpServlet {
 		Connection con = Factory_Database.getConnection();
 		String quizName = request.getParameter("quiz_name");
 		User curUser = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);	
-		System.out.println("first");
+		//friend not found in database
 		if (base.getUser(friend_name, con)==null){
-			// a bad choice was made		
+			request.setAttribute(ServletConstants.ERROR_MESSAGE, "the user named "+friend_name+" was not found");	
+			request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
 			return;
 		}
-
+		//not a friend
 		if (!base.getFriendList(friend_name, con).contains(curUser.getName())){
-			//another bad choice was made
+			request.setAttribute(ServletConstants.ERROR_MESSAGE, "the user named "+friend_name+" is not your friend");	
+			request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
 			return;
 		}
 		String challenge = generateChallenge(friend_name, quizName, curUser.getName());
