@@ -38,7 +38,7 @@ public class NextQuestion extends HttpServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		request.getSession().setAttribute(ServletConstants.QUIZ_STARTED, true);
 		int curQuestionNum = Integer.parseInt((String)request.getSession().getAttribute(ServletConstants.QUIZ_QUESTION_NUMBER));
 		int curScore = (Integer.parseInt((String)request.getSession().getAttribute(ServletConstants.CURRENT_SCORE)));
 		ArrayList<QuestionAbstract> questions = (ArrayList<QuestionAbstract>) request.getSession().getAttribute(ServletConstants.QUIZ_QUESTION_LIST);
