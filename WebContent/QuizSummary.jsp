@@ -114,6 +114,7 @@
 			out.println("</form>");
 			
 			out.println("<form action=\"ChallengeServlet\" method=\"post\" class=\"challenge\"'>");
+			out.println("<input type='hidden' name='quiz_name' value ='"+quiz.getName()+ "'>");
 			out.println("<input type='text' name='friend_name' placeholder='friend name:'>");
 			out.println("<input type='submit' value='Challenge a Friend!'></form>");
 		}

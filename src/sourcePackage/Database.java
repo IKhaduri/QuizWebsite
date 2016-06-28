@@ -503,10 +503,20 @@ public class Database {
 		}
 		
 	}
-	
+	/**
+	 * returns given user, password 
+	 * hash is not required for this 
+	 * method.if user is not found, 
+	 * returns null. if any exception
+	 * is thrown, returns null.
+	 * @param username - user identification name
+	 * @param connection - sql connection for database
+	 * @return - user 
+	 * 
+	 * */
 	public User getUser(String username, Connection connection) {
-		if (connection == null) return null;
-		
+		if (connection == null) 
+			return null;
 		try {
 			String sql = "select password_hash from users where username = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
@@ -1137,14 +1147,42 @@ public class Database {
 			
 			List<String> list = new ArrayList<String>();
 			while(set.next())
-				list.add(set.getString(username));
+				list.add(set.getString(1));
 			return list;
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			return null;
 		}
 	}
-	
+	/**
+	 * Gets friends for the given user
+	 * all of them. is a simplified
+	 * Convenience version of the
+	 * above method
+	 * @param username - user name
+	 * @return list of friends
+	 */
+	public List<String> getFriendList(String username,  Connection connection){
+		if(username == null || connection == null);
+		try{
+			int userId = getUserId(username, connection);
+			String query = "SELECT username FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends, " + MyDBInfo.MYSQL_DATABASE_NAME + ".users "
+					+ "WHERE ((first_id = ? and second_id = id) OR (first_id = id and second_id = ?)) AND type = true ;";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, userId);
+			ps.setInt(2, userId);			
+			ResultSet set = ps.executeQuery();
+			if (set == null) 
+				return null;
+			List<String> list = new ArrayList<String>();
+			while(set.next())
+				list.add(set.getString(1));
+			return list;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
 	
 	/**
 	 * Adds friends to the database
