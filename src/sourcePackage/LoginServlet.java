@@ -31,6 +31,7 @@ public class LoginServlet extends HttpServlet {
 		if (user == null) {
 			request.getRequestDispatcher("login.html").forward(request, response);
 		} else {
+			
 			request.getSession().setAttribute(SessionListener.USER_IN_SESSION, user);
 			request.getRequestDispatcher("homepage.jsp").forward(request, response);
 		}
