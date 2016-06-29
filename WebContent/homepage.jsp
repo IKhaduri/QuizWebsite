@@ -143,7 +143,7 @@
             <div class="right-container container">
             	<form action="QuizSearchServlet" method="get">
             		<input type="text" name="search" placeholder="Quiz search...">
-            		<input type="submit" style="position: absolute; right: -9999px"/>
+            		<input type="submit" style="position: absolute; left: -9999px"/>
             	</form>
                 <div class="menu-box block">
                     <h2 class="titular">Popular quizzes</h2>
