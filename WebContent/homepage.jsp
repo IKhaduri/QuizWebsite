@@ -77,7 +77,7 @@
                     <p>Me <a href="homepage.jsp"><span class="entypo-to-end scnd-font-color"></span></a></p>
                     
                     <div class="profile-picture small-profile-picture">
-                        <img width="40px" alt="user picture" src=<%= user.getProfilePictureLink(connection, db) %> >
+                        <img width="40px" height="40px" alt="user picture" src=<%= user.getProfilePictureLink(connection, db) %> >
                     </div>
                 </div>
             </header>
@@ -130,7 +130,7 @@
                 <div class="profile block">
                 	<button value="NEW" onclick="changePicture()">change</button>
                     <div class="profile-picture big-profile-picture clear">
-                        <img width="150px" alt="picture" src=<%= user.getProfilePictureLink(connection, db) %> >
+                        <img width="150px" height="150px" alt="picture" src=<%= user.getProfilePictureLink(connection, db) %> >
                     </div>
                     <h1 class="user-name"><%= user.getName() %></h1>
                     <div class="profile-description">

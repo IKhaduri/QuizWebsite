@@ -40,7 +40,7 @@ public class PictureChangeServlet extends HttpServlet {
 		User curUser = (User) request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
 		String imageUrl = request.getParameter("url");	
 		Connection con = Factory_Database.getConnection();
-		base.setUserImage(curUser.getName(), imageUrl, con);
+		curUser.setProfilePictureLink(imageUrl, con, base);
 		Factory_Database.closeConnection(con);
 	}
 
