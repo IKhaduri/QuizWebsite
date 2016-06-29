@@ -32,7 +32,7 @@ public class UserStatusServlet extends HttpServlet {
 		if (currentUser == null || db == null) return;
 		
 		Connection connection = Factory_Database.getConnection();
-		currentUser.setStatus(request.getParameter("update_description_field"), connection, db);
+		currentUser.setStatus(request.getParameter("update_description_field").trim().replaceAll(" +", " "), connection, db);
 		Factory_Database.closeConnection(connection);
 		request.getRequestDispatcher("homepage.jsp").forward(request, response);
 	}
