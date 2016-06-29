@@ -68,7 +68,8 @@ public class User {
 	}
 	
 	public void setStatus(String newStatus, Connection connection, Database base) {
-		if (base != null && newStatus != null) base.setUserStatus(this.userName, newStatus, connection);
+		if (base != null && newStatus != null) 
+			base.setUserStatus(this.userName, (newStatus.length() <= 15 ? newStatus : newStatus.substring(0, 15)), connection);
 	}
 	
 	public int getNumOfUnreadMessages(Connection connection, Database base) {
