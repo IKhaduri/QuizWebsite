@@ -39,6 +39,22 @@
 	    		return;
 	    	}
     	%>
+    	<script>
+	    	function checkURL(url) {
+	    	    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+	    	}
+    		function changePicture(){
+    			var pictureUrl = prompt("Please enter url for you new picture", "http://blog.divineaspect.com/wp-content/uploads/2015/10/I-AM-Magnificent-2.jpeg");
+    			while(checkURL(pictureUrl)!=true)
+    				pictureUrl = prompt("Please enter  a correct url for you new picture", "http://blog.divineaspect.com/wp-content/uploads/2015/10/I-AM-Magnificent-2.jpeg");
+    			var xhttp = new XMLHttpRequest();
+    			xhttp.open("POST", "PictureChangeServlet", true);
+    			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    			xhttp.send("url="+pictureUrl);
+    		}
+    	
+    	
+    	</script>
         <div class="main-container"> 
 
 			<!-- HEADER -->
@@ -112,7 +128,7 @@
             <!-- MIDDLE-CONTAINER -->
             <div class="middle-container container">
                 <div class="profile block">
-                	<button value="NEW">change</button>
+                	<button value="NEW" onclick="changePicture()">change</button>
                     <div class="profile-picture big-profile-picture clear">
                         <img width="150px" alt="picture" src=<%= user.getProfilePictureLink(connection, db) %> >
                     </div>

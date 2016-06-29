@@ -122,7 +122,6 @@
 	<br><a href="homepage.jsp" class="start">Back to Home</a>
 	<script>
 		function validateForm(){
-			console.log("validating!");
 			var quizStarted;
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
