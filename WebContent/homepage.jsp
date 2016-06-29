@@ -51,6 +51,8 @@
     			xhttp.open("POST", "PictureChangeServlet", true);
     			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     			xhttp.send("url="+pictureUrl);
+    			
+    			setTimeout(function() { document.location = "homepage.jsp";}, 2000);
     		}
     	
     	
