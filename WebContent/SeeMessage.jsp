@@ -47,8 +47,8 @@
 		<input type="submit" value="Reply">
 	</form><br>
 
-	<a href = 'homepage.jsp' class="home" value = 'Back To Home'>Back to Home</a><br>
-	<a href = 'Inbox.jsp' class="home" value = 'Back To Home'>Back to Inbox</a>
+	Back to <a href = 'homepage.jsp' class="home" value = 'Back To Home'>Home</a> / 
+	<a href = 'Inbox.jsp' class="home" value = 'Back To Home'>Inbox</a>
 </body>
 <%Factory_Database.closeConnection(con); %>
 </html>

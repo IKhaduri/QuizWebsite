@@ -89,8 +89,19 @@ public class User {
 		return base.changeQuizSharing(this.userName, this.passwordHash, newValue, connection);
 	}
 	
-	public String profilePictureLink() {
-		return "http://sites.nicholas.duke.edu/clarklab/files/2011/01/default_profile-d80441a6f25a9a0aac354978c65c8fa9.jpg";
+	public String getProfilePictureLink(Connection connection, Database base) {
+		String url;
+		if (connection == null || base == null || (url = base.getUserImage(this.userName, connection)) == null)
+			return "http://sites.nicholas.duke.edu/clarklab/files/2011/01/default_profile-d80441a6f25a9a0aac354978c65c8fa9.jpg";
+	
+		return url;
+	}
+	
+	public boolean setProfilePictureLink(String url, Connection connection, Database base) {
+		if (url == null || url.length() <= 0 || connection == null || base == null)
+			return false;
+		
+		return base.setUserImage(this.userName, url, connection);
 	}
 	
 	@Override
