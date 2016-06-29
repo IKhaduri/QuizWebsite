@@ -2,6 +2,7 @@ package sourcePackage;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,6 +50,11 @@ public class FriendRequest extends HttpServlet {
 			db.addFriends(me, second_user, true, connection);
 		}
 		
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException ignore) {}
+		}
 		request.getRequestDispatcher("userpage.jsp?username=" + second_user).forward(request, response);
 	}
 

@@ -37,10 +37,13 @@
     	
     	if (db == null || connection == null || user == null || me == null) {
     		out.println("<h1>Redirecting to Home page...</h1>");
+    		Factory_Database.closeConnection(connection);
     		out.println("<script> setTimeout(function() { document.location = \"homepage.jsp\";}, 3000);	</script>");
     		return;
     	} else if (user.equals(me)) {
+    		Factory_Database.closeConnection(connection);
     		out.println("<script> function Redirect() { window.location=\"homepage.jsp\";} Redirect();	</script>");
+    		return;
     	}
     %>
 

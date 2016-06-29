@@ -2,6 +2,7 @@ package sourcePackage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,13 +37,16 @@ public class StartQuestionCreation extends HttpServlet {
 		String quizname = request.getParameter("quiz_name"), description = request.getParameter("description"),
 				timelimit = request.getParameter("time_limit");
 		
+		Connection con = Factory_Database.getConnection();
 		if (quizname == null || quizname.length() <= 0 ||
-				!((Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME)).quizNameAvailable(quizname, Factory_Database.getConnection())
+				!((Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME)).quizNameAvailable(quizname, con)
 				|| description == null || description.length() <= 0 || timelimit == null || timelimit.length() <= 0) {
+			Factory_Database.closeConnection(con);
 			request.getRequestDispatcher("QuizCreationHead.html").forward(request, response);
 			return;
 		}
 
+		Factory_Database.closeConnection(con);
 		HttpSession session = request.getSession();
 		session.setAttribute(ServletConstants.CREATING_QUIZ_NAME, quizname);
 		session.setAttribute(ServletConstants.CREATING_QUIZ_DESCRIPTION, description);

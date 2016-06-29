@@ -1,6 +1,9 @@
 package sourcePackage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,7 +30,8 @@ public class LoginServlet extends HttpServlet {
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		User user = db.getUser(username, Hasher.hash(username, password), Factory_Database.getConnection());
+		Connection con;
+		User user = db.getUser(username, Hasher.hash(username, password), (con = Factory_Database.getConnection()));
 		if (user == null) {
 			request.getRequestDispatcher("login.html").forward(request, response);
 		} else {
@@ -35,7 +39,12 @@ public class LoginServlet extends HttpServlet {
 			request.getSession().setAttribute(SessionListener.USER_IN_SESSION, user);
 			request.getRequestDispatcher("homepage.jsp").forward(request, response);
 		}
-			
+		
+		if (con != null) {
+			try {
+				con.close();
+			} catch (SQLException ignore) {}
+		}
 	}
 
 }

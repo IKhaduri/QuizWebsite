@@ -1,3 +1,4 @@
+<%@page import="java.sql.Connection"%>
 <%@page import="sourcePackage.Factory_Database"%>
 <%@page import="sourcePackage.Quiz"%>
 <%@page import="java.util.Collections"%>
@@ -19,7 +20,9 @@
 		boolean quizStarted = (Boolean)session.getAttribute(ServletConstants.QUIZ_STARTED);
 	
 		Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
-		Quiz quiz = base.getQuiz(request.getParameter(ServletConstants.QUIZ_PARAMETER_NAME), Factory_Database.getConnection());
+		Connection con;
+		Quiz quiz = base.getQuiz(request.getParameter(ServletConstants.QUIZ_PARAMETER_NAME), (con = Factory_Database.getConnection()));
+		Factory_Database.closeConnection(con);
 		if (!quizStarted){	
 			session.setAttribute(ServletConstants.QUIZ_PARAMETER_NAME, quiz.getName());
 			session.setAttribute(ServletConstants.CURRENT_SCORE, "0");

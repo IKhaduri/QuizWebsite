@@ -1,6 +1,8 @@
 package sourcePackage;
 
 import java.io.IOException;
+import java.sql.Connection;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,11 +30,14 @@ public class UserSearchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String searched = request.getParameter("search");
 		Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
+		Connection con;
 		
-		if (db.getUser(searched, Factory_Database.getConnection()) == null)
+		if (db.getUser(searched, (con = Factory_Database.getConnection())) == null)
 			request.getRequestDispatcher("homepage.jsp").forward(request, response);
 		else
 			request.getRequestDispatcher("userpage.jsp?username=" + searched).forward(request, response);
+		
+		Factory_Database.closeConnection(con);
 	}
 
 	/**

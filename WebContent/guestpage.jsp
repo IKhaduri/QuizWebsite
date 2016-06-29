@@ -23,6 +23,7 @@
 	    	
 	    	if (db == null || connection == null) {
 	    		out.println("<h1>Redirecting to Login page...</h1>");
+	    		Factory_Database.closeConnection(connection);
 	    		out.println("<script> setTimeout(function() { document.location = \"login.html\";}, 3000);	</script>");
 	    		return;
 	    	}

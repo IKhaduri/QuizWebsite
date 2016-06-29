@@ -3,7 +3,6 @@ package sourcePackage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -76,11 +75,7 @@ public class QuizFinished extends HttpServlet {
 			}
 			finally{
 				out.close();
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				Factory_Database.closeConnection(con);
 			}
 		
 		

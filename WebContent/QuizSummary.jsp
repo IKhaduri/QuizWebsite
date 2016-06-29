@@ -140,7 +140,7 @@
 		}
 
 	</script>
-	<% con.close();%>
+	<% Factory_Database.closeConnection(con);%>
 </body>
 
 

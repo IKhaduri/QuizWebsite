@@ -2,7 +2,6 @@ package sourcePackage;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,6 +28,7 @@ public class ChallengeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
 	}
 
 	/**
@@ -59,11 +59,8 @@ public class ChallengeServlet extends HttpServlet {
 		
 		Message challengeMessage = Factory_User.getNewMassege(friend_name, curUser.getName(), challenge);
 		base.addMessage(challengeMessage, con);
-		try {
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
+		Factory_Database.closeConnection(con);
 		request.getRequestDispatcher("/QuizSummary.jsp?quizName="+quizName).forward(request, response);
 		
 		

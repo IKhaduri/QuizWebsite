@@ -1,6 +1,7 @@
 package sourcePackage;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -42,8 +43,10 @@ public class SendMessage extends HttpServlet {
 		String msg_text = request.getParameter("message_text");
 		
 		Message msg = Factory_User.getMessage(receiver, user.getName(), msg_text, new Timestamp(new Date().getTime()), false);
-		db.addMessage(msg, Factory_Database.getConnection());
+		Connection connection = Factory_Database.getConnection();
+		db.addMessage(msg, connection);
 		
+		Factory_Database.closeConnection(connection);
 		request.getRequestDispatcher("Inbox.jsp").forward(request, response);
 	}
 

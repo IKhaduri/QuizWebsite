@@ -1,6 +1,8 @@
 package sourcePackage;
 
 import java.io.IOException;
+import java.sql.Connection;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,12 +32,15 @@ public class CreateAccountServlet extends HttpServlet {
 		String password = request.getParameter("new_password");
 		User user = Factory_User.getUser(username, Hasher.hash(username, password));
 		Database db = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
+		Connection connection = Factory_Database.getConnection();
 		request.getSession().setAttribute(SessionListener.USER_IN_SESSION, user);
 		
-		if (db.addUser(user, Factory_Database.getConnection()))
+		if (db.addUser(user, connection))
 			request.getRequestDispatcher("homepage.jsp").forward(request, response);
 		else
 			request.getRequestDispatcher("not_registered.html").forward(request, response); 	// just to see it directs
+		
+		Factory_Database.closeConnection(connection);
 	}
 
 }

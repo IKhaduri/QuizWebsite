@@ -19,6 +19,7 @@
 	Connection con = Factory_Database.getConnection();
 	if (user == null || base == null || con == null) {
 		out.println("<h1>Redirecting to Login page...</h1>");
+		Factory_Database.closeConnection(con);
 		out.println("<script> setTimeout(function() { document.location = \"login.html\";}, 3000);	</script>");
 		return;
 	}
@@ -67,5 +68,5 @@
 		<a href = 'homepage.jsp' class="home" value = 'Back To Home'>Back to Home</a>
 	
 	</body>
-	<%con.close();%>
+	<%Factory_Database.closeConnection(con);%>
 </html>

@@ -13,10 +13,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<% 
-		String userName = ((User)session.getAttribute(SessionListener.USER_IN_SESSION)).getName();
+		HttpSession ses = request.getSession();
 		Database base = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
-		String senderName = request.getParameter("username");
 		Connection con = Factory_Database.getConnection();
+		if (ses == null || base == null || con == null) {
+			Factory_Database.closeConnection(con);
+			out.println("<script> function Redirect() { window.location=\"homepage.jsp\";} Redirect();	</script>");
+			return;
+		}
+		
+		String userName = ((User)ses.getAttribute(SessionListener.USER_IN_SESSION)).getName();
+		String senderName = request.getParameter("username");
 
 		int uMessages = base.getNumOfUnreadMessages(userName, senderName, con);
 	%>
@@ -28,7 +35,7 @@
 <body>
 	<% 
 		for (Message message:base.getUnreadMessages(userName, senderName, uMessages, con)){
-			out.println("<p><a href=userpage?username" + message.getSender() + ">" + message.getSender() + ":</a>" + message.getMessage() + "</p>");
+			out.println("<p><a href=userpage.jsp?username=" + message.getSender() + ">" + message.getSender() + "</a>:  " + message.getMessage() + "</p>");
 			
 		}
 		base.markMessagesRead(senderName, userName, con);
@@ -43,5 +50,5 @@
 	<a href = 'homepage.jsp' class="home" value = 'Back To Home'>Back to Home</a><br>
 	<a href = 'Inbox.jsp' class="home" value = 'Back To Home'>Back to Inbox</a>
 </body>
-<%con.close(); %>
+<%Factory_Database.closeConnection(con); %>
 </html>
