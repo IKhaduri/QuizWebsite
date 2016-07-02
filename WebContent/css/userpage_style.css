@@ -173,6 +173,10 @@ h1, h2, p, a, span{
 	height:40px
 } 
 
+.hidden {
+	height: 40px;
+}
+
 .button {
 	display: block;
 	width: 175px;

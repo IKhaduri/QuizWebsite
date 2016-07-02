@@ -63,6 +63,7 @@
 
             <!-- LEFT-CONTAINER -->
             <div class="left-container container">
+            	<div class="hidden"></div><br>
                 <div class="menu-box block">
                     <h2 class="titular">Submissions</h2>
                     <ul class="menu-box-menu">                                                 
