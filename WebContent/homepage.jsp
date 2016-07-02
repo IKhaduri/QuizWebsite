@@ -17,6 +17,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/homepage_style.css">
+<script src="http://code.jquery.com/jquery-1.7.js"
+    type="text/javascript"></script>
+<script
+    src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"
+    type="text/javascript"></script>
+<link
+    href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+    rel="stylesheet" type="text/css" />
+<STYLE TYPE="text/css" media="all">
+.ui-autocomplete { 
+    position: absolute; 
+    cursor: default; 
+    height: 200px; 
+    overflow-y: scroll; 
+    overflow-x: hidden;}
+</STYLE>
+
+
+
+
 <title>Homepage</title>
 <style>
 .menu-box {
@@ -83,12 +103,29 @@
                     </div>
                 </div>
             </header>
-		
+			 <script>
+			 <%List<String> users = db.getAllUserNames(connection);%>
+		     var all_users = [<% for (int i = 0; i < users.size(); i++) { %> 
+		     			"<%= users.get(i) %>" <%= i + 1 < users.size() ? ",":"" %><% } %>];	 
+			 $(document).ready(function() {
+				    $("input#user_search").autocomplete({
+				        width: 300,
+				        max: 10,
+				        delay: 100,
+				        minLength: 1,
+				        autoFocus: true,
+				        cacheLength: 1,
+				        scroll: true,
+				        highlight: false,
+				        source: all_users
+				    });
+				});
+			 </script>
 
             <!-- LEFT-CONTAINER -->
             <div class="left-container container">
             	<form action="UserSearchServlet" method="get">
-            		<input type="text" name="search" placeholder="User search...">
+            		<input id = "user_search" type="text" name="search" placeholder="User search...">
             		<input type="submit" style="position: absolute; left: -9999px"/>
             	</form>
                 <div class="menu-box block">
@@ -159,10 +196,27 @@
             </div>
 
             <!-- RIGHT-CONTAINER -->
-            
+            <script>
+            <%List<String> quizzes = db.getAllQuizNames(connection);%>
+		     var all_quizzes = [<% for (int i = 0; i < quizzes.size(); i++) { %> 
+		     			"<%= quizzes.get(i) %>" <%= i + 1 < quizzes.size() ? ",":"" %><% } %>];	 
+			 $(document).ready(function() {
+				    $("input#quiz_search").autocomplete({
+				        width: 300,
+				        max: 10,
+				        delay: 100,
+				        minLength: 1,
+				        autoFocus: true,
+				        cacheLength: 1,
+				        scroll: true,
+				        highlight: false,
+				        source: all_quizzes
+				    });
+				});
+            </script>
             <div class="right-container container">
             	<form action="QuizSearchServlet" method="get">
-            		<input type="text" name="search" placeholder="Quiz search...">
+            		<input id = "quiz_search" type="text" name="search" placeholder="Quiz search...">
             		<input type="submit" style="position: absolute; left: -9999px"/>
             	</form>
                 <div class="menu-box block">

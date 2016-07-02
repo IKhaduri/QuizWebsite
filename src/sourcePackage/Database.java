@@ -31,6 +31,52 @@ public class Database {
 		}
 		return true;
 	}
+	/**
+	 * return every username
+	 * found in the database
+	 * @param connection - sql connection
+	 * @return list of all usernames
+	 * 
+	 * */
+	public List<String> getAllUserNames(Connection connection){
+		List<String> res = new ArrayList<String>();
+		if (connection!=null){
+			try{
+				String sql = "Select username From "+ MyDBInfo.MYSQL_DATABASE_NAME+".users";
+				ResultSet set = connection.prepareStatement(sql).executeQuery();
+				while (set.next())
+					res.add(set.getString(1));
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+		
+		return res;
+	}
+	/**
+	 * return every quiz name
+	 * found in the database
+	 * @param connection - sql connection
+	 * @return list of all quiz names
+	 * 
+	 * */
+	public List<String> getAllQuizNames(Connection connection){
+		List<String> res = new ArrayList<String>();
+		if (connection!=null){
+			try{
+				String sql = "Select quiz_name From "+ MyDBInfo.MYSQL_DATABASE_NAME+".quizzes";
+				ResultSet set = connection.prepareStatement(sql).executeQuery();
+				while (set.next())
+					res.add(set.getString(1));
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+		return res;
+	}
+	
 	
 	/**
 	 * Sets user status
