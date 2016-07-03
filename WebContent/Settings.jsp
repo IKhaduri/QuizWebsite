@@ -26,7 +26,7 @@
 	    		var x = document.getElementById("new_password").value;
 	    		var y = document.getElementById("repeat_password").value;
 	 			var z = document.getElementById("old_password").value;
-	    		if ((z==null||z=="")&&(x!=null||x!="")&&(y!=null||y!="")){
+	    		if ((z==null||z=="")&&(x!=null&&x!="")&&(y!=null&&y!="")){
 	    			alert("To change passwords enter old password")
 	    			return false;
 	    		}
@@ -43,7 +43,7 @@
 	    			alert("Passwords do not match");
 	    			return false;
 	    		}
-	    		if ((x==null||x=="")&&(y==null||y=="")&&(z!=null||z!="")){
+	    		if ((x==null||x=="")&&(y==null||y=="")&&(z!=null&&z!="")){
 	    			alert("You cannot set password to be empty!");
 	    			return false;
 	    		}
