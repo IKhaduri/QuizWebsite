@@ -61,11 +61,13 @@ public class NextQuestion extends HttpServlet {
 				out.println("<!DOCTYPE html>");
 				out.println("<html>");
 				out.println("<head>");
+				out.println("<title>Results</title>");
+				out.println("<link rel=\"stylesheet\" href=\"css/quiz_finished_style.css\">");
 				out.println("</head>");
 				out.println("<body>");
 				out.println("<h1>Congratulations! You Have Successfully Finished The Quiz!</h1>");
 				out.println("<h2>Your Score Is :"+ curScore+ "</h2>");
-				out.println("<h3>Maximum Score On this Quiz Was:"+questions.size()+"</h3>");
+				out.println("<h3>Maximum Score On this Quiz Was: "+questions.size()+"</h3>");
 				if (questions.size()*5/6<=curScore)
 					out.println("<h1>So, YOU DID AN AWESOME JOB! KEEP THAT UP!</h1>");
 				out.println("<a href = 'homepage.jsp' value = 'Back To Home'>Back to Home</a>");

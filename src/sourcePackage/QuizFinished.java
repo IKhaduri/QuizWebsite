@@ -54,6 +54,8 @@ public class QuizFinished extends HttpServlet {
 				out.println("<!DOCTYPE html>");
 				out.println("<html>");
 				out.println("<head>");
+				out.println("<title>Results</title>");
+				out.println("<link rel=\"stylesheet\" href=\"css/quiz_finished_style.css\">");
 				out.println("</head>");
 				out.println("<body>");
 				out.println("<h1>Congratulations! You Have Successfully Finished The Quiz!</h1>");
