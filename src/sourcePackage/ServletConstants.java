@@ -6,6 +6,7 @@ public class ServletConstants {
 	public static final long  BEGINNING_DATE = 1465636711761L;
 	public static final long TWENTY_FOUR_HOURS_IN_MILLIS = 86400000L;
 	public static final int LISTS_LIMIT = 5;
+	public static final int ACTIVITY_LISTS_LIMIT = 3;
 	public static final String QUIZ_QUESTION_NUMBER = "QUIZ_QUESTION_NUMBER";
 	public static final String QUIZ_QUESTION_LIST = "QUIZ_QUESTION_LIST"; 
 	public static final String QUIZ_QUESTION_INDEX = "quiz_question_index";

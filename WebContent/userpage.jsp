@@ -73,7 +73,7 @@
 		                    	ArrayList<Submission> submissions = new ArrayList<Submission>(f_list);
 		                       	for (int i = 0; i < submissions.size(); i++) {
 		                       		Submission currSub = submissions.get(i);
-		                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>"
+		                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-graduation-cap scnd-font-color\"></span>"
 		                       				+ currSub.getQuiz().getName());
 		                       		out.println("<div class=\"menu-box-number\">" + Database.percentage(currSub.getQuiz().getQuizScore(), currSub.getScore()) + "</div></a></li>");
 		                       	}

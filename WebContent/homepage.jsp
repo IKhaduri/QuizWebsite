@@ -103,6 +103,53 @@
                     </div>
                 </div>
             </header>
+			
+			<header class="block" style="height:181px;">
+				<div class="left-container container">
+					<ul class="menu-box-menu"">
+                        <li>
+                            <a class="menu-box-tab" href="#6"><span class="icon entypo-check scnd-font-color"></span>Messages<div class="menu-box-number">24</div></a>                            
+                        </li>
+                        <li>
+                            <a class="menu-box-tab" href="#8"><span class="icon entypo-check scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
+                        </li>
+                        <li>
+                            <a class="menu-box-tab" href="#8"><span class="icon entypo-check scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
+                        </li>
+					</ul>
+				</div>
+           
+				<div class="middle-container container">
+					<ul class="menu-box-menu"">
+                        <li>
+                            <a class="menu-box-tab" href="#6"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages<div class="menu-box-number">24</div></a>                            
+                        </li>
+                        <li>
+                            <a class="menu-box-tab" href="#8"><span class="icon entypo-paper-plane scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
+                        </li>
+                        <li>
+                            <a class="menu-box-tab" href="#8"><span class="icon entypo-paper-plane scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
+                        </li>
+					</ul>
+				</div>
+           
+				<div class="right-container container">
+					<ul class="menu-box-menu"">
+                        <li>
+                            <a class="menu-box-tab" href="#6"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages<div class="menu-box-number">24</div></a>                            
+                        </li>
+                        <li>
+                            <a class="menu-box-tab" href="#8"><span class="icon entypo-paper-plane scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
+                        </li>
+                        <li>
+                            <a class="menu-box-tab" href="#8"><span class="icon entypo-paper-plane scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
+                        </li>
+					</ul>
+				</div>
+           
+           </header>
+
+			
 			 <script>
 			 <%List<String> users = db.getAllUserNames(connection);%>
 		     var all_users = [<% for (int i = 0; i < users.size(); i++) { %> 
@@ -138,7 +185,7 @@
 	                    	ArrayList<Submission> submissions = new ArrayList<Submission>(f_list);
 	                       	for (int i = 0; i < submissions.size(); i++) {
 	                       		Submission currSub = submissions.get(i);
-	                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>"
+	                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-graduation-cap scnd-font-color\"></span>"
 	                       				+ currSub.getQuiz().getName());
 	                       		out.println("<div class=\"menu-box-number\">" + Database.percentage(currSub.getQuiz().getQuizScore(), currSub.getScore()) + "</div></a></li>");
 	                       	}
