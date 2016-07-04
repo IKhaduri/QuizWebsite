@@ -2,6 +2,8 @@ package sourcePackage;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -44,6 +46,7 @@ public class StartQuiz extends HttpServlet {
 		
 		request.setAttribute(ServletConstants.QUIZ_QUESTION_LIST, quiz.getQuestions());
 		request.setAttribute(ServletConstants.QUIZ_QUESTION_INDEX, 0);
+		request.getSession().setAttribute(ServletConstants.QUIZ_START_TIME, new Timestamp(new Date().getTime()));
 		RequestDispatcher dispatcher = request.getRequestDispatcher("QuizPage.jsp");
 		dispatcher.forward(request, response);
 	}
