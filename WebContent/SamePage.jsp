@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.sql.Timestamp"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="sourcePackage.Factory_Database"%>
 <%@page import="sourcePackage.Quiz"%>
@@ -27,6 +29,7 @@
 			session.setAttribute(ServletConstants.QUIZ_PARAMETER_NAME, quiz.getName());
 			session.setAttribute(ServletConstants.CURRENT_SCORE, "0");
 			session.setAttribute(ServletConstants.QUIZ_STARTED,true);
+			session.setAttribute(ServletConstants.QUIZ_START_TIME, new Timestamp(new Date().getTime()));
 		}
 		ArrayList<QuestionAbstract> questionList = new ArrayList<QuestionAbstract>( quiz.getQuestions());
 		if (quiz.shouldShuffle())

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -76,7 +77,8 @@ public class NextQuestion extends HttpServlet {
 				Database base = (Database) getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 				String quizName = (String)request.getSession().getAttribute(ServletConstants.QUIZ_PARAMETER_NAME);
 				con = Factory_Database.getConnection();
-				base.logSubmission(quizName, userName, curScore, questions.size(), con);
+				Timestamp startTime = (Timestamp) request.getSession().getAttribute(ServletConstants.QUIZ_START_TIME);
+				base.logSubmission(quizName, userName, curScore, questions.size(),startTime, con);
 				request.getSession().setAttribute(ServletConstants.QUIZ_STARTED, false);
 			}catch(Throwable e){
 				e.printStackTrace();

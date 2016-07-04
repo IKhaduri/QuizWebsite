@@ -24,4 +24,5 @@ public class ServletConstants {
 	public static final String QUIZ_QUESTION_SHUFFLED_LIST = "QUIZ_QUESTION_SHUFFLED_LIST";
 	public static final String ERROR_MESSAGE = "error_message";
 	public static final String REDIRECT_PAGE = "redirect_page";
+	public static final String QUIZ_START_TIME = "quiz_start_time";
 }
