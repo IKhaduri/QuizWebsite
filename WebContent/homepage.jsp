@@ -92,6 +92,9 @@
                         <a class="header-menu-tab" href="Settings.jsp"><span class="icon entypo-cog scnd-font-color"></span>Settings</a>
                     </li>
                     <li>
+                        <a class="header-menu-tab" href="MyFriends.jsp"><span class="icon entypo-users scnd-font-color"></span>Friends</a>
+                    </li>
+                    <li>
                         <a class="header-menu-tab" href="Inbox.jsp"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages</a>
                         <a class="header-menu-number" href="Inbox.jsp"><%= user.getNumOfUnreadMessages(connection, db) %></a>
                     </li>
@@ -99,7 +102,7 @@
                 <div class="profile-menu">
                 	<p>Log Out <a href="LogoutServlet"><span class="entypo-logout scnd-font-color"></span></a></p>
                 	
-                    <p>Me <a href="homepage.jsp"><span class="entypo-to-end scnd-font-color"></span></a></p>
+                    <p>Me <a href="homepage.jsp"><span class="entypo-home scnd-font-color"></span></a></p>
                     
                     <div class="profile-picture small-profile-picture">
                         <img width="40px" height="40px" alt="user picture" src=<%= user.getProfilePictureLink(connection, db) %> >
@@ -203,25 +206,31 @@
                     <h2 class="titular">Submissions</h2>
                     <ul class="menu-box-menu">
                                                  
-                    <div id="submissions"><%
-                    	List<Submission> f_list = user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT);
-                   		if (f_list != null && f_list.size() > 0) {
-	                    	ArrayList<Submission> submissions = new ArrayList<Submission>(f_list);
-	                       	for (int i = 0; i < submissions.size(); i++) {
-	                       		Submission currSub = submissions.get(i);
-	                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-check scnd-font-color\"></span>"
-	                       				+ currSub.getQuiz().getName());
-	                       		out.println("<div class=\"menu-box-number\">" + Database.percentage(currSub.getQuiz().getQuizScore(), currSub.getScore()) + "</div></a></li>");
-	                       	}
-                   		}
-                    %></div>
+	                    <div id="submissions">
+	                    <%
+	                    	List<Submission> f_list = user.getSubmissions(db, connection, ServletConstants.LISTS_LIMIT - 1);
+	                   		if (f_list != null && f_list.size() > 0) {
+		                    	ArrayList<Submission> submissions = new ArrayList<Submission>(f_list);
+		                       	for (int i = 0; i < submissions.size(); i++) {
+		                       		Submission currSub = submissions.get(i);
+		                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-check scnd-font-color\"></span>"
+		                       				+ currSub.getQuiz().getName());
+		                       		out.println("<div class=\"menu-box-number\">" + Database.percentage(currSub.getQuiz().getQuizScore(), currSub.getScore()) + "</div></a></li>");
+		                       	}
+	                   		}
+	                    %>
+	                    <li>
+	                    	<a class="menu-box-tab" href="MySubmissions.jsp"><span class="icon entypo-dot-3 scnd-font-color"></span>See More</a>
+	                    </li>
+	                    </div>
                     </ul>
                 </div><br>
                  <div class="menu-box block">
                     <h2 class="titular">My Quizzes</h2>
                     <ul class="menu-box-menu">                        
-	                    <div id="created_quizzes"><%
-	                    	List<QuizBase> list = user.getCreatedQuizzes(db, connection, ServletConstants.LISTS_LIMIT);
+	                    <div id="created_quizzes">
+	                    <%
+	                    	List<QuizBase> list = user.getCreatedQuizzes(db, connection, ServletConstants.LISTS_LIMIT - 1);
 	                    	if (list != null && list.size() > 0) {
 		                       	ArrayList<QuizBase> quizzes = new ArrayList<QuizBase>(list);
 		                       	for (int i = 0; i < quizzes.size(); i++) {
@@ -230,7 +239,11 @@
 		                       			+ currQuiz.getName() +"\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>" + currQuiz.getName() + "</a></li>");
 		                       	}
 	                    	}
-	                    %></div>                  
+	                    %>
+	                    <li>
+	                    	<a class="menu-box-tab" href="MyQuizzes.jsp"><span class="icon entypo-dot-3 scnd-font-color"></span>See More</a>
+	                    </li>
+	                    </div>                  
                     </ul>
                 </div>
                </div>
