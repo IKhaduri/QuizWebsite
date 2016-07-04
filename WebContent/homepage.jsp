@@ -1,3 +1,4 @@
+<%@page import="sourcePackage.Touple"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="sourcePackage.Factory_Database"%>
@@ -58,6 +59,8 @@
 	    		out.println("<script> setTimeout(function() { document.location = \"login.html\";}, 3000);	</script>");
 	    		return;
 	    	}
+	    	
+	    	List<Touple<String, String, Integer>> friend_submissions = db.getFriendSubmissions(user.getName(), 3 * ServletConstants.ACTIVITY_LISTS_LIMIT, connection);
     	%>
     	<script>
 	    	function checkURL(url) {
@@ -106,44 +109,65 @@
 			
 			<header class="block" style="height:181px;">
 				<div class="left-container container">
-					<ul class="menu-box-menu"">
-                        <li>
-                            <a class="menu-box-tab" href="#6"><span class="icon entypo-check scnd-font-color"></span>Messages<div class="menu-box-number">24</div></a>                            
-                        </li>
-                        <li>
-                            <a class="menu-box-tab" href="#8"><span class="icon entypo-check scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
-                        </li>
-                        <li>
-                            <a class="menu-box-tab" href="#8"><span class="icon entypo-check scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
-                        </li>
+					<ul class="menu-box-menu">
+					<%
+						if (0 >= friend_submissions.size()) {
+	                    	out.println("<li>");
+	                        out.println("<a class=\"menu-box-tab\"><span class=\"icon entypo-check scnd-font-color\"></span>no new activities</a>");                            
+	                        out.println("</li>");
+	                    } else {
+							for (int i = 0; i < Math.min(ServletConstants.ACTIVITY_LISTS_LIMIT, friend_submissions.size()); i++) {
+								Touple<String, String, Integer> trio = friend_submissions.get(i);
+								String label = trio.getFirst() + " - " + trio.getSecond() + " - " + trio.getThird();
+		                        out.println("<li>");
+		                        out.println("<a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "=" + trio.getSecond() +
+		                       		"\"><span class=\"icon entypo-clock scnd-font-color\"></span>" + label + "</a>");                            
+		                        out.println("</li>");
+							}
+	                    }
+                    %>
 					</ul>
 				</div>
            
 				<div class="middle-container container">
-					<ul class="menu-box-menu"">
-                        <li>
-                            <a class="menu-box-tab" href="#6"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages<div class="menu-box-number">24</div></a>                            
-                        </li>
-                        <li>
-                            <a class="menu-box-tab" href="#8"><span class="icon entypo-paper-plane scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
-                        </li>
-                        <li>
-                            <a class="menu-box-tab" href="#8"><span class="icon entypo-paper-plane scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
-                        </li>
+					<ul class="menu-box-menu">
+                    <%
+	                    if (ServletConstants.ACTIVITY_LISTS_LIMIT >= friend_submissions.size()) {
+	                    	out.println("<li>");
+	                        out.println("<a class=\"menu-box-tab\"><span class=\"icon entypo-check scnd-font-color\"></span>no new activities</a>");                            
+	                        out.println("</li>");
+	                    } else {
+							for (int i = ServletConstants.ACTIVITY_LISTS_LIMIT; i < Math.min(2 * ServletConstants.ACTIVITY_LISTS_LIMIT, friend_submissions.size()); i++) {
+								Touple<String, String, Integer> trio = friend_submissions.get(i);
+								String label = trio.getFirst() + " - " + trio.getSecond() + " - " + trio.getThird();
+		                        out.println("<li>");
+		                        out.println("<a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "=" + trio.getSecond() +
+		                       		"\"><span class=\"icon entypo-clock scnd-font-color\"></span>" + label + "</a>");                            
+		                        out.println("</li>");
+							}
+	                    }
+                    %>
 					</ul>
 				</div>
            
 				<div class="right-container container">
-					<ul class="menu-box-menu"">
-                        <li>
-                            <a class="menu-box-tab" href="#6"><span class="icon fontawesome-envelope scnd-font-color"></span>Messages<div class="menu-box-number">24</div></a>                            
-                        </li>
-                        <li>
-                            <a class="menu-box-tab" href="#8"><span class="icon entypo-paper-plane scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
-                        </li>
-                        <li>
-                            <a class="menu-box-tab" href="#8"><span class="icon entypo-paper-plane scnd-font-color"></span>Invites<div class="menu-box-number">3</div></a>                            
-                        </li>
+					<ul class="menu-box-menu">
+                        <%
+                        if (2 * ServletConstants.ACTIVITY_LISTS_LIMIT >= friend_submissions.size()) {
+                        	out.println("<li>");
+	                        out.println("<a class=\"menu-box-tab\"><span class=\"icon entypo-check scnd-font-color\"></span>no new activities</a>");                            
+	                        out.println("</li>");
+                        } else {
+							for (int i = 2 * ServletConstants.ACTIVITY_LISTS_LIMIT; i < Math.min(3 * ServletConstants.ACTIVITY_LISTS_LIMIT, friend_submissions.size()); i++) {
+								Touple<String, String, Integer> trio = friend_submissions.get(i);
+								String label = trio.getFirst() + " - " + trio.getSecond() + " - " + trio.getThird();
+		                        out.println("<li>");
+		                        out.println("<a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "=" + trio.getSecond() +
+		                       		"\"><span class=\"icon entypo-clock scnd-font-color\"></span>" + label + "</a>");                            
+		                        out.println("</li>");
+							}
+                        }
+                    %>
 					</ul>
 				</div>
            
@@ -185,7 +209,7 @@
 	                    	ArrayList<Submission> submissions = new ArrayList<Submission>(f_list);
 	                       	for (int i = 0; i < submissions.size(); i++) {
 	                       		Submission currSub = submissions.get(i);
-	                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-graduation-cap scnd-font-color\"></span>"
+	                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-check scnd-font-color\"></span>"
 	                       				+ currSub.getQuiz().getName());
 	                       		out.println("<div class=\"menu-box-number\">" + Database.percentage(currSub.getQuiz().getQuizScore(), currSub.getScore()) + "</div></a></li>");
 	                       	}

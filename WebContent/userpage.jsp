@@ -73,13 +73,26 @@
 		                    	ArrayList<Submission> submissions = new ArrayList<Submission>(f_list);
 		                       	for (int i = 0; i < submissions.size(); i++) {
 		                       		Submission currSub = submissions.get(i);
-		                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-graduation-cap scnd-font-color\"></span>"
+		                       		out.println("<li><a class=\"menu-box-tab\"><span class=\"icon entypo-check scnd-font-color\"></span>"
 		                       				+ currSub.getQuiz().getName());
 		                       		out.println("<div class=\"menu-box-number\">" + Database.percentage(currSub.getQuiz().getQuizScore(), currSub.getScore()) + "</div></a></li>");
 		                       	}
 	                   		}
                         %></div>              
                     </ul>
+                </div>
+           </div>
+
+            <!-- MIDDLE-CONTAINER -->
+            <div class="middle-container container">
+                <div class="profile block">
+                    <div class="profile-picture big-profile-picture clear">
+                        <img width="150px" height="150px" alt="picture" src=<%= user.getProfilePictureLink(connection, db) %> >
+                    </div>
+                    <h1 class="user-name"><%= user.getName() %></h1>
+                    <div class="profile-description">
+                        <p class="scnd-font-color"><%= user.getStatus(db, connection) %></p>
+                    </div>
                 </div>
                 <div class="menu-box block">
                     <h2 class="titular">Statistics</h2>
@@ -94,19 +107,6 @@
                         </li>
                     </ul>
                </div>
-           </div>
-
-            <!-- MIDDLE-CONTAINER -->
-            <div class="middle-container container">
-                <div class="profile block">
-                    <div class="profile-picture big-profile-picture clear">
-                        <img width="150px" height="150px" alt="picture" src=<%= user.getProfilePictureLink(connection, db) %> >
-                    </div>
-                    <h1 class="user-name"><%= user.getName() %></h1>
-                    <div class="profile-description">
-                        <p class="scnd-font-color"><%= user.getStatus(db, connection) %></p>
-                    </div>
-                </div>
             </div>
 
             <!-- RIGHT-CONTAINER -->

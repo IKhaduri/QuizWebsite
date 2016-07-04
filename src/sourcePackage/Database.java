@@ -972,6 +972,8 @@ public class Database {
 	 * @return last num submissions for the given quiz
 	 */
 	public List<Touple<String, Double, Timestamp>> getLastSubmissions(String quizName, int num, Connection connection){
+		if (connection == null) return null;
+		
 		try{
 			int totalScore = getQuizBase(quizName, connection).getQuizScore();
 			String sql = "SELECT user_id, score, start_time FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log "
@@ -988,7 +990,53 @@ public class Database {
 		return null;
 	}
 	
+	/**
+	 * @param username - main user name
+	 * @param limit - limit of submissions to return
+	 * @param connection
+	 * @return friends' last submissions
+	 */
+	public List<Touple<String, String, Integer>> getFriendSubmissions(String username, int limit, Connection connection) {
+		if (connection == null) return null;
+		
+		try {
+			String query = "select quiz_name, username, score from (" + MyDBInfo.MYSQL_DATABASE_NAME + ".event_log inner join "
+					+ MyDBInfo.MYSQL_DATABASE_NAME + ".users on user_id = id) inner join " + MyDBInfo.MYSQL_DATABASE_NAME
+					+ ".quizzes q on quiz_id = q.id where username in ";
+			
+			List<String> friends = getFriendList(username, connection);
+			String inList = "(";
+			for (int i = 0; i < friends.size(); i++) {
+				inList += "'" + friends.get(i) + "'";
+				if (i < friends.size() - 1) inList += ", ";
+			}
+			query += inList + ") order by end_time desc limit ?;";
+			
+			PreparedStatement st = connection.prepareStatement(query);
+			st.setInt(1, limit);
+			ResultSet set = st.executeQuery();
+			if (set == null) return null;
+			
+			return getFriendsSubmissions(set);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
+	private List<Touple<String, String, Integer>> getFriendsSubmissions(ResultSet set) throws SQLException {
+		List<Touple<String, String, Integer>> list = new ArrayList<Touple<String, String, Integer>>();
+		while (set.next()) {
+			String friend_name = set.getString(2);
+			String quiz_name = set.getString(1);
+			int score = set.getInt(3);
+			list.add(Factory_Quiz.makeTouple(friend_name, quiz_name, score));
+		}
+		
+		return list;
+	}
 	/**
 	 * Inserts a message into the Database
 	 * @param message - message
@@ -1200,6 +1248,7 @@ public class Database {
 			return null;
 		}
 	}
+	
 	/**
 	 * Gets friends for the given user
 	 * all of them. is a simplified
