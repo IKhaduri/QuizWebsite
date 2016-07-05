@@ -15,6 +15,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" href="css/homepage_style.css">
+<link rel="stylesheet" href="css/seemore_back_style.css">
 <title>My submissions</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 </head>
@@ -67,6 +68,7 @@
 	        </div>
 		</div>
 	</div>
+	<a href="homepage.jsp" class="back">Back to Home</a>
 </body>
 </html>
 
