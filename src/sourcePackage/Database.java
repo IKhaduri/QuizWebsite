@@ -1255,7 +1255,8 @@ public class Database {
 	 * @return list of friends
 	 */
 	public List<String> getFriendList(String username, int num, Connection connection){
-		if(username == null || connection == null);
+		if(username == null || connection == null)
+			return new ArrayList<String>();
 		try{
 			int userId = getUserId(username, connection);
 			String query = "SELECT username FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends, " + MyDBInfo.MYSQL_DATABASE_NAME + ".users "
@@ -1266,7 +1267,8 @@ public class Database {
 			ps.setInt(3, num);
 			
 			ResultSet set = ps.executeQuery();
-			if (set == null) return null;
+			if (set == null) 
+				return new ArrayList<String>();
 			
 			List<String> list = new ArrayList<String>();
 			while(set.next())
@@ -1274,10 +1276,40 @@ public class Database {
 			return list;
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-			return null;
+			return new ArrayList<String>();
 		}
 	}
-	
+	/**
+	 * Fetches friends for the given user
+	 * @param username - user name
+	 * @param from - from this user
+	 * @param to - to this user
+	 * @return list of friends
+	 */
+	public List<String> getFriendList(String username, int from, int to, Connection connection){
+		if(username == null || connection == null)
+			return new ArrayList<String>();
+		try{
+			int userId = getUserId(username, connection);
+			String query = "SELECT username FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends, " + MyDBInfo.MYSQL_DATABASE_NAME + ".users "
+					+ "WHERE ((first_id = ? and second_id = id) OR (first_id = id and second_id = ?)) AND type = true LIMIT ?,?;";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, userId);
+			ps.setInt(2, userId);
+			ps.setInt(3, from);
+			ps.setInt(4, to);
+			ResultSet set = ps.executeQuery();
+			if (set == null) return new ArrayList<String>();
+			
+			List<String> list = new ArrayList<String>();
+			while(set.next())
+				list.add(set.getString(1));
+			return list;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return new ArrayList<String>();
+		}
+	}
 	/**
 	 * Gets friends for the given user
 	 * all of them. is a simplified
