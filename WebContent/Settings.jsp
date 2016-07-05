@@ -64,7 +64,7 @@
 			<div class="inset">
 			<p>
 			    <label for="old">OLD</label>
-			    <input id = "old_password" type="text" name="old_password" autocomplete="off">
+			    <input id = "old_password" type="password" name="old_password">
 			</p>
 			<p>
 			    <label for="new">NEW</label>

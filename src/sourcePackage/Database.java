@@ -1291,8 +1291,8 @@ public class Database {
 			return new ArrayList<String>();
 		try{
 			int userId = getUserId(username, connection);
-			String query = "SELECT username FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends, " + MyDBInfo.MYSQL_DATABASE_NAME + ".users "
-					+ "WHERE ((first_id = ? and second_id = id) OR (first_id = id and second_id = ?)) AND type = true LIMIT ?,?;";
+			String query = "SELECT username FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".friends inner join " + MyDBInfo.MYSQL_DATABASE_NAME + ".users "
+					+ "on (id = first_id || id = second_id) WHERE ((first_id = ? and second_id = id) OR (first_id = id and second_id = ?)) AND type = true LIMIT ?,?;";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setInt(1, userId);
 			ps.setInt(2, userId);
