@@ -64,7 +64,7 @@
 	<div class="main-container">
 		 <div class="left-container container" style="width: 950px;">
 			<div class="menu-box block">
-	            <h2 class="titular">Here we have your created quizzes!</h2>
+	            <h2 class="titular">Here are your friends!</h2>
 	            <ul class="menu-box-menu">
 	            <% 
 	            for (String friend:friends){
