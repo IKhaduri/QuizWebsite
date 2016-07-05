@@ -31,7 +31,8 @@
 		               if (http_request.readyState == 4  ){
 		                  var json = JSON.parse(http_request.responseText);
 		                  for (var i=0;i<json["size"];i++){
-		              		$("ul").append("<li>"+json["friend_name"+i]+"</li>");		              	
+		              		$("ul").append("<li><a class=\"menu-box-tab\" href=\"userpage.jsp?username=" + json["friend_name"+i] +
+		              				"\"><span class=\"icon entypo-user scnd-font-color\"></span>" + json["friend_name"+i]+"</a></li>");		              	
 		                  }        
 		               }
 		            }
@@ -48,9 +49,16 @@
 <% 
 	Database base = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 	Connection con = Factory_Database.getConnection();
-	String userName = ((User)request.getSession().getAttribute(SessionListener.USER_IN_SESSION)).getName();
-	List<String> friends = base.getFriendList(userName, 1, 16, con);
-	System.out.println(friends.size());
+	User user = (User)request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
+	
+	if (base == null || con == null || user == null) {
+		out.println("<h1>Redirecting to Login page...</h1>");
+		Factory_Database.closeConnection(con);
+		out.println("<script> setTimeout(function() { document.location = \"login.html\";}, 3000);	</script>");
+		return;
+	}
+	String userName = user.getName();
+	List<String> friends = base.getFriendList(userName, 0, 16, con);
 %>
 <body>
 	<div class="main-container">
@@ -60,7 +68,8 @@
 	            <ul class="menu-box-menu">
 	            <% 
 	            for (String friend:friends){
-						out.println("<li>"+friend+"</li>");
+						out.println("<li><a class=\"menu-box-tab\" href=\"userpage.jsp?username=" +
+								friend + "\"><span class=\"icon entypo-user scnd-font-color\"></span>"+friend+"</li>");
 					}
 					Factory_Database.closeConnection(con);
 				%>

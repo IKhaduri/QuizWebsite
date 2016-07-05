@@ -114,7 +114,7 @@
 				<div class="left-container container">
 					<ul class="menu-box-menu">
 					<%
-						if (0 >= friend_submissions.size()) {
+						if (friend_submissions == null || 0 >= friend_submissions.size()) {
 	                    	out.println("<li>");
 	                        out.println("<a class=\"menu-box-tab\"><span class=\"icon entypo-check scnd-font-color\"></span>no new activities</a>");                            
 	                        out.println("</li>");
@@ -135,7 +135,7 @@
 				<div class="middle-container container">
 					<ul class="menu-box-menu">
                     <%
-	                    if (ServletConstants.ACTIVITY_LISTS_LIMIT >= friend_submissions.size()) {
+	                    if (friend_submissions == null || ServletConstants.ACTIVITY_LISTS_LIMIT >= friend_submissions.size()) {
 	                    	out.println("<li>");
 	                        out.println("<a class=\"menu-box-tab\"><span class=\"icon entypo-check scnd-font-color\"></span>no new activities</a>");                            
 	                        out.println("</li>");
@@ -156,7 +156,7 @@
 				<div class="right-container container">
 					<ul class="menu-box-menu">
                         <%
-                        if (2 * ServletConstants.ACTIVITY_LISTS_LIMIT >= friend_submissions.size()) {
+                        if (friend_submissions == null || 2 * ServletConstants.ACTIVITY_LISTS_LIMIT >= friend_submissions.size()) {
                         	out.println("<li>");
 	                        out.println("<a class=\"menu-box-tab\"><span class=\"icon entypo-check scnd-font-color\"></span>no new activities</a>");                            
 	                        out.println("</li>");

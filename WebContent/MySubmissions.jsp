@@ -56,7 +56,7 @@
 		return;
 	}
 	String userName = user.getName();
-	List<Touple<String, Timestamp, Double>> submissions = base.getMySubmissionsFromTo(userName, 1, 16, con);
+	List<Touple<String, Timestamp, Double>> submissions = base.getMySubmissionsFromTo(userName, 0, 16, con);
 %>
 <body>
 	

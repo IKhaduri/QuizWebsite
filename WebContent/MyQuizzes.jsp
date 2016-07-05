@@ -31,7 +31,7 @@
 		               if (http_request.readyState == 4  ){
 		                  var json = JSON.parse(http_request.responseText);
 		                  for (var i=0;i<json["size"];i++){
-		              		$("ul").append("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?quizName=" + json["quizName"+i] + "\"><span class=\"icon entypo-check scnd-font-color\"></span>" +
+		              		$("ul").append("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?quizName=" + json["quizName"+i] + "\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>" +
 		              				json["quizName"+i]+" "+json["startTime"+i]+"</a></li>");		              	
 		                  }        
 		               }
@@ -58,7 +58,7 @@
 		return;
 	}
 	String userName = user.getName();
-	List<QuizBase> quizzes = base.getUserCreatedQuizzes(userName, 1, 16, con);
+	List<QuizBase> quizzes = base.getUserCreatedQuizzes(userName, 0, 16, con);
 %>
 <body>
 	<div class="main-container">
@@ -68,7 +68,7 @@
 	            <ul class="menu-box-menu">
 	            <% 
 	            for (QuizBase quiz:quizzes){
-						out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "=" + quiz.getName() + "\"><span class=\"icon entypo-check scnd-font-color\"></span>" +
+						out.println("<li><a class=\"menu-box-tab\" href=\"QuizSummary.jsp?" + ServletConstants.QUIZ_PARAMETER_NAME + "=" + quiz.getName() + "\"><span class=\"icon entypo-paper-plane scnd-font-color\"></span>" +
 								quiz.getName()+"  "+quiz.getCreationDate()+"</a></li>");
 					}
 					Factory_Database.closeConnection(con);
