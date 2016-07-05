@@ -751,7 +751,7 @@ public class Database {
 	/**
 	 * @param username - username
 	 * @param limit - maximal amount of the submissions to be returned
-	 * @param connection - Connection oject
+	 * @param connection - Connection object
 	 * @return list of quizzes that the user has created
 	 */
 	public List<QuizBase> getUserCreatedQuizzes(String username, int limit, Connection connection){
@@ -771,6 +771,35 @@ public class Database {
 			return getQuizBaseList(res, username, connection);
 		} catch (SQLException e) {
 			return null;
+		}
+	}
+	/**
+	 * @param username - username
+	 * @param from - index of quiz to start from
+	 * @param to - index of quiz to finish at
+	 * @param connection - Connection object
+	 * @return list of quizzes that the user has created,
+	 * returns empty list if something went wrong, or
+	 * simply doesn't exist 
+	 */
+	public List<QuizBase> getUserCreatedQuizzes(String username, int from, int to, Connection connection){
+		List<QuizBase> empty_list = new ArrayList<QuizBase>();
+		try {
+			int userId = getUserId(username, connection);
+			if(userId == NO_ID) return empty_list;
+			
+			String sql = "SELECT * FROM " + MyDBInfo.MYSQL_DATABASE_NAME + ".quizzes"
+					+ " WHERE author_id = ? ORDER BY creation_date DESC LIMIT ?,?;";
+					
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, userId);
+			statement.setInt(2, from);
+			statement.setInt(3, to);
+			ResultSet res = statement.executeQuery();
+			if(res == null) return empty_list;
+			return getQuizBaseList(res, username, connection);
+		} catch (SQLException e) {
+			return empty_list;
 		}
 	}
 	
