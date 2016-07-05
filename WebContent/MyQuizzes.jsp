@@ -49,7 +49,15 @@
 <% 
 	Database base = (Database) request.getServletContext().getAttribute(ContextInitializer.DATABASE_ATTRIBUTE_NAME);
 	Connection con = Factory_Database.getConnection();
-	String userName = ((User)request.getSession().getAttribute(SessionListener.USER_IN_SESSION)).getName();
+	User user = (User)request.getSession().getAttribute(SessionListener.USER_IN_SESSION);
+	
+	if (base == null || con == null || user == null) {
+		out.println("<h1>Redirecting to Login page...</h1>");
+		Factory_Database.closeConnection(con);
+		out.println("<script> setTimeout(function() { document.location = \"login.html\";}, 3000);	</script>");
+		return;
+	}
+	String userName = user.getName();
 	List<QuizBase> quizzes = base.getUserCreatedQuizzes(userName, 1, 16, con);
 %>
 <body>
