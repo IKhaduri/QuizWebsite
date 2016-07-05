@@ -1307,7 +1307,12 @@ public class Database {
 			return false;
 		}
 	}
-	
+	/**
+	 * @param firstUser - user who wants to unfriend
+	 * @param secondUser - user who will be unfriended
+	 * @param Connection - sql connection
+	 * @return returns success or fail
+	 * */
 	public boolean unfriend(String firstUser, String secondUser, Connection connection) {
 		if(firstUser == null || secondUser == null || connection == null) return false;
 		if(firstUser.equals(secondUser)) return false;
@@ -1482,6 +1487,55 @@ public class Database {
 			return NO_CONNECTION;
 		}
 	}
+	/**
+	 * @param username - username of the person
+	 * @param from - submissions starting from
+	 * @param to  - submission going to this number
+	 * @return 
+	 * @return - returns all of the submissions from 
+	 * "from" to "to"
+	 * */
+	public List<Touple<String, Timestamp, Double>> getMySubmissionsFromTo(String username,int from, int to, Connection connection){
+		ArrayList<Touple<String,Timestamp, Double>> result=new ArrayList<>();
+		try {
+			int	user_id = getUserId(username, connection);
+			String stmt = "select * from "+MyDBInfo.MYSQL_DATABASE_NAME+".event_log where user_id = ?"
+					+ " ORDER BY start_time DESC  LIMIT ?,? ";
+			PreparedStatement st = connection.prepareStatement(stmt);
+			st.setInt(1, user_id);
+			st.setInt(2, from);
+			st.setInt(3, to-from+1);
+			ResultSet res = st.executeQuery();
+			while (res.next()){
+				String quizName =  getQuizName(res.getInt("quiz_id"),connection);
+				Double score = res.getDouble("score");
+				Timestamp startTime = res.getTimestamp("start_time");
+				Touple<String, Timestamp, Double> curResult = Factory_Quiz.makeTouple(quizName,startTime,score);
+				result.add(curResult);
+			}
+		} catch (SQLException e) {
+			return new ArrayList<>();
+		}
+		return result;
+		
+	}
+	private String getQuizName(int quizId, Connection connection){
+		String stmt = "select quiz_name from "+MyDBInfo.MYSQL_DATABASE_NAME+".quizzes where id = ?";
+		ResultSet set =null;
+		String res =null;
+		try {
+			PreparedStatement st = connection.prepareStatement(stmt);
+			st.setInt(1, quizId);
+			set = st.executeQuery();
+			set.next();
+			res = set.getString(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+		
+	}
+	
 }
 
 

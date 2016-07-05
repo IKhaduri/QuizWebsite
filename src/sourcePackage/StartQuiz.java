@@ -47,6 +47,7 @@ public class StartQuiz extends HttpServlet {
 		request.setAttribute(ServletConstants.QUIZ_QUESTION_LIST, quiz.getQuestions());
 		request.setAttribute(ServletConstants.QUIZ_QUESTION_INDEX, 0);
 		request.getSession().setAttribute(ServletConstants.QUIZ_START_TIME, new Timestamp(new Date().getTime()));
+		System.out.println((Timestamp)request.getSession().getAttribute("quiz_start_time"));
 		RequestDispatcher dispatcher = request.getRequestDispatcher("QuizPage.jsp");
 		dispatcher.forward(request, response);
 	}
