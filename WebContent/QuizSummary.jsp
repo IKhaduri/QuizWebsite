@@ -101,7 +101,7 @@
 		out.println("<p>Number of users that took the quiz: "+quizBase.getSubmissionCount()+"</p><br><br>");
 	
 		if (session.getAttribute(SessionListener.USER_IN_SESSION) != null && 
-				(base.areFriends(userName, quizBase.getAuthor(), true, con) || base.userSharesQuizzes(quizBase.getAuthor(), con))) {			
+				(base.areFriends(userName, quizBase.getAuthor(), true, con) || base.userSharesQuizzes(quizBase.getAuthor(), con))||userName.equals(quizBase.getAuthor())  ) {			
 			out.println("<form action ='"+(quiz.isSinglePage()?"SamePage.jsp":"QuizPage.jsp")+"' method ='get' onsubmit = 'return validateForm();'>");
 			session.setAttribute(ServletConstants.QUIZ_QUESTION_LIST, quiz.getQuestions());
 			session.setAttribute(ServletConstants.QUIZ_PARAMETER_NAME, quiz.getName());
